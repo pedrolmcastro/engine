@@ -1,5 +1,7 @@
 TGT := Sandbox.out
 
+LIB := ./lib/libEngine.a
+
 SRCDIR := ./src
 OBJDIR := ./obj
 
@@ -18,7 +20,7 @@ INCDIR  := $(shell find $(SRCDIR) -type d)
 CPPFLAGS += $(addprefix -I, $(INCDIR)) -MMD -MP
 
 
-$(TGT): $(OBJS)
+$(TGT): $(OBJS) $(LIB)
 	@$(CXX) $(OBJS) -o $@ $(LDFLAGS) $(LDLIBS)
 
 # Compile Object Files
