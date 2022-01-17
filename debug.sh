@@ -3,13 +3,13 @@ popd()  { builtin popd  "$@" > /dev/null; }
 
 
 pushd ./Engine
-make
+make DEBUG=1
 popd
 
 # Update the Library in Sandbox
 cp ./Engine/libEngine.a ./Sandbox/lib/
 
 pushd ./Sandbox
-make
+make DEBUG=1
 make run
 popd

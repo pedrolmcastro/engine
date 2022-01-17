@@ -16,8 +16,6 @@ Application::~Application() {
 }
 
 void Application::run() {
-    Logger::prioritize(Logger::Level::TRACE);
-
     Logger::trace("Trace");
     Logger::info("Info");
     Logger::warn("Warn");

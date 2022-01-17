@@ -8,7 +8,12 @@ using namespace Engine;
 
 
 mutex Logger::mtx;
-Logger::Level Logger::priority = Logger::Level::INFO;
+
+#ifdef DEBUG
+    Logger::Level Logger::priority = Logger::Level::TRACE;
+#else
+    Logger::Level Logger::priority = Logger::Level::INFO;
+#endif
 
 const char *Logger::badges[] = {
     "[Trace] ",

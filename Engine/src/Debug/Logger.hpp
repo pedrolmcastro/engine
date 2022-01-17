@@ -4,7 +4,6 @@
 #include "Precompiled.hpp"
 #include "Color.hpp"
 
-
 namespace Engine {
     class Logger {
     public:
