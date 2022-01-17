@@ -11,6 +11,7 @@ LDLIBS  = -lEngine
 
 # Include Library Headers
 CPPFLAGS += -I../Engine/src
+CXXFLAGS += -std=c++2a
 
 SRCS := $(shell find $(SRCDIR) -name *.cpp)
 OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
@@ -26,7 +27,7 @@ $(TGT): $(OBJS) $(LIB)
 # Compile Object Files
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)
-	@$(CXX) $(CPPFLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
 
 .PHONY: clean run

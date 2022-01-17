@@ -6,6 +6,8 @@ OBJDIR := ./obj
 PCHIN  := $(SRCDIR)/Precompiled.hpp
 PCHOUT := $(PCHIN).gch
 
+CXXFLAGS += -std=c++2a
+
 SRCS := $(shell find $(SRCDIR) -name *.cpp)
 OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
@@ -21,11 +23,11 @@ $(TGT): $(OBJS)
 # Compile Object Files
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(PCHOUT)
 	@mkdir -p $(dir $@)
-	@$(CXX) $(CPPFLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
 # Compile Precompiled Header
 $(PCHOUT): $(PCHIN)
-	@$(CXX) $(PCHIN) -o $(PCHOUT)
+	@$(CXX) $(CXXFLAGS) $(PCHIN) -o $(PCHOUT)
 
 
 .PHONY: clean

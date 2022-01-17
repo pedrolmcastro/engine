@@ -1,6 +1,6 @@
 #include "Precompiled.hpp"
 
-#include "Log.hpp"
+#include "Logger.hpp"
 #include "Application.hpp"
 
 using namespace Engine;
@@ -16,14 +16,14 @@ Application::~Application() {
 }
 
 void Application::run() {
-    Log::set_level(Log::Level::TRACE);
+    Logger::prioritize(Logger::Level::TRACE);
 
-    Log::trace("Trace");
-    Log::info("Info");
-    Log::warn("Warn");
-    Log::error("Error");
-    Log::fatal("Fatal");
+    Logger::trace("Trace");
+    Logger::info("Info");
+    Logger::warn("Warn");
+    Logger::error("Error");
+    Logger::fatal("Fatal");
 
     int variable = 0;
-    Log::trace("%s: %d", "Format", variable);
+    Logger::trace("%s: %d", "Format", variable);
 }
