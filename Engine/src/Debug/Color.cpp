@@ -17,5 +17,5 @@ Color::Color(Foreground fore, Background back) {
 }
 
 Color::~Color() {
-    cout << "\e[0m\e[K";
+    cout << "\e[K\e[0m";
 }

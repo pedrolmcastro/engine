@@ -1,5 +1,6 @@
 #include "Precompiled.hpp"
 
+#include "Assert.hpp"
 #include "Logger.hpp"
 #include "Application.hpp"
 
@@ -16,12 +17,8 @@ Application::~Application() {
 }
 
 void Application::run() {
-    Logger::trace("Trace");
-    Logger::info("Info");
-    Logger::warn("Warn");
-    Logger::error("Error");
-    Logger::fatal("Fatal");
-
     int variable = 0;
-    Logger::trace("%s: %d", "Format", variable);
+
+    assert(variable == 0, "Variable is not zero");
+    assert(variable == 1, "Variable is not one");
 }

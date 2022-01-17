@@ -37,14 +37,16 @@ void Logger::log(Level level, const char *message, ...) {
         // Thread Safety
         scoped_lock lock(mtx);
 
-        Color color(colors[int(level)].first, colors[int(level)].second);
-        cout << badges[int(level)];
+        {
+            Color color(colors[int(level)].first, colors[int(level)].second);
+            cout << badges[int(level)];
 
-        // Print the Formated Message
-        va_list args;
-        va_start(args, message);
-        vprintf(message, args);
-        va_end(args);
+            // Print the Formated Message
+            va_list args;
+            va_start(args, message);
+            vprintf(message, args);
+            va_end(args);
+        }
 
         cout << endl;
     }

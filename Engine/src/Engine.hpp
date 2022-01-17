@@ -3,6 +3,7 @@
 
 #include "Core/Application.hpp"
 
+#include "Debug/Assert.hpp"
 #include "Debug/Logger.hpp"
 
 
