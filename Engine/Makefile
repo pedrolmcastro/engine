@@ -40,6 +40,6 @@ $(PCHOUT): $(PCHIN)
 .PHONY: clean
 
 clean:
-	@$(RM) $(OBJS) $(DEPS) $(PCHOUT) $(TGT)
+	@$(RM) $(OBJS) $(DEPS) $(TGT)
 
 -include $(DEPS)
