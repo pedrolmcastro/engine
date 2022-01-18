@@ -2,14 +2,14 @@
 
 
 #include "Precompiled.hpp"
-#include "Logger.hpp"
+#include "Log.hpp"
 
-#define __assert__(expression, message) {                                                                                           \
-    if (!(expression)) {                                                                                                            \
-        Engine::Logger::fatal("Assertion Failed: %s. File: %s. Line: %d. Message: %s", #expression, __FILE__, __LINE__, message);   \
-        abort();                                                                                                                    \
-    }                                                                                                                               \
-}                                                                                                                                   \
+#define __assert__(expression, message) {                                                                                       \
+    if (!(expression)) {                                                                                                        \
+        Engine::Log::fatal("Assertion Failed: %s. File: %s. Line: %d. Message: %s", #expression, __FILE__, __LINE__, message);  \
+        abort();                                                                                                                \
+    }                                                                                                                           \
+}                                                                                                                               \
 
 // Default Argument for the Message
 #define __assert_1__(expression) __assert__(expression, "")

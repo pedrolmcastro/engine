@@ -1,21 +1,21 @@
 #include "Precompiled.hpp"
 
+#include "Log.hpp"
 #include "Color.hpp"
-#include "Logger.hpp"
 
 using namespace std;
 using namespace Engine;
 
 
-mutex Logger::mtx;
+mutex Log::mtx;
 
 #ifdef DEBUG
-    Logger::Level Logger::priority = Logger::Level::TRACE;
+    Log::Level Log::priority = Log::Level::TRACE;
 #else
-    Logger::Level Logger::priority = Logger::Level::INFO;
+    Log::Level Log::priority = Log::Level::INFO;
 #endif
 
-const char *Logger::badges[] = {
+const char *Log::badges[] = {
     "[Trace] ",
     "[Info]  ",
     "[Warn]  ",
@@ -23,7 +23,7 @@ const char *Logger::badges[] = {
     "[Fatal] ",
 };
 
-pair<Color::Foreground, Color::Background> Logger::colors[] = {
+pair<Color::Foreground, Color::Background> Log::colors[] = {
     { Color::Foreground::WHITE,  Color::Background::NONE },
     { Color::Foreground::GREEN,  Color::Background::NONE },
     { Color::Foreground::YELLOW, Color::Background::NONE },
@@ -32,7 +32,7 @@ pair<Color::Foreground, Color::Background> Logger::colors[] = {
 };
 
 
-void Logger::log(Level level, const char *message, ...) {
+void Log::log(Level level, const char *message, ...) {
     if (priority <= level) {
         // Thread Safety
         scoped_lock lock(mtx);

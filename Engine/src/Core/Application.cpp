@@ -1,7 +1,7 @@
 #include "Precompiled.hpp"
 
+#include "Log.hpp"
 #include "Assert.hpp"
-#include "Logger.hpp"
 #include "Application.hpp"
 
 using namespace Engine;

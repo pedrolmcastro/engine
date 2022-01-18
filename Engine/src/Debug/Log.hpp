@@ -5,7 +5,7 @@
 #include "Color.hpp"
 
 namespace Engine {
-    class Logger {
+    class Log {
     public:
         enum class Level { TRACE, INFO, WARN, ERROR, FATAL };
         static void prioritize(Level level) { priority = level; }
