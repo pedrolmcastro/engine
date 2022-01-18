@@ -1,6 +1,6 @@
-#include "Engine.hpp"
+#include "Feather.hpp"
 
-using namespace Engine;
+using namespace Feather;
 
 
 class Sandbox : public Application {

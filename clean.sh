@@ -2,7 +2,7 @@ pushd() { builtin pushd "$@" > /dev/null; }
 popd()  { builtin popd  "$@" > /dev/null; }
 
 
-pushd ./Engine
+pushd ./Feather
 make clean
 popd
 

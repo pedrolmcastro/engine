@@ -4,7 +4,7 @@
 #include "Assert.hpp"
 #include "Application.hpp"
 
-using namespace Engine;
+using namespace Feather;
 using namespace std;
 
 

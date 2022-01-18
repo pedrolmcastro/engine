@@ -3,7 +3,7 @@
 #include "Color.hpp"
 
 using namespace std;
-using namespace Engine;
+using namespace Feather;
 
 
 Color::Color(Foreground fore, Background back) {

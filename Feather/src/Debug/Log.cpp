@@ -4,7 +4,7 @@
 #include "Color.hpp"
 
 using namespace std;
-using namespace Engine;
+using namespace Feather;
 
 
 mutex Log::mtx;

@@ -1,16 +1,16 @@
 TGT := Sandbox.out
 
-LIB := ./lib/libEngine.a
+LIB := ./lib/libFeather.a
 
 SRCDIR := ./src
 OBJDIR := ./obj
 
 # Include Static Library
 LDFLAGS = -L./lib
-LDLIBS  = -lEngine
+LDLIBS  = -lFeather
 
 # Include Library Headers
-CPPFLAGS += -I../Engine/src
+CPPFLAGS += -I../Feather/src
 CXXFLAGS += -std=c++2a
 
 # TODO: Detect change and rebuild

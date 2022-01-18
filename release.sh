@@ -2,12 +2,12 @@ pushd() { builtin pushd "$@" > /dev/null; }
 popd()  { builtin popd  "$@" > /dev/null; }
 
 
-pushd ./Engine
+pushd ./Feather
 make DEBUG=0
 popd
 
 # Update the Library in Sandbox
-cp ./Engine/libEngine.a ./Sandbox/lib/
+cp ./Feather/libFeather.a ./Sandbox/lib/
 
 pushd ./Sandbox
 make DEBUG=0

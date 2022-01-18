@@ -1,4 +1,4 @@
-TGT := libEngine.a
+TGT := libFeather.a
 
 SRCDIR := ./src
 OBJDIR := ./obj

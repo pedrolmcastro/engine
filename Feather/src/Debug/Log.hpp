@@ -4,7 +4,7 @@
 #include "Precompiled.hpp"
 #include "Color.hpp"
 
-namespace Engine {
+namespace Feather {
     class Log {
     public:
         enum class Level { TRACE, INFO, WARN, ERROR, FATAL };

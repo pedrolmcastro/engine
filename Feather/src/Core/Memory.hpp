@@ -3,7 +3,7 @@
 
 #include "Precompiled.hpp"
 
-namespace Engine {
+namespace Feather {
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
 

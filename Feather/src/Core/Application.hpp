@@ -3,7 +3,7 @@
 
 #include "Memory.hpp"
 
-namespace Engine {
+namespace Feather {
     class Application {
     public:
         Application();

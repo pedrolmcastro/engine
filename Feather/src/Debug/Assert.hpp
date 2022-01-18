@@ -6,7 +6,7 @@
 
 #define __assert__(expression, message) {                                                                                       \
     if (!(expression)) {                                                                                                        \
-        Engine::Log::fatal("Assertion Failed: %s. File: %s. Line: %d. Message: %s", #expression, __FILE__, __LINE__, message);  \
+        Feather::Log::fatal("Assertion Failed: %s. File: %s. Line: %d. Message: %s", #expression, __FILE__, __LINE__, message); \
         abort();                                                                                                                \
     }                                                                                                                           \
 }                                                                                                                               \
