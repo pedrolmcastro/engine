@@ -1,6 +1,8 @@
 #pragma once
 
 
+#include "Memory.hpp"
+
 namespace Engine {
     class Application {
     public:
@@ -8,7 +10,7 @@ namespace Engine {
         virtual ~Application();
 
         // Defined by the client
-        static Application *create();
+        static Scope<Application> create();
 
         void run();
     };

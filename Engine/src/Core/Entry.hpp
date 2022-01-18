@@ -2,9 +2,8 @@
 
 
 int main() {
-    Engine::Application *application = Engine::Application::create();
+    Engine::Scope<Engine::Application> application = Engine::Application::create();
     application->run();
 
-    delete application;
     return 0;
 }

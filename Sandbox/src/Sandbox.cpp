@@ -14,6 +14,6 @@ public:
     }
 };
 
-Application *Application::create() {
-    return new Sandbox();
+Scope<Application> Application::create() {
+    return create_scope<Sandbox>();
 }

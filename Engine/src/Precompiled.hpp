@@ -1,4 +1,5 @@
 #include <mutex>
+#include <memory>
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>

@@ -18,7 +18,11 @@ Application::~Application() {
 
 void Application::run() {
     int variable = 0;
-
     assert(variable == 0);
-    assert(variable == 1);
+    
+    Log::trace("Trace");
+    Log::info("Info");
+    Log::warn("Warn");
+    Log::error("Error");
+    Log::fatal("Critical");
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include "Core/Memory.hpp"
 #include "Core/Application.hpp"
 
 #include "Debug/Log.hpp"
