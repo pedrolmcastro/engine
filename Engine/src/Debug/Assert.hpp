@@ -2,14 +2,21 @@
 
 
 #include "Precompiled.hpp"
+#include "Logger.hpp"
 
-#define assert(expression, message) {                                   \
-    if (!(expression)) {                                                \
-        Engine::Assert::log(#expression, __FILE__, __LINE__, message);  \
-        abort();                                                        \
-    }                                                                   \
-}                                                                       \
+#define __assert__(expression, message) {                                                                                           \
+    if (!(expression)) {                                                                                                            \
+        Engine::Logger::fatal("Assertion Failed: %s. File: %s. Line: %d. Message: %s", #expression, __FILE__, __LINE__, message);   \
+        abort();                                                                                                                    \
+    }                                                                                                                               \
+}                                                                                                                                   \
 
-namespace Engine::Assert {
-    void log(const char *expression, const char *file, int line, const char *message);
-}
+// Default Argument for the Message
+#define __assert_1__(expression) __assert__(expression, "")
+#define __assert_2__(expression, message) __assert__(expression, message)
+
+// Hack for Default Arguments in Macros
+#define __get_3rd_argument__(first, second, third, ...) third
+#define __assert_chooser__(...) __get_3rd_argument__(__VA_ARGS__, __assert_2__, __assert_1__)
+
+#define assert(...) __assert_chooser__(__VA_ARGS__)(__VA_ARGS__)
