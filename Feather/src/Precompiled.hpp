@@ -1,7 +1,10 @@
 #include <mutex>
 #include <memory>
+#include <string>
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
 #include <utility>
+#include <sstream>
 #include <iostream>
+#include <functional>
