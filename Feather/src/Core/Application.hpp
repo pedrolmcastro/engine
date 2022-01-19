@@ -10,8 +10,8 @@ namespace Feather {
         virtual ~Application();
 
         // Defined by the client
-        static Scope<Application> create();
+        static Scope<Application> Create();
 
-        void run();
+        void Run();
     };
 }

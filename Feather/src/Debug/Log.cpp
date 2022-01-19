@@ -32,7 +32,7 @@ pair<Color::Foreground, Color::Background> Log::colors[] = {
 };
 
 
-void Log::log(Level level, const char *message, ...) {
+void Log::Print(Level level, const char *message, ...) {
     if (priority <= level) {
         // Thread Safety
         scoped_lock lock(mtx);

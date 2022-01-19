@@ -8,19 +8,19 @@ namespace Feather {
     class Log {
     public:
         enum class Level { TRACE, INFO, WARN, ERROR, FATAL };
-        static void prioritize(Level level) { priority = level; }
+        static void SetPriority(Level level) { priority = level; }
 
-        template<typename ...Args> static void trace(const char *message, Args... args) { log(Level::TRACE, message, args...); }
-        template<typename ...Args> static void info(const char *message,  Args... args) { log(Level::INFO,  message, args...); }
-        template<typename ...Args> static void warn(const char *message,  Args... args) { log(Level::WARN,  message, args...); }
-        template<typename ...Args> static void error(const char *message, Args... args) { log(Level::ERROR, message, args...); }
-        template<typename ...Args> static void fatal(const char *message, Args... args) { log(Level::FATAL, message, args...); }
+        template<typename ...Args> static void Trace(const char *message, Args... args) { Print(Level::TRACE, message, args...); }
+        template<typename ...Args> static void Info(const char *message,  Args... args) { Print(Level::INFO,  message, args...); }
+        template<typename ...Args> static void Warn(const char *message,  Args... args) { Print(Level::WARN,  message, args...); }
+        template<typename ...Args> static void Error(const char *message, Args... args) { Print(Level::ERROR, message, args...); }
+        template<typename ...Args> static void Fatal(const char *message, Args... args) { Print(Level::FATAL, message, args...); }
     private:
         static std::mutex mtx;
         static Level priority;
         static const char *badges[];
         static std::pair<Color::Foreground, Color::Background> colors[];
 
-        static void log(Level level, const char *message, ...);
+        static void Print(Level level, const char *message, ...);
     };
 }
