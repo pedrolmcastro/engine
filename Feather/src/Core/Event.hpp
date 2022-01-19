@@ -52,7 +52,7 @@ namespace Feather::Event {
     public:
         Dispatcher(Base& event_): event(event_) {}
 
-        template<typename T> bool dispatch(std::function<bool (T&)> callback) {
+        template<typename T, typename F> bool dispatch(const F& callback) {
             if (event.get_type() == T::get_static_type()) {
                 event.handled |= callback((T&)event);
                 return true;
