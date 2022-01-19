@@ -1,6 +1,6 @@
 #include "Precompiled.hpp"
 
-#include "Color.hpp"
+#include "Debug/Color.hpp"
 
 using namespace std;
 using namespace Feather;

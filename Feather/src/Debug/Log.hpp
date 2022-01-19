@@ -2,7 +2,7 @@
 
 
 #include "Precompiled.hpp"
-#include "Color.hpp"
+#include "Debug/Color.hpp"
 
 namespace Feather {
     class Log {

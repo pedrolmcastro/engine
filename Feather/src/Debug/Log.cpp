@@ -1,7 +1,7 @@
 #include "Precompiled.hpp"
 
-#include "Log.hpp"
-#include "Color.hpp"
+#include "Debug/Log.hpp"
+#include "Debug/Color.hpp"
 
 using namespace std;
 using namespace Feather;

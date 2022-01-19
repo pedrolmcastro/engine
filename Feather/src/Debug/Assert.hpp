@@ -2,7 +2,7 @@
 
 
 #include "Precompiled.hpp"
-#include "Log.hpp"
+#include "Debug/Log.hpp"
 
 #define __assert__(expression, message) {                                                                                       \
     if (!(expression)) {                                                                                                        \
