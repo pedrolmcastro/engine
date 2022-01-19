@@ -32,6 +32,7 @@ pair<Color::Foreground, Color::Background> Log::colors[] = {
 };
 
 
+// TODO: Use std::format()
 void Log::Print(Level level, const char *message, ...) {
     if (priority <= level) {
         // Thread Safety

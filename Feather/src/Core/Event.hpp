@@ -15,7 +15,8 @@
 #define __EventCategory__(category) Category GetCategory() const override { return category; }
 
 
-// TODO: Event Bus
+// TODO: Use EventBus
+// TODO: Use Float2
 namespace Feather::Event {
     enum class Type { NONE, WINDOW_RESIZE, WINDOW_ENTER, WINDOW_LEAVE, WINDOW_CLOSE, MOUSE_PRESS, MOUSE_RELEASE, MOUSE_SCROLL, MOUSE_MOVE, KEY_PRESS, KEY_RELEASE, };
     
@@ -42,6 +43,7 @@ namespace Feather::Event {
         virtual Type GetType() const = 0;
         virtual Category GetCategory() const = 0;
 
+        // TODO: Use operator <<()
         virtual operator std::string() const { return "Event"; }
     private:
         bool handled = false;
