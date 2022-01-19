@@ -43,6 +43,6 @@ run:
 	@./$(TGT)
 
 clean:
-	@$(RM) $(OBJS) $(DEPS) $(TGT)
+	@$(RM) $(OBJS) $(DEPS) $(LIB) $(TGT)
 
 -include $(DEPS)
