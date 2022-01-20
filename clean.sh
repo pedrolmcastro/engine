@@ -3,9 +3,9 @@ popd()  { builtin popd  "$@" > /dev/null; }
 
 
 pushd ./Feather
-make clean
+    make clean
 popd
 
 pushd ./Sandbox
-make clean
+    make clean
 popd

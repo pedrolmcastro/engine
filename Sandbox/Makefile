@@ -1,24 +1,28 @@
 TGT := Sandbox.out
 
-LIB := ./lib/libFeather.a
-
 SRCDIR := ./src
 OBJDIR := ./obj
+LIBDIR := ./lib
+
+LIB := $(LIBDIR)/libFeather.a
 
 # Include Static Library
-LDFLAGS = -L./lib
+LDFLAGS = -L$(LIBDIR)
 LDLIBS  = -lFeather
 
 # Include Library Headers
 CPPFLAGS += -I../Feather/src
 CXXFLAGS += -std=c++2a
 
-# TODO: Detect change and rebuild
-ifeq ($(DEBUG), 1)
-	CXXFLAGS += -O0 -g -DDEBUG
-else
-	CXXFLAGS += -O3 -DRELEASE
+
+ifeq ($(RELEASE), 1)
+	CPPFLAGS += -O3 -DRELEASE
 endif
+
+ifeq ($(DEBUG), 1)
+	CPPFLAGS += -O0 -g -DDEBUG
+endif
+
 
 SRCS := $(shell find $(SRCDIR) -name *.cpp)
 OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
@@ -43,6 +47,7 @@ run:
 	@./$(TGT)
 
 clean:
-	@$(RM) $(OBJS) $(DEPS) $(LIB) $(TGT)
+	@$(RM) $(OBJS) $(DEPS) $(TGT)
+
 
 -include $(DEPS)

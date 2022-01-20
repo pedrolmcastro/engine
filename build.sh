@@ -3,13 +3,20 @@ popd()  { builtin popd  "$@" > /dev/null; }
 
 
 pushd ./Feather
-make DEBUG=1
+    make -s
 popd
 
 # Update the Library in Sandbox
 cp ./Feather/libFeather.a ./Sandbox/lib/
 
 pushd ./Sandbox
-make DEBUG=1
-make run
+    # Rebuild on Configuration Change
+    source ../data.sh
+    if [ $1 != $last ]; then
+        make clean
+        echo "last=\"$1\"" > ../data.sh
+    fi
+
+    make $1=1
+    make run
 popd

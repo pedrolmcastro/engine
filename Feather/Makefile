@@ -7,13 +7,8 @@ PCHIN  := $(SRCDIR)/Precompiled.hpp
 PCHOUT := $(PCHIN).gch
 
 CXXFLAGS += -std=c++2a
+CPPFLAGS += -O3
 
-# TODO: Detect change and rebuild
-ifeq ($(DEBUG), 1)
-	CXXFLAGS += -O0 -g -DDEBUG
-else
-	CXXFLAGS += -O3 -DRELEASE
-endif
 
 SRCS := $(shell find $(SRCDIR) -name *.cpp)
 OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
@@ -41,5 +36,6 @@ $(PCHOUT): $(PCHIN)
 
 clean:
 	@$(RM) $(OBJS) $(DEPS) $(TGT)
+
 
 -include $(DEPS)
