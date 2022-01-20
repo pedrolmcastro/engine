@@ -10,17 +10,25 @@ namespace Feather {
         enum class Level { TRACE, INFO, WARN, ERROR, FATAL };
         static void SetPriority(Level level) { priority = level; }
 
-        template<typename ...Args> static void Trace(const char *message, Args... args) { Print(Level::TRACE, message, args...); }
-        template<typename ...Args> static void Info(const char *message,  Args... args) { Print(Level::INFO,  message, args...); }
-        template<typename ...Args> static void Warn(const char *message,  Args... args) { Print(Level::WARN,  message, args...); }
-        template<typename ...Args> static void Error(const char *message, Args... args) { Print(Level::ERROR, message, args...); }
-        template<typename ...Args> static void Fatal(const char *message, Args... args) { Print(Level::FATAL, message, args...); }
+        static void Print(Level level, const char *message, ...);
     private:
         static std::mutex mtx;
         static Level priority;
         static const char *badges[];
         static std::pair<Color::Foreground, Color::Background> colors[];
-
-        static void Print(Level level, const char *message, ...);
     };
 }
+
+#ifdef LOGGING
+    #define Trace(message, ...) Feather::Log::Print(Feather::Log::Level::TRACE, message __VA_OPT__(,) __VA_ARGS__)
+    #define Info(message,  ...) Feather::Log::Print(Feather::Log::Level::INFO,  message __VA_OPT__(,) __VA_ARGS__)
+    #define Warn(message,  ...) Feather::Log::Print(Feather::Log::Level::WARN,  message __VA_OPT__(,) __VA_ARGS__)
+    #define Error(message, ...) Feather::Log::Print(Feather::Log::Level::ERROR, message __VA_OPT__(,) __VA_ARGS__)
+    #define Fatal(message, ...) Feather::Log::Print(Feather::Log::Level::FATAL, message __VA_OPT__(,) __VA_ARGS__)
+#else
+    #define Trace(...)
+    #define Info( ...)
+    #define Warn( ...)
+    #define Error(...)
+    #define Fatal(...)
+#endif

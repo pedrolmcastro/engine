@@ -8,12 +8,7 @@ using namespace Feather;
 
 
 mutex Log::mtx;
-
-#ifdef DEBUG
-    Log::Level Log::priority = Log::Level::TRACE;
-#else
-    Log::Level Log::priority = Log::Level::INFO;
-#endif
+Log::Level Log::priority = Log::Level::INFO;
 
 const char *Log::badges[] = {
     "[Trace] ",
