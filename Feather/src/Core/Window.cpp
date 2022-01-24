@@ -1,15 +1,14 @@
 #include "Precompiled.hpp"
 
-#include "Core/Event.hpp"
 #include "Core/Window.hpp"
 
 #include "Debug/Assert.hpp"
 
 #include "Input/Key.hpp"
 #include "Input/Mouse.hpp"
+#include "Input/Event.hpp"
 
 #include "Platform/GLFW/glfw3.h"
-
 
 using namespace std;
 using namespace Feather;

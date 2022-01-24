@@ -1,11 +1,12 @@
 #include "Precompiled.hpp"
 
-#include "Core/Event.hpp"
 #include "Core/Window.hpp"
 #include "Core/Application.hpp"
 
-using namespace Feather;
+#include "Input/Event.hpp"
+
 using namespace std;
+using namespace Feather;
 
 
 Application::Application(): window("Window", 800, 450, true, Bind(OnEvent)) {

@@ -4,7 +4,7 @@
 #include "Precompiled.hpp"
 
 #include "Platform/GLFW/glfw3.h"
-#include "Core/Event.hpp"
+#include "Input/Event.hpp"
 
 namespace Feather {
     class Window {

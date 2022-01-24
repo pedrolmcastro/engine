@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "Core/Event.hpp"
 #include "Core/Memory.hpp"
 #include "Core/Window.hpp"
+#include "Input/Event.hpp"
 
 namespace Feather {
     class Application {
