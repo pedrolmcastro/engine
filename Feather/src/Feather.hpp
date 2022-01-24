@@ -5,6 +5,7 @@
 
 #include "Core/Event.hpp"
 #include "Core/Memory.hpp"
+#include "Core/Window.hpp"
 #include "Core/Application.hpp"
 
 #include "Debug/Log.hpp"

@@ -7,10 +7,12 @@ LIBDIR := ./lib
 LIB := $(LIBDIR)/libFeather.a
 
 # Include Static Library
+# TODO: Use Full Static Linking
 LDFLAGS = -L$(LIBDIR)
-LDLIBS  = -lFeather
+LDLIBS  = -lFeather -pthread -lX11 -ldl
 
 # Include Library Headers
+# TODO: Export Headers
 CPPFLAGS += -I../Feather/src
 CXXFLAGS += -std=c++2a
 

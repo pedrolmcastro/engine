@@ -6,6 +6,8 @@
 #include "Input/Key.hpp"
 
 
+#define Bind(function) [this](auto&&... args)->decltype(auto) { return this->function(std::forward<decltype(args)>(args)...); }
+
 #define __EventType__(type)                                     \
     static Type GetStaticType() { return type; }                \
     Type GetType() const override { return GetStaticType(); }   \
@@ -32,11 +34,11 @@ namespace Feather::Event {
     inline bool operator &(Category first, Category second) { return int(first) & int(second); }
 
 
-    class Base {
+    class Event {
         friend class Dispatcher;
 
     public:
-        virtual ~Base() = default;
+        virtual ~Event() = default;
 
         bool In(Category category) { return GetCategory() & category; }
 
@@ -52,7 +54,7 @@ namespace Feather::Event {
 
     class Dispatcher {
     public:
-        Dispatcher(Base& event): event(event) {}
+        Dispatcher(Event& event): event(event) {}
 
         template<typename T, typename F> bool Dispatch(const F& callback) {
             if (event.GetType() == T::GetStaticType()) {
@@ -62,13 +64,11 @@ namespace Feather::Event {
             return false;
         }
     private:
-        Base& event;
+        Event& event;
     };
 
 
-    // Window
-
-    class WindowResize: public Base {
+    class WindowResize: public Event {
     public:
         WindowResize(unsigned width, unsigned height): width(width), height(height) {}
 
@@ -87,21 +87,21 @@ namespace Feather::Event {
         unsigned width, height;
     };
 
-    class WindowEnter: public Base {
+    class WindowEnter: public Event {
     public:
         __EventString__("WindowEnter")
         __EventType__(Type::WINDOW_ENTER)
         __EventCategory__(Category::WINDOW)
     };
 
-    class WindowLeave: public Base {
+    class WindowLeave: public Event {
     public:
         __EventString__("WindowLeave")
         __EventType__(Type::WINDOW_LEAVE)
         __EventCategory__(Category::WINDOW)
     };
 
-    class WindowClose: public Base {
+    class WindowClose: public Event {
     public:
         __EventString__("WindowClose")
         __EventType__(Type::WINDOW_CLOSE)
@@ -109,9 +109,7 @@ namespace Feather::Event {
     };
 
 
-    // Mouse
-
-    class MouseBase: public Base {
+    class __Mouse__: public Event {
     public:
         Mouse GetButton() const { return button; }
 
@@ -119,12 +117,12 @@ namespace Feather::Event {
     protected:
         Mouse button;
 
-        MouseBase(Mouse button): button(button) {}
+        __Mouse__(Mouse button): button(button) {}
     };
 
-    class MousePress: public MouseBase {
+    class MousePress: public __Mouse__ {
     public:
-        MousePress(Mouse button): MouseBase(button) {}
+        MousePress(Mouse button): __Mouse__(button) {}
 
         operator std::string() const override {
             std::stringstream stream;
@@ -135,9 +133,9 @@ namespace Feather::Event {
         __EventType__(Type::MOUSE_PRESS)
     };
 
-    class MouseRelease: public MouseBase {
+    class MouseRelease: public __Mouse__ {
     public:
-        MouseRelease(Mouse button): MouseBase(button) {}
+        MouseRelease(Mouse button): __Mouse__(button) {}
 
         operator std::string() const override {
             std::stringstream stream;
@@ -148,7 +146,7 @@ namespace Feather::Event {
         __EventType__(Type::MOUSE_RELEASE)
     };
 
-    class MouseScroll: public Base {
+    class MouseScroll: public Event {
     public:
         MouseScroll(float xoffset, float yoffset): xoffset(xoffset), yoffset(yoffset) {}
 
@@ -167,7 +165,7 @@ namespace Feather::Event {
         float xoffset, yoffset;
     };
 
-    class MouseMove: public Base {
+    class MouseMove: public Event {
     public:
         MouseMove(float x, float y): x(x), y(y) {} 
 
@@ -187,9 +185,7 @@ namespace Feather::Event {
     };
 
 
-    // Key
-
-    class KeyBase: public Base {
+    class __Key__: public Event {
     public:
         Key GetKey() const { return key; }
 
@@ -197,25 +193,27 @@ namespace Feather::Event {
     protected:
         Key key;
 
-        KeyBase(Key key): key(key) {}
+        __Key__(Key key): key(key) {}
     };
 
-    class KeyPress: public KeyBase {
+    class KeyPress: public __Key__ {
     public:
-        KeyPress(Key key): KeyBase(key) {}
+        KeyPress(Key key, bool repeat): __Key__(key), repeat(repeat) {}
 
         operator std::string() const override {
             std::stringstream stream;
-            stream << "KeyPress: " << key;
+            stream << "KeyPress: " << key << ", " << repeat;
             return stream.str();
         }
 
         __EventType__(Type::KEY_PRESS)
+    private:
+        bool repeat;
     };
 
-    class KeyRelease: public KeyBase {
+    class KeyRelease: public __Key__ {
     public:
-        KeyRelease(Key key): KeyBase(key) {}
+        KeyRelease(Key key): __Key__(key) {}
 
         operator std::string() const override {
             std::stringstream stream;
