@@ -20,7 +20,8 @@ namespace Feather {
         unsigned GetWidth() const { return width; }
         unsigned GetHeight() const { return height; }
 
-        std::string GetName() const { return name; }
+        operator std::string() const { return name; }
+        operator GLFWwindow*() const { return window; }
     private:
         static bool init;
 
