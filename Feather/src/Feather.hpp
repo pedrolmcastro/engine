@@ -13,6 +13,7 @@
 #include "Input/Key.hpp"
 #include "Input/Mouse.hpp"
 #include "Input/Event.hpp"
+#include "Input/Input.hpp"
 
 
 #include "Core/Entry.hpp"
