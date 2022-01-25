@@ -9,14 +9,7 @@ using namespace Feather;
 
 mutex Log::mtx;
 Log::Level Log::priority = Log::Level::INFO;
-
-const char *Log::badges[] = {
-    "[Trace] ",
-    "[Info]  ",
-    "[Warn]  ",
-    "[Error] ",
-    "[Fatal] ",
-};
+const char* Log::bagdes[] = { "TRACE", "INFO ", "WARN ", "ERROR", "FATAL", };
 
 pair<Color::Foreground, Color::Background> Log::colors[] = {
     { Color::Foreground::WHITE,  Color::Background::NONE },
@@ -28,16 +21,17 @@ pair<Color::Foreground, Color::Background> Log::colors[] = {
 
 
 // TODO: Use std::format()
-void Log::Print(Level level, const char *message, ...) {
+void Log::Print(Level level, const char* message, ...) {
     if (priority <= level) {
-        // Thread Safety
         scoped_lock lock(mtx);
+
+        time_t timer = time(NULL);
+        tm* now = localtime(&timer);
 
         {
             Color color(colors[int(level)].first, colors[int(level)].second);
-            cout << badges[int(level)];
+            printf("[%02d:%02d:%02d %s] ", now->tm_hour, now->tm_min, now->tm_sec, bagdes[int(level)]);
 
-            // Print the Formated Message
             va_list args;
             va_start(args, message);
             vprintf(message, args);
