@@ -5,12 +5,12 @@
 #include "Debug/Log.hpp"
 
 
-#define __Assert__(expression, message) {                                                                           \
-    if (!(expression)) {                                                                                            \
-        Fatal("Assertion Failed: %s. File: %s. Line: %d. Message: %s", #expression, __FILE__, __LINE__, message);   \
-        abort();                                                                                                    \
-    }                                                                                                               \
-}                                                                                                                   \
+#define __Assert__(expression, message) {                                                                                                                   \
+    if (!(expression)) {                                                                                                                                    \
+        Feather::Log::Print(Feather::Log::Level::FATAL, "Assertion Failed: %s. File: %s. Line: %d. Message: %s", #expression, __FILE__, __LINE__, message); \
+        abort();                                                                                                                                            \
+    }                                                                                                                                                       \
+}                                                                                                                                                           \
 
 
 // Default Argument for the Message
