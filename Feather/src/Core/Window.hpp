@@ -27,7 +27,7 @@ namespace Feather {
 
         bool vsync;
         std::string name;
-        GLFWwindow *window;
+        GLFWwindow* window;
         unsigned width, height;
         std::function<void (Event::Event&)> callback;
     };
