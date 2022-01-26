@@ -35,9 +35,9 @@ namespace Feather::Event {
 
 
     class Event {
-        friend class Dispatcher;
-
     public:
+        bool handled = false;
+
         virtual ~Event() = default;
 
         bool In(Category category) { return GetCategory() & category; }
@@ -47,8 +47,6 @@ namespace Feather::Event {
 
         // TODO: Use operator <<()
         virtual operator std::string() const { return "Event"; }
-    private:
-        bool handled = false;
     };
 
 

@@ -1,6 +1,7 @@
 #include <ctime>
 #include <mutex>
 #include <memory>
+#include <vector>
 #include <string>
 #include <cstdio>
 #include <cstdlib>

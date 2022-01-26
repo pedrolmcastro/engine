@@ -1,12 +1,11 @@
 #include "Precompiled.hpp"
 
+#include "Core/Layer.hpp"
 #include "Core/Window.hpp"
 #include "Core/Application.hpp"
 
 #include "Input/Event.hpp"
 #include "Input/Input.hpp"
-
-#include "Debug/Log.hpp"
 
 using namespace std;
 using namespace Feather;
@@ -24,17 +23,20 @@ void Application::Run() {
     while (running) {
         window.OnUpdate();
 
-        auto [x, y] = Input::GetMousePosition();
-        Log::Print(Log::Level::INFO, "%f\t%f", x, y);
-
-        Log::Print(Log::Level::WARN, "A:\t%d", Input::IsKeyPressed(Key::A));
-        Log::Print(Log::Level::WARN, "B0:\t%d", Input::IsMousePressed(Mouse::LEFT));
+        for (Scope<Layer::Layer>& layer : layers) {
+            layer->OnUpdate();
+        }
     }
 }
 
 void Application::OnEvent(Event::Event& event) {
     Event::Dispatcher dispatcher(event);
     dispatcher.Dispatch<Event::WindowClose>(Bind(OnWindowClose));
+
+    for (auto it = layers.rbegin(); it != layers.rend(); it++) {
+        if (event.handled) break;
+        (*it)->OnEvent(event);
+    }
 }
 
 bool Application::OnWindowClose(Event::WindowClose& event) {
