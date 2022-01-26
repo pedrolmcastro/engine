@@ -23,7 +23,7 @@ void Application::Run() {
     while (running) {
         window.OnUpdate();
 
-        for (Scope<Layer::Layer>& layer : layers) {
+        for (Unique<Layer::Layer>& layer : layers) {
             layer->OnUpdate();
         }
     }

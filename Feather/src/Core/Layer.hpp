@@ -27,15 +27,15 @@ namespace Feather::Layer {
         Stack() = default;
         ~Stack();
 
-        void Push(Scope<Layer> layer);
-        Scope<Layer> Pop();
+        void Push(Unique<Layer> layer);
+        Unique<Layer> Pop();
 
-        std::vector<Scope<Layer>>::iterator begin() { return layers.begin(); }
-		std::vector<Scope<Layer>>::iterator end() { return layers.end(); }
+        std::vector<Unique<Layer>>::iterator begin() { return layers.begin(); }
+		std::vector<Unique<Layer>>::iterator end() { return layers.end(); }
 
-		std::vector<Scope<Layer>>::reverse_iterator rbegin() { return layers.rbegin(); }
-		std::vector<Scope<Layer>>::reverse_iterator rend() { return layers.rend(); }
+		std::vector<Unique<Layer>>::reverse_iterator rbegin() { return layers.rbegin(); }
+		std::vector<Unique<Layer>>::reverse_iterator rend() { return layers.rend(); }
     private:
-        std::vector<Scope<Layer>> layers;
+        std::vector<Unique<Layer>> layers;
     };
 }

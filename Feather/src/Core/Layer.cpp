@@ -6,20 +6,20 @@ using namespace Feather;
 
 
 Layer::Stack::~Stack() {
-    for (Scope<Layer>& layer : layers) {
+    for (Unique<Layer>& layer : layers) {
         layer->OnDetach();
     }
 }
 
-void Layer::Stack::Push(Scope<Layer> layer) {
+void Layer::Stack::Push(Unique<Layer> layer) {
     layer->OnAttach();
     layers.push_back(move(layer));
 }
 
-Scope<Layer::Layer> Layer::Stack::Pop() {
-    if (layers.empty()) return Scope<Layer>{};
+Unique<Layer::Layer> Layer::Stack::Pop() {
+    if (layers.empty()) return Unique<Layer>{};
 
-    Scope<Layer> layer = move(layers.back());
+    Unique<Layer> layer = move(layers.back());
     layers.pop_back();
 
     layer->OnDetach();

@@ -13,12 +13,12 @@ namespace Feather {
         virtual ~Application();
 
         // Defined by the client
-        static Scope<Application> Create();
+        static Unique<Application> Create();
 
         void Run();
     protected:
-        void Push(Scope<Layer::Layer> layer) { layers.Push(std::move(layer)); }
-        Scope<Layer::Layer> Pop() { return layers.Pop(); }
+        void Push(Unique<Layer::Layer> layer) { layers.Push(std::move(layer)); }
+        Unique<Layer::Layer> Pop() { return layers.Pop(); }
     private:
         Window window;
         Layer::Stack layers;
