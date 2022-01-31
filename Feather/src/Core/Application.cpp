@@ -11,7 +11,7 @@ using namespace std;
 using namespace Feather;
 
 
-Application::Application(): window("Window", 800, 450, true, Bind(OnEvent)) {
+Application::Application(string name, unsigned width, unsigned height, bool vsync): window(name, width, height, vsync, Bind(OnEvent)) {
     Input::SetWindow(window);
 }
 

@@ -9,7 +9,7 @@
 namespace Feather {
     class Application {
     public:
-        Application();
+        Application(std::string name, unsigned width, unsigned height, bool vsync = true);
         virtual ~Application();
 
         // Defined by the client

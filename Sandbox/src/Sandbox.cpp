@@ -33,7 +33,7 @@ public:
 
 class Sandbox: public Application {
 public:
-    Sandbox() {
+    Sandbox(): Application("Sandbox", 800, 450) {
         Push(Unique<SandboxLayer>());
     }
 
