@@ -7,8 +7,6 @@ using namespace Feather;
 
 class SandboxLayer: public Layer::Layer {
 public:
-    SandboxLayer(): Layer("Sandbox") {};
-
     void OnUpdate() override {
         Trace("Update");
     }

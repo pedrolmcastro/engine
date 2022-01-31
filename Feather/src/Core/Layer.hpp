@@ -9,17 +9,13 @@ namespace Feather::Layer {
 
 	class Layer {
 	public:
-		Layer(std::string name): name(name) {}
+		Layer() = default;
 		virtual ~Layer() = default;
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}
 		virtual void OnEvent(Event::Event& event) {}
-
-        operator std::string() const { return name; }
-	private:
-		std::string name;
 	};
 
     class Stack {
