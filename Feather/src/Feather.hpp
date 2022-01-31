@@ -4,7 +4,6 @@
 #include "Precompiled.hpp"
 
 #include "Core/Memory.hpp"
-#include "Core/Window.hpp"
 #include "Core/Application.hpp"
 
 #include "Debug/Log.hpp"
@@ -15,5 +14,6 @@
 #include "Input/Event.hpp"
 #include "Input/Input.hpp"
 
+#include "Render/Window.hpp"
 
 #include "Core/Entry.hpp"

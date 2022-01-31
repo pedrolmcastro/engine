@@ -1,11 +1,12 @@
 #include "Precompiled.hpp"
 
 #include "Core/Layer.hpp"
-#include "Core/Window.hpp"
 #include "Core/Application.hpp"
 
 #include "Input/Event.hpp"
 #include "Input/Input.hpp"
+
+#include "Render/Window.hpp"
 
 using namespace std;
 using namespace Feather;

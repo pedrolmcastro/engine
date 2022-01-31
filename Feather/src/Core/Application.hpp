@@ -3,8 +3,8 @@
 
 #include "Core/Layer.hpp"
 #include "Core/Memory.hpp"
-#include "Core/Window.hpp"
 #include "Input/Event.hpp"
+#include "Render/Window.hpp"
 
 namespace Feather {
     class Application {
