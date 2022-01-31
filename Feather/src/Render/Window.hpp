@@ -23,8 +23,6 @@ namespace Feather {
         operator std::string() const { return name; }
         operator GLFWwindow*() const { return window; }
     private:
-        static bool init;
-
         bool vsync;
         std::string name;
         GLFWwindow* window;

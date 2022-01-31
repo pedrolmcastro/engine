@@ -5,6 +5,7 @@
 #include "Core/Memory.hpp"
 #include "Input/Event.hpp"
 #include "Render/Window.hpp"
+#include "Render/Context.hpp"
 
 namespace Feather {
     class Application {
@@ -20,9 +21,10 @@ namespace Feather {
         void Push(Unique<Layer::Layer> layer) { layers.Push(std::move(layer)); }
         Unique<Layer::Layer> Pop() { return layers.Pop(); }
     private:
-        Window window;
+        Render::Context context;
         Layer::Stack layers;
         bool running = true;
+        Window window;
 
         void OnEvent(Event::Event& event);
         bool OnWindowClose(Event::WindowClose& event);

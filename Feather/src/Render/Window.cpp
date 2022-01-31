@@ -14,15 +14,7 @@ using namespace std;
 using namespace Feather;
 
 
-bool Window::init = false;
-
-
 Window::Window(string name, unsigned width, unsigned height, bool vsync, function<void (Event::Event&)> callback): name(name), width(width), height(height), vsync(vsync), callback(callback) {
-    if (!init) {
-        init = glfwInit();
-        __Assert__(init, "Could not initialize GLFW!");
-    }
-
     window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
     __Assert__(window != nullptr, "Could not create the window!");
 
@@ -60,7 +52,6 @@ Window::Window(string name, unsigned width, unsigned height, bool vsync, functio
 		if (self.callback) self.callback(event);
 	});
 
-
     glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
@@ -93,7 +84,6 @@ Window::Window(string name, unsigned width, unsigned height, bool vsync, functio
         if (self.callback) self.callback(event);
     });
 
-
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 		Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
@@ -121,7 +111,6 @@ Window::Window(string name, unsigned width, unsigned height, bool vsync, functio
 
 Window::~Window() {
     glfwDestroyWindow(window);
-    glfwTerminate();
 }
 
 void Window::OnUpdate() {
