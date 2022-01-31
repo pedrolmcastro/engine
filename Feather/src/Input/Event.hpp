@@ -30,8 +30,8 @@ namespace Feather::Event {
         KEY      = 1 << 3,
     };
 
-    inline Category operator |(Category first, Category second) { return Category(int(first) | int(second)); }
-    inline bool operator &(Category first, Category second) { return int(first) & int(second); }
+    inline Category operator|(Category first, Category second) { return Category(int(first) | int(second)); }
+    inline bool operator&(Category first, Category second) { return int(first) & int(second); }
 
 
     class Event {
@@ -45,7 +45,7 @@ namespace Feather::Event {
         virtual Type GetType() const = 0;
         virtual Category GetCategory() const = 0;
 
-        // TODO: Use operator <<()
+        // TODO: Use operator<<()
         virtual operator std::string() const { return "Event"; }
     };
 

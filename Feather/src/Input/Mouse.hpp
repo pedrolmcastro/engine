@@ -20,5 +20,5 @@ namespace Feather {
         MIDDLE = B2,
 	};
 
-    inline std::ostream& operator <<(std::ostream& stream, Mouse button) { stream << int(button); return stream; }
+    inline std::ostream& operator<<(std::ostream& stream, Mouse button) { stream << int(button); return stream; }
 }
