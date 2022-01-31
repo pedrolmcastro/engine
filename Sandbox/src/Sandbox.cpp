@@ -36,7 +36,7 @@ public:
 class Sandbox: public Application {
 public:
     Sandbox() {
-        Push(CreateUnique<SandboxLayer>());
+        Push(Unique<SandboxLayer>());
     }
 
     ~Sandbox() {
@@ -45,5 +45,5 @@ public:
 };
 
 Unique<Application> Application::Create() {
-    return CreateUnique<Sandbox>();
+    return Unique<Sandbox>();
 }

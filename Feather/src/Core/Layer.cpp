@@ -17,7 +17,7 @@ void Layer::Stack::Push(Unique<Layer> layer) {
 }
 
 Unique<Layer::Layer> Layer::Stack::Pop() {
-    if (layers.empty()) return Unique<Layer>{};
+    if (layers.empty()) return nullptr;
 
     Unique<Layer> layer = move(layers.back());
     layers.pop_back();
