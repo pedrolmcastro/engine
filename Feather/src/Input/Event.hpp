@@ -21,7 +21,7 @@
 // TODO: Use Float2
 namespace Feather::Event {
     enum class Type { NONE, WINDOW_RESIZE, WINDOW_ENTER, WINDOW_LEAVE, WINDOW_CLOSE, MOUSE_PRESS, MOUSE_RELEASE, MOUSE_SCROLL, MOUSE_MOVE, KEY_PRESS, KEY_RELEASE, };
-    
+
     enum class Category {
         NONE     = 0,
         WINDOW   = 1 << 0,
@@ -197,6 +197,8 @@ namespace Feather::Event {
     class KeyPress: public __Key__ {
     public:
         KeyPress(Key key, bool repeat): __Key__(key), repeat(repeat) {}
+
+        bool GetRepeat() const { return repeat; }
 
         operator std::string() const override {
             std::stringstream stream;
