@@ -3,6 +3,7 @@
 
 #include "Precompiled.hpp"
 
+#include "Core/Layer.hpp"
 #include "Core/Memory.hpp"
 #include "Core/Application.hpp"
 
