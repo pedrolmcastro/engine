@@ -9,7 +9,6 @@ namespace Feather::Layer {
 
 	class Layer {
 	public:
-		Layer() = default;
 		virtual ~Layer() = default;
 
 		virtual void OnAttach() {}
@@ -20,7 +19,6 @@ namespace Feather::Layer {
 
     class Stack {
     public:
-        Stack() = default;
         ~Stack();
 
         void Push(Unique<Layer> layer);
