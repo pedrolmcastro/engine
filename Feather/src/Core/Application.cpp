@@ -1,9 +1,9 @@
 #include "Precompiled.hpp"
 
+#include "Core/Event.hpp"
 #include "Core/Layer.hpp"
 #include "Core/Application.hpp"
 
-#include "Input/Event.hpp"
 #include "Input/Input.hpp"
 
 #include "Math/Vector.hpp"

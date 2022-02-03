@@ -3,6 +3,7 @@
 
 #include "Precompiled.hpp"
 
+#include "Core/Event.hpp"
 #include "Core/Layer.hpp"
 #include "Core/Memory.hpp"
 #include "Core/Application.hpp"
@@ -12,7 +13,6 @@
 
 #include "Input/Key.hpp"
 #include "Input/Mouse.hpp"
-#include "Input/Event.hpp"
 #include "Input/Input.hpp"
 
 #include "Math/Vector.hpp"

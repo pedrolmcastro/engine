@@ -2,7 +2,8 @@
 
 
 #include "Precompiled.hpp"
-#include "Input/Event.hpp"
+
+#include "Core/Event.hpp"
 #include "Math/Vector.hpp"
 #include "Platform/GLFW/glfw3.h"
 

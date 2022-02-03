@@ -1,10 +1,13 @@
 #include "Precompiled.hpp"
 
+#include "Core/Event.hpp"
+
 #include "Debug/Assert.hpp"
 
 #include "Input/Key.hpp"
 #include "Input/Mouse.hpp"
-#include "Input/Event.hpp"
+
+#include "Math/Vector.hpp"
 
 #include "Render/Window.hpp"
 
