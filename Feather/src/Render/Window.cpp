@@ -14,8 +14,8 @@ using namespace std;
 using namespace Feather;
 
 
-Window::Window(string name, unsigned width, unsigned height, bool vsync, function<void (Event::Event&)> callback): name(name), width(width), height(height), vsync(vsync), callback(callback) {
-    window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
+Window::Window(string name, Math::Vector2 size, function<void (Event::Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
+    window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
     __Assert__(window != nullptr, "Could not create the window!");
 
     glfwSetWindowUserPointer(window, this);
@@ -25,10 +25,9 @@ Window::Window(string name, unsigned width, unsigned height, bool vsync, functio
 
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
 		Window& self = *(Window*)glfwGetWindowUserPointer(window);
-		self.width = width;
-		self.height = height;
+		self.size = { float(width), float(height) };
 
-		Event::WindowResize event(width, height);
+		Event::WindowResize event(self.size);
 		if (self.callback) self.callback(event);
 	});
 
@@ -73,14 +72,14 @@ Window::Window(string name, unsigned width, unsigned height, bool vsync, functio
     glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        Event::MouseScroll event(xoffset, yoffset);
+        Event::MouseScroll event({ float(xoffset), float(yoffset) });
         if (self.callback) self.callback(event);
     });
 
     glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        Event::MouseMove event(x, y);
+        Event::MouseMove event({ float(x), float(y) });
         if (self.callback) self.callback(event);
     });
 

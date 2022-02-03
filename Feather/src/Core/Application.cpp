@@ -6,13 +6,15 @@
 #include "Input/Event.hpp"
 #include "Input/Input.hpp"
 
+#include "Math/Vector.hpp"
+
 #include "Render/Window.hpp"
 
 using namespace std;
 using namespace Feather;
 
 
-Application::Application(string name, unsigned width, unsigned height, bool vsync): window(name, width, height, vsync, Bind(OnEvent)) {
+Application::Application(string name, Math::Vector2 size, bool vsync): window(name, size, Bind(OnEvent), vsync) {
     Input::SetWindow(window);
 }
 

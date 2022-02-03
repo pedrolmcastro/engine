@@ -6,7 +6,6 @@
 #include "Input/Event.hpp"
 
 namespace Feather::Layer {
-
 	class Layer {
 	public:
 		virtual ~Layer() = default;
@@ -17,6 +16,7 @@ namespace Feather::Layer {
 		virtual void OnEvent(Event::Event& event) {}
 	};
 
+	// TODO: Add Overlays
     class Stack {
     public:
         ~Stack();

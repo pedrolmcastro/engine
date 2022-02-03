@@ -5,36 +5,21 @@ using namespace std;
 using namespace Feather;
 
 
-class SandboxLayer: public Layer::Layer {
+class Main: public Layer::Layer {
 public:
-    void OnUpdate() override {
-        Trace("Update");
-    }
-
     void OnAttach() override {
-        Error("Attach");
-    }
-
-    void OnDetach() override {
-        Error("Detach");
-    }
-
-    void OnEvent(Event::Event& event) override {
-        Event::Dispatcher dispatcher(event);
-        dispatcher.Dispatch<Event::MouseMove>(Bind(OnMouseMove));
-    }
-
-    bool OnMouseMove(Event::MouseMove& event) {
-        Info("%.2f %.2f", event.GetX(), event.GetY());
-        return false;
+        Math::Vector3 first(36, 49, 1);
+        Math::Vector3 second(64, 2, 2);
+        Info("%.2f", Math::Angle(first, second));
     }
 };
 
 
 class Sandbox: public Application {
 public:
-    Sandbox(): Application("Sandbox", 800, 450) {
-        Push(Unique<SandboxLayer>());
+    Sandbox(): Application("Sandbox", { 800, 450 }) {
+        Log::SetPriority(Log::Level::TRACE);
+        Push(Unique<Main>());
     }
 
     ~Sandbox() {

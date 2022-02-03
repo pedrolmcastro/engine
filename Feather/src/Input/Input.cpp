@@ -2,6 +2,8 @@
 #include "Input/Mouse.hpp"
 #include "Input/Input.hpp"
 
+#include "Math/Vector.hpp"
+
 #include "Platform/GLFW/glfw3.h"
 
 using namespace std;
@@ -12,21 +14,21 @@ GLFWwindow* Input::window = nullptr;
 
 
 bool Input::IsKeyPressed(Key key) {
-    if (window == nullptr) return false;
+    if (!window) return false;
 
     int state = glfwGetKey(window, int(key));
     return state == GLFW_PRESS || state == GLFW_REPEAT;
 }
 
 bool Input::IsMousePressed(Mouse button) {
-    if (window == nullptr) return false;
+    if (!window) return false;
     return glfwGetMouseButton(window, int(button)) == GLFW_PRESS;
 }
 
-pair<float, float> Input::GetMousePosition() {
-    if (window == nullptr) return { 0, 0 };
+Math::Vector2 Input::GetMousePosition() {
+    if (!window) return Math::Vector2();
 
     double x, y;
     glfwGetCursorPos(window, &x, &y);
-    return { x, y };
+    return Math::Vector2(x, y);
 }

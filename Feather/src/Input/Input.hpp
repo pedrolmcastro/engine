@@ -3,20 +3,21 @@
 
 #include "Precompiled.hpp"
 
-#include "Platform/GLFW/glfw3.h"
-#include "Input/Mouse.hpp"
 #include "Input/Key.hpp"
+#include "Input/Mouse.hpp"
+#include "Math/Vector.hpp"
+#include "Platform/GLFW/glfw3.h"
 
 namespace Feather {
+	// TODO: Add Window Inputs
     class Input {
     public:
 		static bool IsKeyPressed(Key key);
 		static bool IsMousePressed(Mouse button);
 
-        // TODO: Use Float2
-		static std::pair<float, float> GetMousePosition();
-		static float GetMouseX() { return GetMousePosition().first; }
-		static float GetMouseY() { return GetMousePosition().second; }
+		static Math::Vector2 GetMousePosition();
+		static float GetMouseX() { return GetMousePosition().x; }
+		static float GetMouseY() { return GetMousePosition().y; }
 
         static void SetWindow(GLFWwindow* window_) { window = window_; }
     private:

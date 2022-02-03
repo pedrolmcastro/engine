@@ -1,16 +1,19 @@
 #pragma once
 
 
+#include "Precompiled.hpp"
+
 #include "Core/Layer.hpp"
 #include "Core/Memory.hpp"
 #include "Input/Event.hpp"
+#include "Math/Vector.hpp"
 #include "Render/Window.hpp"
 #include "Render/Context.hpp"
 
 namespace Feather {
     class Application {
     public:
-        Application(std::string name, unsigned width, unsigned height, bool vsync = true);
+        Application(std::string name, Math::Vector2 size, bool vsync = true);
         virtual ~Application();
 
         // Defined by the client

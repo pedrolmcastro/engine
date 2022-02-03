@@ -15,6 +15,8 @@
 #include "Input/Event.hpp"
 #include "Input/Input.hpp"
 
+#include "Math/Vector.hpp"
+
 #include "Render/Window.hpp"
 
 #include "Core/Entry.hpp"
