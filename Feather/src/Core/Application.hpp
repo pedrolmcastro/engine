@@ -20,16 +20,14 @@ namespace Feather {
         static Unique<Application> Create();
 
         void Run();
-    protected:
-        void Push(Unique<Layer::Layer> layer) { layers.Push(std::move(layer)); }
-        Unique<Layer::Layer> Pop() { return layers.Pop(); }
     private:
-        Render::Context context;
-        Layer::Stack layers;
+        Render::Context context; // Must be constructed before the window
         bool running = true;
-        Window window;
 
         void OnEvent(Event::Event& event);
         bool OnWindowClose(Event::WindowClose& event);
+    protected:
+        Layer::Stack layers;
+        Window window;
     };
 }
