@@ -21,7 +21,6 @@ namespace Feather {
 
         bool IsFocused() const { return glfwGetWindowAttrib(window, GLFW_FOCUSED); }
         bool IsHovered() const { return glfwGetWindowAttrib(window, GLFW_HOVERED); }
-        bool IsFloating() const { return glfwGetWindowAttrib(window, GLFW_FLOATING); }
         
         bool IsMinimized() const { return size.x == 0 || size.y == 0; }
         bool IsMaximized() const { return glfwGetWindowAttrib(window, GLFW_MAXIMIZED); }
