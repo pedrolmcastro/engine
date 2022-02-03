@@ -9,7 +9,6 @@
 #include "Platform/GLFW/glfw3.h"
 
 namespace Feather {
-	// TODO: Add Window Inputs
     class Input {
     public:
 		static bool IsKeyPressed(Key key);

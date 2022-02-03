@@ -31,15 +31,55 @@ Window::Window(string name, Math::Vector2 size, function<void (Event::Event&)> c
 		if (self.callback) self.callback(event);
 	});
 
-    glfwSetCursorEnterCallback(window, [](GLFWwindow* window, int entered) {
+    glfwSetWindowIconifyCallback(window, [](GLFWwindow* window, int minimized) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        if (entered) {
-            Event::WindowEnter event;
+        if (minimized) {
+            self.size = { 0, 0 };
+
+            Event::WindowResize event(self.size);
             if (self.callback) self.callback(event);
         }
         else {
-            Event::WindowLeave event;
+            int width, height;
+            glfwGetWindowSize(window, &width, &height);
+            self.size = { float(width), float(height) };
+
+            Event::WindowResize event(self.size);
+            if (self.callback) self.callback(event);
+        }
+    });
+
+    glfwSetWindowPosCallback(window, [](GLFWwindow* window, int x, int y) {
+        Window& self = *(Window*)glfwGetWindowUserPointer(window);
+        self.position = { float(x), float(y) };
+
+        Event::WindowMove event(self.position);
+        if (self.callback) self.callback(event);
+    });
+
+    glfwSetWindowFocusCallback(window, [](GLFWwindow* window, int focused) {
+        Window& self = *(Window*)glfwGetWindowUserPointer(window);
+
+        if (focused) {
+            Event::WindowFocus event;
+            if (self.callback) self.callback(event);
+        }
+        else {
+            Event::WindowUnfocus event;
+            if (self.callback) self.callback(event);
+        }
+    });
+
+    glfwSetCursorEnterCallback(window, [](GLFWwindow* window, int hovered) {
+        Window& self = *(Window*)glfwGetWindowUserPointer(window);
+
+        if (hovered) {
+            Event::WindowHover event;
+            if (self.callback) self.callback(event);
+        }
+        else {
+            Event::WindowUnhover event;
             if (self.callback) self.callback(event);
         }
     });
@@ -51,7 +91,7 @@ Window::Window(string name, Math::Vector2 size, function<void (Event::Event&)> c
 		if (self.callback) self.callback(event);
 	});
 
-    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
+    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int modifiers) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
         switch (action) {
@@ -69,10 +109,10 @@ Window::Window(string name, Math::Vector2 size, function<void (Event::Event&)> c
         }
     });
 
-    glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
+    glfwSetScrollCallback(window, [](GLFWwindow* window, double x, double y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        Event::MouseScroll event({ float(xoffset), float(yoffset) });
+        Event::MouseScroll event({ float(x), float(y) });
         if (self.callback) self.callback(event);
     });
 
@@ -83,7 +123,7 @@ Window::Window(string name, Math::Vector2 size, function<void (Event::Event&)> c
         if (self.callback) self.callback(event);
     });
 
-	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int modifiers) {
 		Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
         switch (action) {

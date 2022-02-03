@@ -18,13 +18,14 @@
 #define __EventCategory__(category) Category GetCategory() const override { return category; }
 
 
-// TODO: Use EventBus
-// TODO: Add Window Events
 namespace Feather::Event {
-    enum class Type { NONE, WINDOW_RESIZE, WINDOW_ENTER, WINDOW_LEAVE, WINDOW_CLOSE, MOUSE_PRESS, MOUSE_RELEASE, MOUSE_SCROLL, MOUSE_MOVE, KEY_PRESS, KEY_RELEASE, };
+    enum class Type {
+        WINDOW_RESIZE, WINDOW_MOVE, WINDOW_FOCUS, WINDOW_UNFOCUS, WINDOW_HOVER, WINDOW_UNHOVER, WINDOW_CLOSE,
+        MOUSE_PRESS, MOUSE_RELEASE, MOUSE_SCROLL, MOUSE_MOVE,
+        KEY_PRESS, KEY_RELEASE,
+    };
 
     enum class Category {
-        NONE     = 0,
         WINDOW   = 1 << 0,
         INPUT    = 1 << 1,
         MOUSE    = 1 << 2,
@@ -51,6 +52,7 @@ namespace Feather::Event {
     };
 
 
+    // TODO: Use an EventBus
     class Dispatcher {
     public:
         Dispatcher(Event& event): event(event) {}
@@ -81,31 +83,65 @@ namespace Feather::Event {
             return stream.str();
         }
 
-        __EventType__(Type::WINDOW_RESIZE)
-        __EventCategory__(Category::WINDOW)
+        __EventType__(Type::WINDOW_RESIZE);
+        __EventCategory__(Category::WINDOW);
     private:
         Math::Vector2 size;
     };
 
-    class WindowEnter: public Event {
+    class WindowMove: public Event {
     public:
-        __EventString__("WindowEnter")
-        __EventType__(Type::WINDOW_ENTER)
-        __EventCategory__(Category::WINDOW)
+        WindowMove(Math::Vector2 position): position(position) {}
+
+        float GetX() const { return position.x; }
+        float GetY() const { return position.y; }
+        Math::Vector2 GetPosition() const { return position; }
+
+        operator std::string() const override {
+            std::stringstream stream;
+            stream << "WindowMove: " << std::string(position);
+            return stream.str();
+        }
+
+        __EventType__(Type::WINDOW_MOVE);
+        __EventCategory__(Category::WINDOW);
+    private:
+        Math::Vector2 position;
     };
 
-    class WindowLeave: public Event {
+    class WindowFocus: public Event {
     public:
-        __EventString__("WindowLeave")
-        __EventType__(Type::WINDOW_LEAVE)
-        __EventCategory__(Category::WINDOW)
+        __EventString__("WindowFocus");
+        __EventType__(Type::WINDOW_FOCUS);
+        __EventCategory__(Category::WINDOW);
+    };
+
+    class WindowUnfocus: public Event {
+    public:
+        __EventString__("WindowUnfocus");
+        __EventType__(Type::WINDOW_UNFOCUS);
+        __EventCategory__(Category::WINDOW);
+    };
+
+    class WindowHover: public Event {
+    public:
+        __EventString__("WindowHover");
+        __EventType__(Type::WINDOW_HOVER);
+        __EventCategory__(Category::WINDOW);
+    };
+
+    class WindowUnhover: public Event {
+    public:
+        __EventString__("WindowUnhover");
+        __EventType__(Type::WINDOW_UNHOVER);
+        __EventCategory__(Category::WINDOW);
     };
 
     class WindowClose: public Event {
     public:
-        __EventString__("WindowClose")
-        __EventType__(Type::WINDOW_CLOSE)
-        __EventCategory__(Category::WINDOW)
+        __EventString__("WindowClose");
+        __EventType__(Type::WINDOW_CLOSE);
+        __EventCategory__(Category::WINDOW);
     };
 
 
@@ -113,7 +149,7 @@ namespace Feather::Event {
     public:
         Mouse GetButton() const { return button; }
 
-        __EventCategory__(Category::INPUT | Category::MOUSE)
+        __EventCategory__(Category::INPUT | Category::MOUSE);
     protected:
         Mouse button;
 
@@ -130,7 +166,7 @@ namespace Feather::Event {
             return stream.str();
         }
 
-        __EventType__(Type::MOUSE_PRESS)
+        __EventType__(Type::MOUSE_PRESS);
     };
 
     class MouseRelease: public __Mouse__ {
@@ -143,15 +179,15 @@ namespace Feather::Event {
             return stream.str();
         }
 
-        __EventType__(Type::MOUSE_RELEASE)
+        __EventType__(Type::MOUSE_RELEASE);
     };
 
     class MouseScroll: public Event {
     public:
         MouseScroll(Math::Vector2 offset): offset(offset) {}
 
-        float GetXOffset() const { return offset.x; }
-        float GetYOffset() const { return offset.y; }
+        float GetX() const { return offset.x; }
+        float GetY() const { return offset.y; }
         Math::Vector2 GetOffset() const { return offset; }
 
         operator std::string() const override {
@@ -160,8 +196,8 @@ namespace Feather::Event {
             return stream.str();
         }
 
-        __EventType__(Type::MOUSE_SCROLL)
-        __EventCategory__(Category::INPUT | Category::MOUSE)
+        __EventType__(Type::MOUSE_SCROLL);
+        __EventCategory__(Category::INPUT | Category::MOUSE);
     private:
         Math::Vector2 offset;
     };
@@ -180,8 +216,8 @@ namespace Feather::Event {
             return stream.str();
         }
 
-        __EventType__(Type::MOUSE_MOVE)
-        __EventCategory__(Category::INPUT | Category::MOUSE)
+        __EventType__(Type::MOUSE_MOVE);
+        __EventCategory__(Category::INPUT | Category::MOUSE);
     private:
         Math::Vector2 position;
     };
@@ -191,7 +227,7 @@ namespace Feather::Event {
     public:
         Key GetKey() const { return key; }
 
-        __EventCategory__(Category::INPUT | Category::KEY)
+        __EventCategory__(Category::INPUT | Category::KEY);
     protected:
         Key key;
 
@@ -210,7 +246,7 @@ namespace Feather::Event {
             return stream.str();
         }
 
-        __EventType__(Type::KEY_PRESS)
+        __EventType__(Type::KEY_PRESS);
     private:
         bool repeat;
     };
@@ -225,6 +261,6 @@ namespace Feather::Event {
             return stream.str();
         }
 
-        __EventType__(Type::KEY_RELEASE)
+        __EventType__(Type::KEY_RELEASE);
     };
 }

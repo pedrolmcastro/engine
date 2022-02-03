@@ -7,10 +7,32 @@ using namespace Feather;
 
 class Main: public Layer::Layer {
 public:
-    void OnAttach() override {
-        Math::Vector3 first(36, 49, 1);
-        Math::Vector3 second(64, 2, 2);
-        Info("%.2f", Math::Angle(first, second));
+    void OnEvent(Event::Event& event) override {
+        Event::Dispatcher dispatcher(event);
+        dispatcher.Dispatch<Event::WindowFocus>(Bind(OnWindowFocus));
+        dispatcher.Dispatch<Event::WindowUnfocus>(Bind(OnWindowUnfocus));
+        dispatcher.Dispatch<Event::WindowHover>(Bind(OnWindowHover));
+        dispatcher.Dispatch<Event::WindowUnhover>(Bind(OnWindowUnhover));
+    }
+
+    bool OnWindowFocus(Event::WindowFocus& event) {
+        Trace(string(event).c_str());
+        return false;
+    }
+
+    bool OnWindowUnfocus(Event::WindowUnfocus& event) {
+        Info(string(event).c_str());
+        return false;
+    }
+
+    bool OnWindowHover(Event::WindowHover& event) {
+        Warn(string(event).c_str());
+        return false;
+    }
+
+    bool OnWindowUnhover(Event::WindowUnhover& event) {
+        Error(string(event).c_str());
+        return false;
     }
 };
 
