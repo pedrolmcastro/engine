@@ -6,6 +6,8 @@
 #include "Core/Event.hpp"
 
 namespace Feather::Layer {
+	enum class Type { LAYER, OVERLAY, };
+
 	class Layer {
 	public:
 		virtual ~Layer() = default;
@@ -16,20 +18,20 @@ namespace Feather::Layer {
 		virtual void OnEvent(Event::Event& event) {}
 	};
 
-	// TODO: Add Overlays
     class Stack {
     public:
         ~Stack();
 
-        void Push(Unique<Layer> layer);
-        Unique<Layer> Pop();
+        void Push(Unique<Layer> layer, Type type = Type::LAYER);
+        Unique<Layer> Pop(Type type = Type::LAYER);
 
-        std::vector<Unique<Layer>>::iterator begin() { return layers.begin(); }
-		std::vector<Unique<Layer>>::iterator end() { return layers.end(); }
-
-		std::vector<Unique<Layer>>::reverse_iterator rbegin() { return layers.rbegin(); }
-		std::vector<Unique<Layer>>::reverse_iterator rend() { return layers.rend(); }
+		std::vector<Unique<Layer>>::reverse_iterator rbegin() { return stack.rbegin(); }
+		std::vector<Unique<Layer>>::reverse_iterator rend() { return stack.rend(); }
+		std::vector<Unique<Layer>>::iterator begin() { return stack.begin(); }
+		std::vector<Unique<Layer>>::iterator end() { return stack.end(); }
     private:
-        std::vector<Unique<Layer>> layers;
+		size_t layers = 0;
+		size_t overlays = 0;
+        std::vector<Unique<Layer>> stack;
     };
 }

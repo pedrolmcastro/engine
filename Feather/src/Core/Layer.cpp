@@ -6,21 +6,39 @@ using namespace Feather;
 
 
 Layer::Stack::~Stack() {
-    for (Unique<Layer>& layer : layers) {
+    for (Unique<Layer>& layer : stack) {
         layer->OnDetach();
     }
 }
 
-void Layer::Stack::Push(Unique<Layer> layer) {
+void Layer::Stack::Push(Unique<Layer> layer, Type type) {
     layer->OnAttach();
-    layers.push_back(move(layer));
+
+    if (type == Type::LAYER) {
+        stack.insert(stack.begin() + layers, move(layer));
+        layers++;
+    }
+    else {
+        stack.push_back(move(layer));
+        overlays++;
+    }
 }
 
-Unique<Layer::Layer> Layer::Stack::Pop() {
-    if (layers.empty()) return nullptr;
+Unique<Layer::Layer> Layer::Stack::Pop(Type type) {
+    if (type == Type::LAYER && layers == 0 || type == Type::OVERLAY && overlays == 0) return nullptr;
 
-    Unique<Layer> layer = move(layers.back());
-    layers.pop_back();
+    Unique<Layer> layer = nullptr;
+
+    if (type == Type::LAYER) {
+        layers--;
+        layer = move(stack[layers]);
+        stack.erase(stack.begin() + layers);
+    }
+    else {
+        overlays--;
+        layer = move(stack.back());
+        stack.pop_back();
+    }
 
     layer->OnDetach();
     return layer;

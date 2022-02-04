@@ -5,15 +5,30 @@ using namespace std;
 using namespace Feather;
 
 
-class Main: public Layer::Layer {
+class Runtime: public Layer::Layer {
 public:
-    Main(const Window& window): window(window) {}
-
-    void OnUpdate() override {
-        Trace("%d", window.IsMinimized());
+    void OnEvent(Event::Event& event) override {
+        Event::Dispatcher dispatcher(event);
+        dispatcher.Dispatch<Event::KeyPress>(Bind(OnKeyPress));
     }
-private:
-    const Window& window;
+
+    bool OnKeyPress(Event::KeyPress& event) {
+        Trace("Layer");
+        return false;
+    }
+};
+
+class Overlay: public Layer::Layer {
+public:
+    void OnEvent(Event::Event& event) override {
+        Event::Dispatcher dispatcher(event);
+        dispatcher.Dispatch<Event::KeyPress>(Bind(OnKeyPress));
+    }
+
+    bool OnKeyPress(Event::KeyPress& event) {
+        Trace("Overlay");
+        return true;
+    }
 };
 
 
@@ -21,7 +36,9 @@ class Sandbox: public Application {
 public:
     Sandbox(): Application("Sandbox", { 800, 450 }) {
         Log::SetPriority(Log::Level::TRACE);
-        layers.Push(Unique<Main>(window));
+
+        layers.Push(Unique<Overlay>(), Layer::Type::OVERLAY);
+        layers.Push(Unique<Runtime>());
     }
 };
 
