@@ -3,23 +3,25 @@
 
 #include "Precompiled.hpp"
 
-#define __VectorFunctions__(type)                                                                                                   \
-    /* Vector Operators */                                                                                                          \
-    inline type operator+(type first, const type& second) { return first += second; }                                               \
-    inline type operator-(type first, const type& second) { return first -= second; }                                               \
-    inline type operator*(type first, const type& second) { return first *= second; }                                               \
-    inline type operator/(type first, const type& second) { return first /= second; }                                               \
-    /* Scalar Operators */                                                                                                          \
-    inline type operator+(type vector, float scalar) { return vector += scalar; }                                                   \
-    inline type operator-(type vector, float scalar) { return vector -= scalar; }                                                   \
-    inline type operator*(type vector, float scalar) { return vector *= scalar; }                                                   \
-    inline type operator/(type vector, float scalar) { return vector /= scalar; }                                                   \
-    /* Functions */                                                                                                                 \
-    inline float Norm(const type& vector) { return sqrtf(Dot(vector, vector)); }                                                    \
-    inline type Normalize(const type& vector) { return vector / Norm(vector); }                                                     \
-    inline float Distance(const type& first, const type& second) { return Norm(first - second); }                                   \
-    inline bool Orthogonal(const type& first, const type& second) { return Dot(first, second) < 10e-6; }                            \
-    inline float Angle(const type& first, const type& second) { return acosf(Dot(first, second) / (Norm(first) * Norm(second))); }  \
+
+#define __VectorFunctions__(type)                                                                                                       \
+    /* Vector Operators */                                                                                                              \
+    inline type operator+(type first, const type& second) { return first += second; }                                                   \
+    inline type operator-(type first, const type& second) { return first -= second; }                                                   \
+    inline type operator*(type first, const type& second) { return first *= second; }                                                   \
+    inline type operator/(type first, const type& second) { return first /= second; }                                                   \
+    /* Scalar Operators */                                                                                                              \
+    inline type operator+(type vector, float scalar) { return vector += scalar; }                                                       \
+    inline type operator-(type vector, float scalar) { return vector -= scalar; }                                                       \
+    inline type operator*(type vector, float scalar) { return vector *= scalar; }                                                       \
+    inline type operator/(type vector, float scalar) { return vector /= scalar; }                                                       \
+    /* Functions */                                                                                                                     \
+    inline float Norm(const type& vector) { return sqrtf(Dot(vector, vector)); }                                                        \
+    inline type Normalize(const type& vector) { return vector / Norm(vector); }                                                         \
+    inline float Distance(const type& first, const type& second) { return Norm(first - second); }                                       \
+    inline bool Orthogonal(const type& first, const type& second) { return Dot(first, second) < 10e-6; }                                \
+    inline float Angle(const type& first, const type& second) { return std::acos(Dot(first, second) / (Norm(first) * Norm(second))); }  \
+
 
 // TODO: Use operator<<()
 namespace Feather::Math {

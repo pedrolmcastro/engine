@@ -30,8 +30,8 @@ namespace Feather::Layer {
 		std::vector<Unique<Layer>>::iterator begin() { return stack.begin(); }
 		std::vector<Unique<Layer>>::iterator end() { return stack.end(); }
     private:
-		size_t layers = 0;
-		size_t overlays = 0;
+		std::size_t layers = 0;
+		std::size_t overlays = 0;
         std::vector<Unique<Layer>> stack;
     };
 }
