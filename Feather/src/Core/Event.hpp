@@ -71,7 +71,7 @@ namespace Feather::Event {
 
     class WindowResize: public Event {
     public:
-        WindowResize(Math::Vector2 size): size(size) {}
+        WindowResize(const Math::Vector2& size): size(size) {}
 
         float GetWidth() const { return size.x; }
         float GetHeight() const { return size.y; }
@@ -91,7 +91,7 @@ namespace Feather::Event {
 
     class WindowMove: public Event {
     public:
-        WindowMove(Math::Vector2 position): position(position) {}
+        WindowMove(const Math::Vector2& position): position(position) {}
 
         float GetX() const { return position.x; }
         float GetY() const { return position.y; }
@@ -184,7 +184,7 @@ namespace Feather::Event {
 
     class MouseScroll: public Event {
     public:
-        MouseScroll(Math::Vector2 offset): offset(offset) {}
+        MouseScroll(const Math::Vector2& offset): offset(offset) {}
 
         float GetX() const { return offset.x; }
         float GetY() const { return offset.y; }
@@ -204,7 +204,7 @@ namespace Feather::Event {
 
     class MouseMove: public Event {
     public:
-        MouseMove(Math::Vector2 position): position(position) {} 
+        MouseMove(const Math::Vector2& position): position(position) {} 
 
         float GetX() const { return position.x; }
         float GetY() const { return position.y; }

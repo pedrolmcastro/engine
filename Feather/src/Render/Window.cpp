@@ -17,7 +17,7 @@ using namespace std;
 using namespace Feather;
 
 
-Window::Window(string name, Math::Vector2 size, function<void (Event::Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
+Window::Window(string name, const Math::Vector2& size, function<void (Event::Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
     window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
     __Assert__(window != nullptr, "Could not create the window!");
 
@@ -38,7 +38,7 @@ Window::Window(string name, Math::Vector2 size, function<void (Event::Event&)> c
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
         if (minimized) {
-            self.size = { 0, 0 };
+            self.size = { 0.0f, 0.0f };
 
             Event::WindowResize event(self.size);
             if (self.callback) self.callback(event);

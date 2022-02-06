@@ -12,7 +12,7 @@
 namespace Feather {
     class Window {
     public:
-        Window(std::string name, Math::Vector2 size, std::function<void (Event::Event&)> callback = {}, bool vsync = true);
+        Window(std::string name, const Math::Vector2& size, std::function<void (Event::Event&)> callback = {}, bool vsync = true);
         ~Window();
 
         void OnUpdate();
@@ -23,7 +23,7 @@ namespace Feather {
         bool IsFocused() const { return glfwGetWindowAttrib(window, GLFW_FOCUSED); }
         bool IsHovered() const { return glfwGetWindowAttrib(window, GLFW_HOVERED); }
         
-        bool IsMinimized() const { return size.x == 0 || size.y == 0; }
+        bool IsMinimized() const { return size.x == 0.0f || size.y == 0.0f; }
         bool IsMaximized() const { return glfwGetWindowAttrib(window, GLFW_MAXIMIZED); }
         
         float GetWidth() const { return size.x; }
