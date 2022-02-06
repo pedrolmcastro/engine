@@ -9,7 +9,7 @@ using namespace Feather;
 
 mutex Log::mtx;
 Log::Level Log::priority = Log::Level::INFO;
-const char* Log::bagdes[] = { "TRACE", "INFO ", "WARN ", "ERROR", "FATAL", };
+const char* Log::bagdes[] = { "TRACE:", "INFO: ", "WARN: ", "ERROR:", "FATAL:", };
 
 pair<Color::Foreground, Color::Background> Log::colors[] = {
     { Color::Foreground::WHITE,  Color::Background::NONE },
@@ -30,7 +30,7 @@ void Log::Print(Level level, const char* message, ...) {
 
         {
             Color color(colors[int(level)].first, colors[int(level)].second);
-            printf("[%02d:%02d:%02d %s] ", now->tm_hour, now->tm_min, now->tm_sec, bagdes[int(level)]);
+            printf("[%02d:%02d:%02d] %s ", now->tm_hour, now->tm_min, now->tm_sec, bagdes[int(level)]);
 
             va_list args;
             va_start(args, message);
