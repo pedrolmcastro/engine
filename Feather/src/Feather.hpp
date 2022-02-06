@@ -15,6 +15,7 @@
 #include "Input/Mouse.hpp"
 #include "Input/Input.hpp"
 
+#include "Math/Matrix.hpp"
 #include "Math/Vector.hpp"
 
 #include "Render/Window.hpp"
