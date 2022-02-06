@@ -8,6 +8,7 @@
 #include "Platform/GLFW/glfw3.h"
 
 // TODO: Add Icon
+// TODO: Add Maximized Constructor
 namespace Feather {
     class Window {
     public:

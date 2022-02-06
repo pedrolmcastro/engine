@@ -1,3 +1,5 @@
+# TODO: Better Build System
+
 pushd() { builtin pushd "$@" > /dev/null; }
 popd()  { builtin popd  "$@" > /dev/null; }
 
