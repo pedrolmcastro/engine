@@ -15,6 +15,8 @@
     inline type operator-(type vector, float scalar) { return vector -= scalar; }                                                       \
     inline type operator*(type vector, float scalar) { return vector *= scalar; }                                                       \
     inline type operator/(type vector, float scalar) { return vector /= scalar; }                                                       \
+    /* Unary Operators */                                                                                                               \
+    inline type operator-(const type& vector) { return vector * -1.0f; }                                                                \
     /* Functions */                                                                                                                     \
     inline float Norm(const type& vector) { return sqrtf(Dot(vector, vector)); }                                                        \
     inline type Normalize(const type& vector) { return vector / Norm(vector); }                                                         \
@@ -24,6 +26,7 @@
 
 
 // TODO: Use operator<<()
+// TODO: Add Foward(), Reflect() and Refract()
 namespace Feather::Math {
     class Vector2 {
     public:
@@ -45,6 +48,7 @@ namespace Feather::Math {
 
         operator std::string() const {
             std::stringstream stream;
+            stream << std::fixed << std::setprecision(2);
             stream << '[' << x << ", " << y << ']';
             return stream.str();
         }
@@ -76,6 +80,7 @@ namespace Feather::Math {
 
         operator std::string() const {
             std::stringstream stream;
+            stream << std::fixed << std::setprecision(2);
             stream << '[' << x << ", " << y << ", " << z << ']';
             return stream.str();
         }
@@ -110,6 +115,7 @@ namespace Feather::Math {
 
         operator std::string() const {
             std::stringstream stream;
+            stream << std::fixed << std::setprecision(2);
             stream << '[' << x << ", " << y << ", " << z << ", " << w << ']';
             return stream.str();
         }

@@ -1,5 +1,6 @@
 #include <cmath>
 #include <ctime>
+#include <array>
 #include <mutex>
 #include <memory>
 #include <vector>
@@ -9,5 +10,6 @@
 #include <cstdarg>
 #include <utility>
 #include <sstream>
+#include <iomanip>
 #include <iostream>
 #include <functional>

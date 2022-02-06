@@ -7,27 +7,9 @@ using namespace Feather;
 
 class Runtime: public Layer::Layer {
 public:
-    void OnEvent(Event::Event& event) override {
-        Event::Dispatcher dispatcher(event);
-        dispatcher.Dispatch<Event::KeyPress>(Bind(OnKeyPress));
-    }
-
-    bool OnKeyPress(Event::KeyPress& event) {
-        Trace("Layer");
-        return false;
-    }
-};
-
-class Overlay: public Layer::Layer {
-public:
-    void OnEvent(Event::Event& event) override {
-        Event::Dispatcher dispatcher(event);
-        dispatcher.Dispatch<Event::KeyPress>(Bind(OnKeyPress));
-    }
-
-    bool OnKeyPress(Event::KeyPress& event) {
-        Trace("Overlay");
-        return true;
+    void OnAttach() override {
+        Math::Vector3 vector(1);
+        Trace("%s", string(- vector).c_str());
     }
 };
 
@@ -36,8 +18,6 @@ class Sandbox: public Application {
 public:
     Sandbox(): Application("Sandbox", { 800, 450 }) {
         Log::SetPriority(Log::Level::TRACE);
-
-        layers.Push(Unique<Overlay>(), Layer::Type::OVERLAY);
         layers.Push(Unique<Runtime>());
     }
 };
