@@ -8,21 +8,15 @@ using namespace Feather;
 class Runtime: public Layer::Layer {
 public:
     void OnAttach() override {
-
+        
     }
 
     void OnUpdate() override {
-        Trace("Update");
+
     }
 
     void OnEvent(Event::Event& event) override {
         Event::Dispatcher dispatcher(event);
-        dispatcher.Dispatch<Event::WindowResize>(Bind(OnWindowResize));
-    }
-
-    bool OnWindowResize(Event::WindowResize& event) {
-        Info(string(event).c_str());
-        return false;
     }
 };
 

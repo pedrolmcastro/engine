@@ -2,17 +2,15 @@ TGT := libFeather.a
 
 SRCDIR := ./src
 OBJDIR := ./obj
-LIBDIR := ./lib
 
 PCHIN  := $(SRCDIR)/Precompiled.hpp
 PCHOUT := $(PCHIN).gch
 
 CXXFLAGS += -std=c++2a
-CPPFLAGS += -O3
+CPPFLAGS += -O3 -I ../Vendor/GLFW/include/
 
 
 SRCS := $(shell find $(SRCDIR) -name *.cpp)
-LIBS := $(shell find $(LIBDIR) -name *.o)
 OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
 
@@ -21,8 +19,9 @@ CPPFLAGS += $(addprefix -I, $(INCDIR))
 
 
 # Create Static Library
-$(TGT): $(OBJS) $(LIBS)
-	@$(AR) rcs $(TGT) $(OBJS) $(LIBS)
+$(TGT): $(OBJS)
+	@$(AR) rcs $(TGT) $(OBJS)
+	@cp $(TGT) ../Sandbox/lib/
 
 # Compile Object Files
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(PCHOUT)

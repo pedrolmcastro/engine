@@ -2,10 +2,10 @@ pushd() { builtin pushd "$@" > /dev/null; }
 popd()  { builtin popd  "$@" > /dev/null; }
 
 
-pushd ./Feather
+pushd Feather
     make clean
 popd
 
-pushd ./Sandbox
+pushd Sandbox
     make clean
 popd

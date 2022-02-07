@@ -5,7 +5,9 @@
 
 #include "Core/Event.hpp"
 #include "Math/Vector.hpp"
-#include "Platform/GLFW/glfw3.h"
+
+// TODO: Use Forward Declaration
+#include <GLFW/glfw3.h>
 
 // TODO: Add Icon
 // TODO: Add Maximized Constructor

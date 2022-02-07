@@ -1,24 +1,34 @@
-# TODO: Better Build System
-
 pushd() { builtin pushd "$@" > /dev/null; }
 popd()  { builtin popd  "$@" > /dev/null; }
 
 
+source .data.sh
+CONFIG=${1:-DEBUG}
+
+
+# Compile GLFW
+if [ $GLFW != "YES" ]; then
+    pushd Vendor/GLFW
+        ./build.sh
+    popd
+    sed -i "s/GLFW=\"$GLFW\"/GLFW=\"YES\"/g" .data.sh
+fi
+
+# TODO: Compile Glad
+
+# Compile Feather
 pushd ./Feather
     make -s
 popd
 
-# Update the Library in Sandbox
-cp ./Feather/libFeather.a ./Sandbox/lib/
-
-pushd ./Sandbox
-    # Rebuild on Configuration Change
-    source ../data.sh
-    if [ $1 != $last ]; then
+# Compile Sandbox
+pushd Sandbox
+    if [ $CONFIG != $LAST ]; then
         make clean
-        echo "last=\"$1\"" > ../data.sh
+        sed -i "s/LAST=\"$LAST\"/LAST=\"$CONFIG\"/g" ../.data.sh
     fi
 
-    make $1=1
+    export PKG_CONFIG_PATH=$(realpath lib)
+    make $CONFIG=1 -s
     make run
 popd

@@ -4,7 +4,7 @@
 
 #include "Render/Context.hpp"
 
-#include "Platform/GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
 using namespace std;
 using namespace Feather;
