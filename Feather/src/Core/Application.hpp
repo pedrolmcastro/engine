@@ -14,20 +14,21 @@ namespace Feather {
     class Application {
     public:
         Application(std::string name, Math::Vector2 size, bool vsync = true);
-        virtual ~Application();
+        virtual ~Application() = default;
 
         // Defined by the client
         static Unique<Application> Create();
 
         void Run();
-    private:
+        void Close() { running = false; }
+    protected:
         Render::Context context; // Must be constructed before the window
+        Render::Window window;
+        Layer::Stack layers;
+    private:
         bool running = true;
 
         void OnEvent(Event::Event& event);
         bool OnWindowClose(Event::WindowClose& event);
-    protected:
-        Layer::Stack layers;
-        Window window;
     };
 }

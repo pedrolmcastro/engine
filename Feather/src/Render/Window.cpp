@@ -17,7 +17,7 @@ using namespace std;
 using namespace Feather;
 
 
-Window::Window(string name, const Math::Vector2& size, function<void (Event::Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
+Render::Window::Window(string name, const Math::Vector2& size, function<void (Event::Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
     window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
     __Assert__(window != nullptr, "Could not create the window!");
 
@@ -151,16 +151,16 @@ Window::Window(string name, const Math::Vector2& size, function<void (Event::Eve
 	});
 }
 
-Window::~Window() {
+Render::Window::~Window() {
     glfwDestroyWindow(window);
 }
 
-void Window::OnUpdate() {
+void Render::Window::OnUpdate() {
     glfwPollEvents();
     glfwSwapBuffers(window);
 }
 
-void Window::SetVSync(bool vsync) {
+void Render::Window::SetVSync(bool vsync) {
     glfwSwapInterval(vsync);
     this->vsync = vsync;
 }

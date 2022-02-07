@@ -1,3 +1,5 @@
+#include "Precompiled.hpp"
+
 #include "Debug/Assert.hpp"
 
 #include "Render/Context.hpp"
@@ -15,6 +17,12 @@ Render::Context::Context() {
     if (!init) {
         bool success = glfwInit();
         __Assert__(success, "Could not initialize GLFW!");
+
+        glfwSetErrorCallback([](int error, const char* message) {
+            stringstream stream;
+            stream << "GLFW Error " << error << ": " << message;
+            __Assert__(false, stream.str().c_str());
+        });
 
         // TODO: Add Glad
     }

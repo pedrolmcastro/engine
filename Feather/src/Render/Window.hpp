@@ -9,7 +9,7 @@
 
 // TODO: Add Icon
 // TODO: Add Maximized Constructor
-namespace Feather {
+namespace Feather::Render {
     class Window {
     public:
         Window(std::string name, const Math::Vector2& size, std::function<void (Event::Event&)> callback = {}, bool vsync = true);
