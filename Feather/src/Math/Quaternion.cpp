@@ -28,12 +28,13 @@ Math::Quaternion::Quaternion(const Vector3& axis, float angle) {
 
 Math::Quaternion::Quaternion(const Vector3& first, const Vector3& second) {
     Vector3 cross = Cross(first, second);
-    Vector3 normalized = Normalize(cross);
 
-    x = normalized.x;
-    y = normalized.y;
-    z = normalized.z;
-    w = Dot(first, second);
+    x = cross.x;
+    y = cross.y;
+    z = cross.z;
+    w = sqrt(Dot(first, first) * Dot(second, second)) + Dot(first, second);
+
+    (*this) = Normalize(*this);
 }
 
 Math::Quaternion operator*(const Math::Quaternion& first, const Math::Quaternion& second) {
