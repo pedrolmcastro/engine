@@ -7,8 +7,7 @@
 #include "Input/Mouse.hpp"
 #include "Math/Vector.hpp"
 
-// TODO: Use Forward Declaration
-#include <GLFW/glfw3.h>
+class GLFWwindow;
 
 namespace Feather {
     class Input {

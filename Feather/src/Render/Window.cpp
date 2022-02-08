@@ -10,6 +10,7 @@
 #include "Math/Vector.hpp"
 
 #include "Render/Window.hpp"
+#include "Render/Context.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -22,7 +23,7 @@ Render::Window::Window(string name, const Math::Vector2& size, function<void (Ev
     __Assert__(window != nullptr, "Could not create the window!");
 
     glfwSetWindowUserPointer(window, this);
-    glfwMakeContextCurrent(window);
+    Context::Load(window);
     SetVSync(vsync);
 
 
@@ -161,6 +162,23 @@ void Render::Window::OnUpdate() {
 }
 
 void Render::Window::SetVSync(bool vsync) {
+    glfwMakeContextCurrent(window);
     glfwSwapInterval(vsync);
     this->vsync = vsync;
+}
+
+bool Render::Window::IsFocused() const {
+    return glfwGetWindowAttrib(window, GLFW_FOCUSED);
+}
+
+bool Render::Window::IsHovered() const {
+    return glfwGetWindowAttrib(window, GLFW_HOVERED);
+}
+
+bool Render::Window::IsMinimized() const {
+    return size.x == 0.0f || size.y == 0.0f;
+}
+
+bool Render::Window::IsMaximized() const {
+    return glfwGetWindowAttrib(window, GLFW_MAXIMIZED);
 }

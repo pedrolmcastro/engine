@@ -12,5 +12,5 @@ pushd build
 popd
 
 # Update Library in Sandbox
-cp build/src/libglfw3.a ../../Sandbox/lib/
-cp build/src/glfw3.pc ../../Sandbox/lib/
+cp build/src/libglfw3.a ../../Sandbox/lib
+cp build/src/glfw3.pc ../../Sandbox/lib

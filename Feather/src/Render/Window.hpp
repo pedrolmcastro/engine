@@ -2,12 +2,10 @@
 
 
 #include "Precompiled.hpp"
-
-#include "Core/Event.hpp"
 #include "Math/Vector.hpp"
+#include "Core/Event.hpp"
 
-// TODO: Use Forward Declaration
-#include <GLFW/glfw3.h>
+class GLFWwindow;
 
 // TODO: Add Icon
 // TODO: Add Maximized Constructor
@@ -22,12 +20,11 @@ namespace Feather::Render {
         bool IsVSync() const { return vsync; }
         void SetVSync(bool vsync);
 
-        bool IsFocused() const { return glfwGetWindowAttrib(window, GLFW_FOCUSED); }
-        bool IsHovered() const { return glfwGetWindowAttrib(window, GLFW_HOVERED); }
-        
-        bool IsMinimized() const { return size.x == 0.0f || size.y == 0.0f; }
-        bool IsMaximized() const { return glfwGetWindowAttrib(window, GLFW_MAXIMIZED); }
-        
+        bool IsFocused() const;
+        bool IsHovered() const;
+        bool IsMinimized() const;
+        bool IsMaximized() const;
+
         float GetWidth() const { return size.x; }
         float GetHeight() const { return size.y; }
         Math::Vector2 GetSize() const { return size; }

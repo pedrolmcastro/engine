@@ -14,7 +14,14 @@ if [ $GLFW != "YES" ]; then
     sed -i "s/GLFW=\"$GLFW\"/GLFW=\"YES\"/g" .data.sh
 fi
 
-# TODO: Compile Glad
+# Compile Glad
+if [ $GLAD != "YES" ]; then
+    pushd Vendor/Glad
+        make clean
+        make -s
+    popd
+    sed -i "s/GLAD=\"$GLAD\"/GLAD=\"YES\"/g" .data.sh
+fi
 
 # Compile Feather
 pushd ./Feather

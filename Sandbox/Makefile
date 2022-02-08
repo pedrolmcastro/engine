@@ -1,16 +1,16 @@
 TGT := Sandbox.out
 
-SRCDIR := ./src
-OBJDIR := ./obj
-LIBDIR := ./lib
+SRCDIR := src
+OBJDIR := obj
+LIBDIR := lib
 
 # Include Libraries
 LDFLAGS = -L$(LIBDIR)
-LDLIBS  = -lFeather $(shell pkg-config --static --libs glfw3)
+LDLIBS  = -lFeather -lglad $(shell pkg-config --static --libs glfw3)
 
 # Include Library Headers
 # TODO: Export Headers
-CPPFLAGS += -I../Feather/src
+CPPFLAGS += -I ../Feather/src
 CXXFLAGS += -std=c++2a
 
 
