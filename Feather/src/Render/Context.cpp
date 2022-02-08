@@ -11,27 +11,19 @@ using namespace std;
 using namespace Feather;
 
 
-bool Render::Context::init = false;
-
-
 Render::Context::Context() {
-    if (!init) {
-        bool success = glfwInit();
-        __Assert__(success, "Failed to initialize GLFW!");
+    int success = glfwInit();
+    __Assert__(success, "Failed to initialize GLFW!");
 
-        glfwSetErrorCallback([](int error, const char* message) {
-            stringstream stream;
-            stream << "GLFW Error " << error << ": " << message;
-            __Assert__(false, stream.str().c_str());
-        });
-
-        init = true;
-    }
+    glfwSetErrorCallback([](int error, const char* message) {
+        stringstream stream;
+        stream << "GLFW Error " << error << ": " << message;
+        __Assert__(false, stream.str().c_str());
+    });
 }
 
 Render::Context::~Context() {
     glfwTerminate();
-    init = false;
 }
 
 void Render::Context::Load(GLFWwindow* window) {

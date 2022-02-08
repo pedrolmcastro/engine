@@ -10,7 +10,5 @@ namespace Feather::Render {
         ~Context();
 
         static void Load(GLFWwindow* window);
-    private:
-        static bool init;
     };
 }
