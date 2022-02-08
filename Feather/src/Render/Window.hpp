@@ -12,7 +12,7 @@ class GLFWwindow;
 namespace Feather::Render {
     class Window {
     public:
-        Window(std::string name, const Math::Vector2& size, std::function<void (Event::Event&)> callback = {}, bool vsync = true);
+        Window(const std::string& name, const Math::Vector2& size, std::function<void (Event::Event&)> callback = {}, bool vsync = true);
         ~Window();
 
         void OnUpdate();
@@ -33,7 +33,8 @@ namespace Feather::Render {
         float GetY() const { return position.y; }
         Math::Vector2 GetPosition() const { return position; }
 
-        operator std::string() const { return name; }
+        std::string GetName() const { return name; }
+
         operator GLFWwindow*() const { return window; }
     private:
         bool vsync;

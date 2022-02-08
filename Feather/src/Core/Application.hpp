@@ -13,7 +13,7 @@
 namespace Feather {
     class Application {
     public:
-        Application(std::string name, Math::Vector2 size, bool vsync = true);
+        Application(const std::string& name, Math::Vector2 size, bool vsync = true);
         virtual ~Application() = default;
 
         // Defined by the client
