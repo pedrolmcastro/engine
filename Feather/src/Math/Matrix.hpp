@@ -3,29 +3,31 @@
 
 #include "Precompiled.hpp"
 #include "Math/Vector.hpp"
+#include "Math/Quaternion.hpp"
 
 
 #define __MatrixFunctions__(type)                                                                                                                           \
-    public:                                                                                                                                                 \
-    /* Matrix Operators */                                                                                                                                  \
-    type& operator*=(const type& other);                                                                                                                    \
+    friend type operator*(const type& first, const type& second);                                                                                           \
+                                                                                                                                                            \
     type& operator+=(const type& other) { for (std::size_t i = 0; i < elements.size(); i++) elements[i] += other.elements[i]; return *this; }               \
     type& operator-=(const type& other) { for (std::size_t i = 0; i < elements.size(); i++) elements[i] -= other.elements[i]; return *this; }               \
+    type& operator*=(const type& other) { *this = *this * other; return *this; }                                                                            \
+                                                                                                                                                            \
     friend type operator+(type first, const type& second) { return first += second; }                                                                       \
     friend type operator-(type first, const type& second) { return first -= second; }                                                                       \
-    friend type operator*(type first, const type& second) { return first *= second; }                                                                       \
-    /* Scalar Operators */                                                                                                                                  \
+                                                                                                                                                            \
     type& operator+=(float scalar) { for (float& element : elements) element += scalar; return *this; }                                                     \
     type& operator-=(float scalar) { for (float& element : elements) element -= scalar; return *this; }                                                     \
     type& operator*=(float scalar) { for (float& element : elements) element *= scalar; return *this; }                                                     \
     type& operator/=(float scalar) { for (float& element : elements) element /= scalar; return *this; }                                                     \
+                                                                                                                                                            \
     friend type operator+(type matrix, float scalar) { return matrix += scalar; }                                                                           \
     friend type operator-(type matrix, float scalar) { return matrix -= scalar; }                                                                           \
     friend type operator*(type matrix, float scalar) { return matrix *= scalar; }                                                                           \
     friend type operator/(type matrix, float scalar) { return matrix /= scalar; }                                                                           \
-    /* Unary Operators */                                                                                                                                   \
+                                                                                                                                                            \
     friend type operator-(const type& matrix) { return matrix * -1.0f; }                                                                                    \
-    /* String Operators */                                                                                                                                  \
+                                                                                                                                                            \
     operator std::string() const {                                                                                                                          \
         std::stringstream stream;                                                                                                                           \
         stream << std::fixed << std::setprecision(2);                                                                                                       \
@@ -49,8 +51,6 @@ namespace Feather::Math {
         std::array<float, 2 * 2> elements;
     };
 
-    Vector2 operator*(const Matrix2& matrix, const Vector2& vector);
-
     Matrix2 Inverse(const Matrix2& matrix);
     Matrix2 Transpose(const Matrix2& matrix);
     float Determinant(const Matrix2& matrix);
@@ -68,8 +68,6 @@ namespace Feather::Math {
     private:
         std::array<float, 3 * 3> elements;
     };
-
-    Vector3 operator*(const Matrix3& matrix, const Vector3& vector);
 
     Matrix3 Inverse(const Matrix3& matrix);
     Matrix3 Transpose(const Matrix3& matrix);
@@ -89,18 +87,17 @@ namespace Feather::Math {
         std::array<float, 4 * 4> elements;
     };
 
-    Vector4 operator*(const Matrix4& matrix, const Vector4& vector);
-
     Matrix4 Inverse(const Matrix4& matrix);
     Matrix4 Transpose(const Matrix4& matrix);
     float Determinant(const Matrix4& matrix);
 
     Matrix4 Scale(const Vector3& scale);
     Matrix4 Translate(const Vector3& translation);
-    Matrix4 Rotate(float angle, const Vector3& axis = { 0, 0, 1 });
+    Matrix4 Rotate(const Vector3& axis, float angle);
+    Matrix4 Rotate(const Quaternion& quaternion);
 
     // TODO: Add Inifinite Perspective
     Matrix4 Perspective(float fov, float aspect, float near, float far);
     Matrix4 Orthographic(float left, float right, float bottom, float top, float near, float far);
-    Matrix4 Look(const Vector3& position, const Vector3& target, const Vector3& up = { 0, 1, 0 });
+    Matrix4 Look(const Vector3& position, const Vector3& target, const Vector3& up = { 0.0f, 1.0f, 0.0f });
 }

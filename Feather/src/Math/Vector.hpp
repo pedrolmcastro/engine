@@ -3,25 +3,28 @@
 
 #include "Precompiled.hpp"
 
+class Matrix2;
+class Matrix3;
+class Matrix4;
+
 
 #define __VectorFunctions__(type)                                                                                                       \
-    /* Vector Operators */                                                                                                              \
     inline type operator+(type first, const type& second) { return first += second; }                                                   \
     inline type operator-(type first, const type& second) { return first -= second; }                                                   \
     inline type operator*(type first, const type& second) { return first *= second; }                                                   \
     inline type operator/(type first, const type& second) { return first /= second; }                                                   \
-    /* Scalar Operators */                                                                                                              \
+                                                                                                                                        \
     inline type operator+(type vector, float scalar) { return vector += scalar; }                                                       \
     inline type operator-(type vector, float scalar) { return vector -= scalar; }                                                       \
     inline type operator*(type vector, float scalar) { return vector *= scalar; }                                                       \
     inline type operator/(type vector, float scalar) { return vector /= scalar; }                                                       \
-    /* Unary Operators */                                                                                                               \
+                                                                                                                                        \
     inline type operator-(const type& vector) { return vector * -1.0f; }                                                                \
-    /* Functions */                                                                                                                     \
+                                                                                                                                        \
     inline float Norm(const type& vector) { return std::sqrt(Dot(vector, vector)); }                                                    \
-    inline type Normalize(const type& vector) { return vector / Norm(vector); }                                                         \
+    inline type Normalize(const type& vector) { return vector * (1.0f / Norm(vector)); }                                                \
     inline float Distance(const type& first, const type& second) { return Norm(first - second); }                                       \
-    inline bool Orthogonal(const type& first, const type& second) { return Dot(first, second) < 10e-6; }                                \
+    inline bool Orthogonal(const type& first, const type& second) { return Dot(first, second) < 10e-5; }                                \
     inline float Angle(const type& first, const type& second) { return std::acos(Dot(first, second) / (Norm(first) * Norm(second))); }  \
 
 
@@ -54,6 +57,7 @@ namespace Feather::Math {
         }
     };
 
+    Vector2 operator*(const Matrix2& matrix, const Vector2& vector);
     float Cross(const Vector2& first, const Vector2& second);
     float Dot(const Vector2& first, const Vector2& second);
     __VectorFunctions__(Vector2);
@@ -87,6 +91,7 @@ namespace Feather::Math {
         }
     };
 
+    Vector3 operator*(const Matrix3& matrix, const Vector3& vector);
     Vector3 Cross(const Vector3& first, const Vector3& second);
     float Dot(const Vector3& first, const Vector3& second);
     __VectorFunctions__(Vector3);
@@ -121,6 +126,7 @@ namespace Feather::Math {
         }
     };
 
+    Vector4 operator*(const Matrix4& matrix, const Vector4& vector);
     float Dot(const Vector4& first, const Vector4& second);
     __VectorFunctions__(Vector4);
 }
