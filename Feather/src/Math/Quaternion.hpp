@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "Vector.hpp"
+#include "Math/Vector.hpp"
 
 // TODO: Use operator<<()
 namespace Feather::Math {
@@ -18,10 +18,10 @@ namespace Feather::Math {
         static Quaternion Identity() { return Quaternion(0.0f, 0.0f, 0.0f, 1.0f); }
 
         friend Quaternion operator*(const Quaternion& first, const Quaternion& second);
+        Quaternion& operator*=(const Quaternion& other) { *this = *this * other; return *this; };
 
         Quaternion& operator+=(const Quaternion& other) { x += other.x; y += other.y; z += other.z; w += other.w; return *this; }
         Quaternion& operator-=(const Quaternion& other) { x -= other.x; y -= other.y; z -= other.z; w -= other.w; return *this; }
-        Quaternion& operator*=(const Quaternion& other) { *this = *this * other; return *this; };
 
         Quaternion& operator+=(float scalar) { x += scalar; y += scalar; z += scalar; w += scalar; return *this; }
         Quaternion& operator-=(float scalar) { x -= scalar; y -= scalar; z -= scalar; w -= scalar; return *this; }
@@ -36,6 +36,7 @@ namespace Feather::Math {
         }
     };
 
+
     float Norm(const Quaternion& quaternion);
     Quaternion Normalize(const Quaternion& quaternion);
     float Dot(const Quaternion& first, const Quaternion& second);
@@ -45,6 +46,10 @@ namespace Feather::Math {
 
     Vector3 Euler(const Quaternion& quaternion);
     Quaternion Slerp(const Quaternion& first, const Quaternion& second, float percentage);
+
+
+    Quaternion operator*(const Quaternion& first, const Quaternion& second);
+    Vector3 operator*(const Quaternion& quaternion, const Vector3& vector);
 
     inline Quaternion operator+(Quaternion first, const Quaternion& second) { return first += second; }
     inline Quaternion operator-(Quaternion first, const Quaternion& second) { return first -= second; }

@@ -17,6 +17,7 @@
 
 #include "Math/Matrix.hpp"
 #include "Math/Vector.hpp"
+#include "Math/Quaternion.hpp"
 
 #include "Render/Window.hpp"
 

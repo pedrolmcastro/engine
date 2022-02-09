@@ -7,11 +7,13 @@
 
 
 #define __MatrixFunctions__(type)                                                                                                                           \
+    static type Identity() { return type(1.0f); }                                                                                                           \
+                                                                                                                                                            \
     friend type operator*(const type& first, const type& second);                                                                                           \
+    type& operator*=(const type& other) { *this = *this * other; return *this; }                                                                            \
                                                                                                                                                             \
     type& operator+=(const type& other) { for (std::size_t i = 0; i < elements.size(); i++) elements[i] += other.elements[i]; return *this; }               \
     type& operator-=(const type& other) { for (std::size_t i = 0; i < elements.size(); i++) elements[i] -= other.elements[i]; return *this; }               \
-    type& operator*=(const type& other) { *this = *this * other; return *this; }                                                                            \
                                                                                                                                                             \
     friend type operator+(type first, const type& second) { return first += second; }                                                                       \
     friend type operator-(type first, const type& second) { return first -= second; }                                                                       \
@@ -51,6 +53,9 @@ namespace Feather::Math {
         std::array<float, 2 * 2> elements;
     };
 
+    Matrix2 operator*(const Matrix2& first, const Matrix2& second);
+    Vector2 operator*(const Matrix2& matrix, const Vector2& vector);
+
     Matrix2 Inverse(const Matrix2& matrix);
     Matrix2 Transpose(const Matrix2& matrix);
     float Determinant(const Matrix2& matrix);
@@ -69,6 +74,9 @@ namespace Feather::Math {
         std::array<float, 3 * 3> elements;
     };
 
+    Matrix3 operator*(const Matrix3& first, const Matrix3& second);
+    Vector3 operator*(const Matrix3& matrix, const Vector3& vector);
+
     Matrix3 Inverse(const Matrix3& matrix);
     Matrix3 Transpose(const Matrix3& matrix);
     float Determinant(const Matrix3& matrix);
@@ -86,6 +94,9 @@ namespace Feather::Math {
     private:
         std::array<float, 4 * 4> elements;
     };
+
+    Matrix4 operator*(const Matrix4& first, const Matrix4& second);
+    Vector4 operator*(const Matrix4& matrix, const Vector4& vector);
 
     Matrix4 Inverse(const Matrix4& matrix);
     Matrix4 Transpose(const Matrix4& matrix);

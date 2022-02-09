@@ -3,10 +3,6 @@
 
 #include "Precompiled.hpp"
 
-class Matrix2;
-class Matrix3;
-class Matrix4;
-
 
 #define __VectorFunctions__(type)                                                                                                       \
     inline type operator+(type first, const type& second) { return first += second; }                                                   \
@@ -25,7 +21,7 @@ class Matrix4;
     inline type Normalize(const type& vector) { return vector * (1.0f / Norm(vector)); }                                                \
     inline float Distance(const type& first, const type& second) { return Norm(first - second); }                                       \
     inline bool Orthogonal(const type& first, const type& second) { return Dot(first, second) < 10e-5; }                                \
-    inline float Angle(const type& first, const type& second) { return std::acos(Dot(first, second) / (Norm(first) * Norm(second))); }  \
+    inline float Euler(const type& first, const type& second) { return std::acos(Dot(first, second) / (Norm(first) * Norm(second))); }  \
 
 
 // TODO: Use operator<<()
@@ -57,7 +53,6 @@ namespace Feather::Math {
         }
     };
 
-    Vector2 operator*(const Matrix2& matrix, const Vector2& vector);
     float Cross(const Vector2& first, const Vector2& second);
     float Dot(const Vector2& first, const Vector2& second);
     __VectorFunctions__(Vector2);
@@ -91,7 +86,6 @@ namespace Feather::Math {
         }
     };
 
-    Vector3 operator*(const Matrix3& matrix, const Vector3& vector);
     Vector3 Cross(const Vector3& first, const Vector3& second);
     float Dot(const Vector3& first, const Vector3& second);
     __VectorFunctions__(Vector3);
@@ -126,7 +120,6 @@ namespace Feather::Math {
         }
     };
 
-    Vector4 operator*(const Matrix4& matrix, const Vector4& vector);
     float Dot(const Vector4& first, const Vector4& second);
     __VectorFunctions__(Vector4);
 }

@@ -15,8 +15,8 @@ Math::Matrix2::Matrix2(float diagonal) {
     (*this)(1, 1) = diagonal;
 }
 
-Math::Matrix2 operator*(const Math::Matrix2& first, const Math::Matrix2& second) {
-    Math::Matrix2 product;
+Math::Matrix2 Math::operator*(const Matrix2& first, const Matrix2& second) {
+    Matrix2 product;
 
     for (size_t i = 0; i < 2; i++) {
         for (size_t j = 0; j < 2; j++) {
@@ -26,6 +26,13 @@ Math::Matrix2 operator*(const Math::Matrix2& first, const Math::Matrix2& second)
     }
 
     return product;
+}
+
+Math::Vector2 Math::operator*(const Matrix2& matrix, const Vector2& vector) {
+    return Vector2(
+        matrix(0, 0) * vector.x + matrix(0, 1) * vector.y,
+        matrix(1, 0) * vector.x + matrix(1, 1) * vector.y
+    );
 }
 
 Math::Matrix2 Math::Inverse(const Matrix2& matrix) {
@@ -61,8 +68,8 @@ Math::Matrix3::Matrix3(float diagonal) {
     (*this)(2, 2) = diagonal;
 }
 
-Math::Matrix3 operator*(const Math::Matrix3& first, const Math::Matrix3& second) {
-    Math::Matrix3 product;
+Math::Matrix3 Math::operator*(const Matrix3& first, const Matrix3& second) {
+    Matrix3 product;
 
     for (size_t i = 0; i < 3; i++) {
         for (size_t j = 0; j < 3; j++) {
@@ -72,6 +79,14 @@ Math::Matrix3 operator*(const Math::Matrix3& first, const Math::Matrix3& second)
     }
 
     return product;
+}
+
+Math::Vector3 Math::operator*(const Matrix3& matrix, const Vector3& vector) {
+    return Vector3(
+        matrix(0, 0) * vector.x + matrix(0, 1) * vector.y + matrix(0, 2) * vector.z,
+        matrix(1, 0) * vector.x + matrix(1, 1) * vector.y + matrix(1, 2) * vector.z,
+        matrix(2, 0) * vector.x + matrix(2, 1) * vector.y + matrix(2, 2) * vector.z
+    );
 }
 
 Math::Matrix3 Math::Inverse(const Matrix3& matrix) {
@@ -123,8 +138,8 @@ Math::Matrix4::Matrix4(float diagonal) {
     (*this)(3, 3) = diagonal;
 }
 
-Math::Matrix4 operator*(const Math::Matrix4& first, const Math::Matrix4& second) {
-    Math::Matrix4 product;
+Math::Matrix4 Math::operator*(const Matrix4& first, const Matrix4& second) {
+    Matrix4 product;
 
     for (size_t i = 0; i < 4; i++) {
         for (size_t j = 0; j < 4; j++) {
@@ -134,6 +149,15 @@ Math::Matrix4 operator*(const Math::Matrix4& first, const Math::Matrix4& second)
     }
 
     return product;
+}
+
+Math::Vector4 Math::operator*(const Matrix4& matrix, const Vector4& vector) {
+    return Vector4(
+        matrix(0, 0) * vector.x + matrix(0, 1) * vector.y + matrix(0, 2) * vector.z + matrix(0, 3) * vector.w,
+        matrix(1, 0) * vector.x + matrix(1, 1) * vector.y + matrix(1, 2) * vector.z + matrix(1, 3) * vector.w,
+        matrix(2, 0) * vector.x + matrix(2, 1) * vector.y + matrix(2, 2) * vector.z + matrix(2, 3) * vector.w,
+        matrix(3, 0) * vector.x + matrix(3, 1) * vector.y + matrix(3, 2) * vector.z + matrix(3, 3) * vector.w
+    );
 }
 
 Math::Matrix4 Math::Inverse(const Matrix4& matrix) {
@@ -375,17 +399,17 @@ Math::Matrix4 Math::Rotate(const Quaternion& quaternion) {
     Matrix4 rotation(1.0f);
     Quaternion normalized = Normalize(quaternion);
 
-    rotation(0, 0) = 1.0f - 2.0f * (normalized.y * normalized.y - normalized.z * normalized.z);
-    rotation(1, 0) = 2.0f * (normalized.x * normalized.y - normalized.z * normalized.w);
-    rotation(2, 0) = 2.0f * (normalized.x * normalized.z + normalized.y * normalized.w);
+    rotation(0, 0) = 1.0f - 2.0f * (normalized.y * normalized.y + normalized.z * normalized.z);
+    rotation(1, 0) = 2.0f * (normalized.x * normalized.y + normalized.z * normalized.w);
+    rotation(2, 0) = 2.0f * (normalized.x * normalized.z - normalized.y * normalized.w);
 
-    rotation(0, 1) = 2.0f * (normalized.x * normalized.y + normalized.z * normalized.w);
-    rotation(1, 1) = 1.0f - 2.0f * (normalized.x * normalized.x - normalized.z * normalized.z);
-    rotation(1, 2) = 2.0f * (normalized.y * normalized.z + normalized.x * normalized.w);
+    rotation(0, 1) = 2.0f * (normalized.x * normalized.y - normalized.z * normalized.w);
+    rotation(1, 1) = 1.0f - 2.0f * (normalized.x * normalized.x + normalized.z * normalized.z);
+    rotation(2, 1) = 2.0f * (normalized.y * normalized.z + normalized.x * normalized.w);
 
-    rotation(0, 2) = 2.0f * (normalized.x * normalized.z - normalized.y * normalized.w);
-    rotation(2, 1) = 2.0f * (normalized.y * normalized.z - normalized.x * normalized.w);
-    rotation(2, 2) = 1.0f - 2.0f * (normalized.x * normalized.x - normalized.y * normalized.y);
+    rotation(0, 2) = 2.0f * (normalized.x * normalized.z + normalized.y * normalized.w);
+    rotation(1, 2) = 2.0f * (normalized.y * normalized.z - normalized.x * normalized.w);
+    rotation(2, 2) = 1.0f - 2.0f * (normalized.x * normalized.x + normalized.y * normalized.y);
 
     return rotation;
 }
