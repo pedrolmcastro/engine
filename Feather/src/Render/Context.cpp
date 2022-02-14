@@ -16,6 +16,7 @@ Render::Context::Context() {
     __Assert__(success, "Failed to initialize GLFW!");
 
     glfwSetErrorCallback([](int error, const char* message) {
+        // TODO: Use std::format()
         stringstream stream;
         stream << "GLFW Error " << error << ": " << message;
         __Assert__(false, stream.str().c_str());

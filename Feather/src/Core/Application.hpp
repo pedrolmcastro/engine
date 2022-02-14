@@ -9,6 +9,8 @@
 #include "Math/Vector.hpp"
 #include "Render/Window.hpp"
 #include "Render/Context.hpp"
+// Temporary
+#include "Render/Shader.hpp"
 
 namespace Feather {
     class Application {
@@ -27,6 +29,9 @@ namespace Feather {
         Layer::Stack layers;
     private:
         bool running = true;
+        // Temporary
+        unsigned vertexarray, vertexbuffer, indexbuffer;
+        Render::Shader shader;
 
         void OnEvent(Event::Event& event);
         bool OnWindowClose(Event::WindowClose& event);

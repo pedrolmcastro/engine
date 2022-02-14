@@ -7,7 +7,7 @@
 #include "Input/Key.hpp"
 
 
-#define Bind(function) [this](auto&&... args) -> decltype(auto) { return this->function(std::forward<decltype(args)>(args)...); }
+#define BindEvent(function) [this](auto&&... args) -> decltype(auto) { return this->function(std::forward<decltype(args)>(args)...); }
 
 #define __EventType__(type)                                     \
     static Type GetStaticType() { return type; }                \
