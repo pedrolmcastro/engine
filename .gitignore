@@ -36,3 +36,6 @@
 
 # Compiled External Libraries
 Vendor/GLFW/build
+
+# Local Configuration
+.vscode
