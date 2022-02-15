@@ -6,14 +6,6 @@ source .data.sh
 CONFIG=${1:-DEBUG}
 
 
-if [ $GLFW != "YES" ]; then
-    pushd Vendor/GLFW
-        ./build.sh
-    popd
-
-    sed -i "s/GLFW=\"$GLFW\"/GLFW=\"YES\"/g" .data.sh
-fi
-
 if [ $GLAD != "YES" ]; then
     pushd Vendor/Glad
         make clean
@@ -21,6 +13,14 @@ if [ $GLAD != "YES" ]; then
     popd
 
     sed -i "s/GLAD=\"$GLAD\"/GLAD=\"YES\"/g" .data.sh
+fi
+
+if [ $GLFW != "YES" ]; then
+    pushd Vendor/GLFW
+        ./build.sh
+    popd
+
+    sed -i "s/GLFW=\"$GLFW\"/GLFW=\"YES\"/g" .data.sh
 fi
 
 

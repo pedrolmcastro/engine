@@ -7,7 +7,7 @@ PCHIN  := $(SRCDIR)/Precompiled.hpp
 PCHOUT := $(PCHIN).gch
 
 CXXFLAGS += -std=c++2a
-CPPFLAGS += -I ../Vendor/GLFW/include -I ../Vendor/Glad/include
+CPPFLAGS += -I ../Vendor/Glad/include -I ../Vendor/GLFW/src/include
 
 
 ifeq ($(RELEASE), 1)
