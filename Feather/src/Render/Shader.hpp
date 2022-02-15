@@ -14,7 +14,7 @@ namespace Feather::Render {
         void Bind() const;
         void Unbind() const;
     private:
-        unsigned program;
+        unsigned program = 0;
 
         GLenum StringToType(const std::string& type) const;
         std::string Read(const std::filesystem::path& path) const;
