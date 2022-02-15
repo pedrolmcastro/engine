@@ -25,12 +25,12 @@ void Log::Print(Level level, const char* message, ...) {
     if (priority <= level) {
         scoped_lock lock(mtx);
 
-        time_t timer = time(NULL);
+        time_t timer = time(nullptr);
         tm* now = localtime(&timer);
 
         {
             Color color(colors[int(level)].first, colors[int(level)].second);
-            printf("[%02d:%02d:%02d] %s ", now->tm_hour, now->tm_min, now->tm_sec, bagdes[int(level)]);
+            cout << '[' << put_time(now, "%T") << "] " << bagdes[int(level)] << ' ';
 
             va_list args;
             va_start(args, message);
