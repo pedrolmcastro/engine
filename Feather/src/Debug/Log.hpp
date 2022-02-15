@@ -8,7 +8,7 @@ namespace Feather {
     class Log {
     public:
         enum class Level { TRACE, INFO, WARN, ERROR, FATAL };
-        static void SetPriority(Level priority_) { priority = priority_; }
+        static void SetPriority(Level level) { priority = level; }
 
         static void Print(Level level, const char* message, ...);
     private:
