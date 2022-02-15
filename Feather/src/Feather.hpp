@@ -19,6 +19,10 @@
 #include "Math/Vector.hpp"
 #include "Math/Quaternion.hpp"
 
+// TODO: Review Render Exposition
+#include "Render/Index.hpp"
+#include "Render/Vertex.hpp"
+#include "Render/Shader.hpp"
 #include "Render/Window.hpp"
 
 #include "Core/Entry.hpp"

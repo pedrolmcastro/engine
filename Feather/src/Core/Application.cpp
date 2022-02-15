@@ -6,19 +6,17 @@
 
 #include "Input/Input.hpp"
 
-#include "Math/Vector.hpp"
-
 #include "Render/Window.hpp"
 
 // Temporary
 #include "Render/Shader.hpp"
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 using namespace std;
 using namespace Feather;
 
 
-Application::Application(const string& name, Math::Vector2 size, bool vsync): window(name, size, BindEvent(OnEvent), vsync), shader("assets/shaders/Default.glsl") {
+Application::Application(const string& name, Math::Vector2 size, bool vsync): window(name, size, BindEvent(OnEvent), vsync) {
     Input::SetWindow(window);
 
     // Temporary
@@ -26,25 +24,18 @@ Application::Application(const string& name, Math::Vector2 size, bool vsync): wi
     glGenVertexArrays(1, &vertexarray);
     glBindVertexArray(vertexarray);
 
-    glGenBuffers(1, &vertexbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-
     float vertices[3 * 3] = {
         -0.5f, -0.5f, 0.0f,
          0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+         0.0f,  0.5f, 0.0f,
     };
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    vertexbuffer = Unique<Render::Vertex::Buffer>(sizeof(vertices), vertices);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-    glGenBuffers(1, &indexbuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
-
-    unsigned indices[3] = { 0, 1, 2 };
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    unsigned indices[3] = { 0, 1, 2, };
+    indexbuffer = Unique<Render::Index::Buffer>(sizeof(indices), indices);
 }
 
 void Application::Run() {
@@ -56,7 +47,7 @@ void Application::Run() {
 
         shader.Bind();
         glBindVertexArray(vertexarray);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, indexbuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
         if (!window.IsMinimized()) {
             for (Unique<Layer::Layer>& layer : layers) {

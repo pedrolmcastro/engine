@@ -10,6 +10,8 @@
 #include "Render/Window.hpp"
 #include "Render/Context.hpp"
 // Temporary
+#include "Render/Index.hpp"
+#include "Render/Vertex.hpp"
 #include "Render/Shader.hpp"
 
 namespace Feather {
@@ -30,8 +32,10 @@ namespace Feather {
     private:
         bool running = true;
         // Temporary
-        unsigned vertexarray, vertexbuffer, indexbuffer;
-        Render::Shader shader;
+        unsigned vertexarray; // Must be constructed before the vertexbuffer
+        Unique<Render::Index::Buffer> indexbuffer = nullptr;
+        Unique<Render::Vertex::Buffer> vertexbuffer = nullptr;
+        Render::Shader shader = {"assets/shaders/Default.glsl"};
 
         void OnEvent(Event::Event& event);
         bool OnWindowClose(Event::WindowClose& event);
