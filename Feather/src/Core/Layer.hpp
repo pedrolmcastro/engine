@@ -5,6 +5,7 @@
 #include "Core/Memory.hpp"
 #include "Core/Event.hpp"
 
+// TODO: Nested Classes
 namespace Feather::Layer {
 	enum class Type { LAYER, OVERLAY, };
 

@@ -18,6 +18,7 @@
 #define __EventCategory__(category) Category GetCategory() const override { return category; }
 
 
+// TODO: Nested Classes
 namespace Feather::Event {
     enum class Type {
         WINDOW_RESIZE, WINDOW_MOVE, WINDOW_FOCUS, WINDOW_UNFOCUS, WINDOW_HOVER, WINDOW_UNHOVER, WINDOW_CLOSE,
