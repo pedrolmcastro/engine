@@ -20,7 +20,7 @@ using namespace Feather;
 
 Render::Window::Window(const string& name, const Math::Vector2& size, function<void (Event::Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
     window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
-    __Assert__(window != nullptr, "Could not create the window!");
+    Assert(window != nullptr, "Failed to create window!");
 
     glfwSetWindowUserPointer(window, this);
     Context::Load(window);

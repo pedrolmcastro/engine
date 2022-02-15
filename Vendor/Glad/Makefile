@@ -10,12 +10,10 @@ SRCS := $(SRCDIR)/glad.c
 OBJS := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 
-# Create Static Library
 $(TGT): $(OBJS)
 	@$(AR) rcs $(TGT) $(OBJS)
 	@cp $(TGT) ../../Sandbox/lib
 
-# Compile Object Files
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@

@@ -1,4 +1,3 @@
-#include "Configuration.hpp"
 #include "Feather.hpp"
 
 using namespace std;

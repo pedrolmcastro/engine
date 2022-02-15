@@ -2,5 +2,5 @@
 GLFW="NO"
 GLAD="NO"
 
-# Sandbox Configuration
+# Build Configuration
 LAST="DEBUG"

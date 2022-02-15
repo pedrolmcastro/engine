@@ -13,13 +13,13 @@ using namespace Feather;
 
 Render::Context::Context() {
     int success = glfwInit();
-    __Assert__(success, "Failed to initialize GLFW!");
+    Assert(success, "Failed to initialize GLFW!");
 
     glfwSetErrorCallback([](int error, const char* message) {
         // TODO: Use std::format()
         stringstream stream;
         stream << "GLFW Error " << error << ": " << message;
-        __Assert__(false, stream.str().c_str());
+        Assert(false, stream.str().c_str());
     });
 }
 
@@ -30,5 +30,5 @@ Render::Context::~Context() {
 void Render::Context::Load(GLFWwindow* window) {
     glfwMakeContextCurrent(window);
     int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	__Assert__(success, "Failed to initialize Glad!");
+	Assert(success, "Failed to initialize Glad!");
 }

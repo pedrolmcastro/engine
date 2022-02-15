@@ -38,7 +38,7 @@ GLenum Render::Shader::StringToType(const std::string& type) const {
     // TODO: Use std::format()
     stringstream stream;
     stream << "Unknown shader type: " << type;
-    __Assert__(false, stream.str().c_str());
+    Assert(false, stream.str().c_str());
     return 0;
 }
 
@@ -46,7 +46,7 @@ GLenum Render::Shader::StringToType(const std::string& type) const {
 string Render::Shader::Read(const filesystem::path& path) const {
     ifstream file(path);
     // TODO: Use std::format()
-    __Assert__(file, "Failed to open file");
+    Assert(file, "Failed to open file");
 
     stringstream buffer;
     buffer << file.rdbuf();
@@ -59,13 +59,13 @@ unordered_map<GLenum, string> Render::Shader::Split(const string& file) const {
 
     while (position != string::npos) {
         size_t endofline = file.find_first_of("\r\n", position);
-        __Assert__(endofline != string::npos, "Expected new line after shader type");
+        Assert(endofline != string::npos, "Expected new line after shader type");
         
         size_t begin = position + 6;
         string type = file.substr(begin, endofline - begin);
 
         size_t next = file.find_first_not_of("\r\n", endofline);
-        __Assert__(next != string::npos, "Expected source code after shader type");
+        Assert(next != string::npos, "Expected source code after shader type");
 
         position = file.find("#type", next);
         sources[StringToType(type)] = position == string::npos ? file.substr(next) : file.substr(next, position - next);
@@ -110,7 +110,7 @@ void Render::Shader::Compile(const unordered_map<GLenum, string>& sources) {
             // TODO: Use std::format()
             stringstream stream;
             stream << "Failed to compile shader: " << message.data();
-            __Assert__(false, stream.str().c_str());
+            Assert(false, stream.str().c_str());
             return;
         }
 
@@ -140,7 +140,7 @@ void Render::Shader::Compile(const unordered_map<GLenum, string>& sources) {
         // TODO: Use std::format()
         stringstream stream;
         stream << "Failed to compile shader: " << message.data();
-        __Assert__(false, stream.str().c_str());
+        Assert(false, stream.str().c_str());
         return;
     }
 

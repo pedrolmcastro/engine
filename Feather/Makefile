@@ -7,7 +7,14 @@ PCHIN  := $(SRCDIR)/Precompiled.hpp
 PCHOUT := $(PCHIN).gch
 
 CXXFLAGS += -std=c++2a
-CPPFLAGS += -O3 -I ../Vendor/GLFW/include -I ../Vendor/Glad/include
+CPPFLAGS += -I ../Vendor/GLFW/include -I ../Vendor/Glad/include
+
+
+ifeq ($(RELEASE), 1)
+	CPPFLAGS += -O3
+else # DEBUG
+	CPPFLAGS += -O0 -g -DLOGGING -DASSERTING
+endif
 
 
 SRCS := $(shell find $(SRCDIR) -name *.cpp)
@@ -18,17 +25,14 @@ INCDIR   := $(shell find $(SRCDIR) -type d)
 CPPFLAGS += $(addprefix -I, $(INCDIR))
 
 
-# Create Static Library
 $(TGT): $(OBJS)
 	@$(AR) rcs $(TGT) $(OBJS)
 	@cp $(TGT) ../Sandbox/lib
 
-# Compile Object Files
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(PCHOUT)
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -MMD -MP -c $< -o $@
 
-# Compile Precompiled Header
 $(PCHOUT): $(PCHIN)
 	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(PCHIN) -o $(PCHOUT)
 
