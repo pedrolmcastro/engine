@@ -2,7 +2,7 @@ pushd() { builtin pushd "$@" > /dev/null; }
 popd()  { builtin popd  "$@" > /dev/null; }
 
 
-rm -r build/*
+rm -r build
 cmake -S src -B build -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF
 
 pushd build
