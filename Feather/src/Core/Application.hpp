@@ -35,7 +35,7 @@ namespace Feather {
         unsigned vertexarray; // Must be constructed before the vertexbuffer
         Unique<Render::Index::Buffer> indexbuffer = nullptr;
         Unique<Render::Vertex::Buffer> vertexbuffer = nullptr;
-        Render::Shader shader = {"assets/shaders/Default.glsl"};
+        Render::Shader shader = { "assets/shaders/Default.glsl" };
 
         void OnEvent(Event::Event& event);
         bool OnWindowClose(Event::WindowClose& event);

@@ -1,5 +1,6 @@
 #include "Precompiled.hpp"
 
+#include "Render/Layout.hpp"
 #include "Render/Vertex.hpp"
 
 #include <glad/glad.h>
@@ -8,7 +9,7 @@ using namespace std;
 using namespace Feather;
 
 
-Render::Vertex::Buffer::Buffer(size_t size, const void* vertices) {
+Render::Vertex::Buffer::Buffer(const Layout& layout, size_t size, const void* vertices): layout(layout) {
     glCreateBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, size, vertices, vertices == nullptr ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
