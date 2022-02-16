@@ -22,6 +22,8 @@ namespace Feather::Render::Vertex {
 		std::size_t GetStride() const { return stride; }
 		const std::vector<Element>& GetElements() const { return elements; }
 
+		std::vector<Element>::const_iterator begin() const { return elements.begin(); }
+		std::vector<Element>::const_iterator end() const { return elements.end(); }
 		std::vector<Element>::iterator begin() { return elements.begin(); }
 		std::vector<Element>::iterator end() { return elements.end(); }
 	private:

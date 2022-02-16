@@ -6,7 +6,6 @@
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
 #include "Core/Memory.hpp"
-#include "Math/Vector.hpp"
 #include "Render/Window.hpp"
 #include "Render/Context.hpp"
 // Temporary
@@ -26,15 +25,13 @@ namespace Feather {
         void Run();
         void Close() { running = false; }
     protected:
-        Render::Context context; // Must be constructed before the window
+        Render::Context context; // Constructed before window
         Render::Window window;
         Layer::Stack layers;
     private:
         bool running = true;
         // Temporary
-        unsigned vertexarray; // Must be constructed before the vertexbuffer
-        Unique<Render::Index::Buffer> indexbuffer = nullptr;
-        Unique<Render::Vertex::Buffer> vertexbuffer = nullptr;
+        Render::Vertex::Array vertexarray;
         Render::Shader shader = { "assets/shaders/Default.glsl" };
 
         void OnEvent(Event::Event& event);
