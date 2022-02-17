@@ -12,7 +12,7 @@ class GLFWwindow;
 namespace Feather::Render {
     class Window {
     public:
-        Window(const std::string& name, const Math::Vector2& size, std::function<void (Event::Event&)> callback = {}, bool vsync = true);
+        Window(const std::string& name, const Math::Vector2& size, std::function<void (Event&)> callback = {}, bool vsync = true);
         ~Window();
 
         void OnUpdate();
@@ -41,6 +41,6 @@ namespace Feather::Render {
         std::string name;
         GLFWwindow* window;
         Math::Vector2 size, position;
-        std::function<void (Event::Event&)> callback;
+        std::function<void (Event&)> callback;
     };
 }

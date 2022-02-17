@@ -6,21 +6,22 @@
 #include "Core/Event.hpp"
 #include "Core/Time.hpp"
 
-// TODO: Nested Classes
-namespace Feather::Layer {
+namespace Feather {
 	enum class Type { LAYER, OVERLAY, };
 
 	class Layer {
 	public:
+		class Stack;
+
 		virtual ~Layer() = default;
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate(Time delta) {}
-		virtual void OnEvent(Event::Event& event) {}
+		virtual void OnEvent(Event& event) {}
 	};
 
-    class Stack {
+    class Layer::Stack {
     public:
         ~Stack();
 

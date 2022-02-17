@@ -24,7 +24,7 @@ void Layer::Stack::Push(Unique<Layer> layer, Type type) {
     }
 }
 
-Unique<Layer::Layer> Layer::Stack::Pop(Type type) {
+Unique<Layer> Layer::Stack::Pop(Type type) {
     if (type == Type::LAYER && layers == 0 || type == Type::OVERLAY && overlays == 0) return nullptr;
 
     Unique<Layer> layer = nullptr;

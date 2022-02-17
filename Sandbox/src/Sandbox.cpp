@@ -4,7 +4,7 @@ using namespace std;
 using namespace Feather;
 
 
-class Runtime: public Layer::Layer {
+class Runtime: public Layer {
 public:
     void OnAttach() override {
         Render::Vertex::Layout layout = {
@@ -25,15 +25,13 @@ public:
     }
 
     void OnUpdate(Time delta) override {
-        Trace("%f", delta.GetSeconds());
-
         shader.Bind();
         vertexarray.Bind();
 
         Render::Command::Draw(vertexarray);
     }
 
-    void OnEvent(Event::Event& event) override {
+    void OnEvent(Event& event) override {
         Event::Dispatcher dispatcher(event);
     }
 private:

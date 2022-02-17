@@ -29,7 +29,7 @@ namespace Feather {
         std::chrono::high_resolution_clock clock;
         std::chrono::high_resolution_clock::time_point last = clock.now();
 
-        void OnEvent(Event::Event& event);
+        void OnEvent(Event& event);
         bool OnWindowClose(Event::WindowClose& event);
         bool OnWindowResize(Event::WindowResize& event);
     };

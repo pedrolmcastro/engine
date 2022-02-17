@@ -29,14 +29,14 @@ void Application::Run() {
         last = now;
 
         if (!window.IsMinimized()) {
-            for (Unique<Layer::Layer>& layer : layers) {
+            for (Unique<Layer>& layer : layers) {
                 layer->OnUpdate(delta);
             }
         }
     }
 }
 
-void Application::OnEvent(Event::Event& event) {
+void Application::OnEvent(Event& event) {
     Event::Dispatcher dispatcher(event);
     dispatcher.Dispatch<Event::WindowClose>(BindEvent(OnWindowClose));
     dispatcher.Dispatch<Event::WindowResize>(BindEvent(OnWindowResize));

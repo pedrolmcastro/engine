@@ -18,7 +18,7 @@ using namespace std;
 using namespace Feather;
 
 
-Render::Window::Window(const string& name, const Math::Vector2& size, function<void (Event::Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
+Render::Window::Window(const string& name, const Math::Vector2& size, function<void (Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
     window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
     Assert(window != nullptr, "Failed to create window!");
 

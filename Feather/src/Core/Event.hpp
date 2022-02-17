@@ -18,31 +18,47 @@
 #define __EventCategory__(category) Category GetCategory() const override { return category; }
 
 
-// TODO: Nested Classes
-namespace Feather::Event {
-    enum class Type {
-        WINDOW_RESIZE, WINDOW_MOVE, WINDOW_FOCUS, WINDOW_UNFOCUS, WINDOW_HOVER, WINDOW_UNHOVER, WINDOW_CLOSE,
-        MOUSE_PRESS, MOUSE_RELEASE, MOUSE_SCROLL, MOUSE_MOVE,
-        KEY_PRESS, KEY_RELEASE,
-    };
-
-    enum class Category {
-        WINDOW   = 1 << 0,
-        INPUT    = 1 << 1,
-        MOUSE    = 1 << 2,
-        KEY      = 1 << 3,
-    };
-
-    inline Category operator|(Category first, Category second) { return Category(int(first) | int(second)); }
-    inline bool operator&(Category first, Category second) { return int(first) & int(second); }
-
-
+namespace Feather {
     class Event {
     public:
+        enum class Type {
+            WINDOW_RESIZE, WINDOW_MOVE, WINDOW_FOCUS, WINDOW_UNFOCUS, WINDOW_HOVER, WINDOW_UNHOVER, WINDOW_CLOSE,
+            MOUSE_PRESS, MOUSE_RELEASE, MOUSE_SCROLL, MOUSE_MOVE,
+            KEY_PRESS, KEY_RELEASE,
+        };
+
+        enum class Category {
+            WINDOW   = 1 << 0,
+            INPUT    = 1 << 1,
+            MOUSE    = 1 << 2,
+            KEY      = 1 << 3,
+        };
+
+        class Dispatcher;
+
+        class WindowMove;
+        class WindowFocus;
+        class WindowHover;
+        class WindowClose;
+        class WindowResize;
+        class WindowUnfocus;
+        class WindowUnhover;
+
+        class MouseMove;
+        class MousePress;
+        class MouseScroll;
+        class MouseRelease;
+
+        class KeyPress;
+        class KeyRelease;
+
+
         bool handled = false;
 
         virtual ~Event() = default;
 
+        friend Category operator|(Category first, Category second) { return Category(int(first) | int(second)); }
+        friend bool operator&(Category first, Category second) { return int(first) & int(second); }
         bool In(Category category) { return GetCategory() & category; }
 
         virtual Type GetType() const = 0;
@@ -53,8 +69,8 @@ namespace Feather::Event {
     };
 
 
-    // TODO: Use an EventBus
-    class Dispatcher {
+    // TODO: Event Bus
+    class Event::Dispatcher {
     public:
         Dispatcher(Event& event): event(event) {}
 
@@ -70,7 +86,7 @@ namespace Feather::Event {
     };
 
 
-    class WindowResize: public Event {
+    class Event::WindowResize: public Event {
     public:
         WindowResize(const Math::Vector2& size): size(size) {}
 
@@ -90,7 +106,7 @@ namespace Feather::Event {
         Math::Vector2 size;
     };
 
-    class WindowMove: public Event {
+    class Event::WindowMove: public Event {
     public:
         WindowMove(const Math::Vector2& position): position(position) {}
 
@@ -110,35 +126,35 @@ namespace Feather::Event {
         Math::Vector2 position;
     };
 
-    class WindowFocus: public Event {
+    class Event::WindowFocus: public Event {
     public:
         __EventString__("WindowFocus");
         __EventType__(Type::WINDOW_FOCUS);
         __EventCategory__(Category::WINDOW);
     };
 
-    class WindowUnfocus: public Event {
+    class Event::WindowUnfocus: public Event {
     public:
         __EventString__("WindowUnfocus");
         __EventType__(Type::WINDOW_UNFOCUS);
         __EventCategory__(Category::WINDOW);
     };
 
-    class WindowHover: public Event {
+    class Event::WindowHover: public Event {
     public:
         __EventString__("WindowHover");
         __EventType__(Type::WINDOW_HOVER);
         __EventCategory__(Category::WINDOW);
     };
 
-    class WindowUnhover: public Event {
+    class Event::WindowUnhover: public Event {
     public:
         __EventString__("WindowUnhover");
         __EventType__(Type::WINDOW_UNHOVER);
         __EventCategory__(Category::WINDOW);
     };
 
-    class WindowClose: public Event {
+    class Event::WindowClose: public Event {
     public:
         __EventString__("WindowClose");
         __EventType__(Type::WINDOW_CLOSE);
@@ -157,7 +173,7 @@ namespace Feather::Event {
         __Mouse__(Mouse button): button(button) {}
     };
 
-    class MousePress: public __Mouse__ {
+    class Event::MousePress: public __Mouse__ {
     public:
         MousePress(Mouse button): __Mouse__(button) {}
 
@@ -170,7 +186,7 @@ namespace Feather::Event {
         __EventType__(Type::MOUSE_PRESS);
     };
 
-    class MouseRelease: public __Mouse__ {
+    class Event::MouseRelease: public __Mouse__ {
     public:
         MouseRelease(Mouse button): __Mouse__(button) {}
 
@@ -183,7 +199,7 @@ namespace Feather::Event {
         __EventType__(Type::MOUSE_RELEASE);
     };
 
-    class MouseScroll: public Event {
+    class Event::MouseScroll: public Event {
     public:
         MouseScroll(const Math::Vector2& offset): offset(offset) {}
 
@@ -203,7 +219,7 @@ namespace Feather::Event {
         Math::Vector2 offset;
     };
 
-    class MouseMove: public Event {
+    class Event::MouseMove: public Event {
     public:
         MouseMove(const Math::Vector2& position): position(position) {} 
 
@@ -235,7 +251,7 @@ namespace Feather::Event {
         __Key__(Key key): key(key) {}
     };
 
-    class KeyPress: public __Key__ {
+    class Event::KeyPress: public __Key__ {
     public:
         KeyPress(Key key, bool repeat): __Key__(key), repeat(repeat) {}
 
@@ -252,7 +268,7 @@ namespace Feather::Event {
         bool repeat;
     };
 
-    class KeyRelease: public __Key__ {
+    class Event::KeyRelease: public __Key__ {
     public:
         KeyRelease(Key key): __Key__(key) {}
 
