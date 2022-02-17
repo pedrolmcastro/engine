@@ -24,5 +24,6 @@
 #include "Render/Vertex.hpp"
 #include "Render/Shader.hpp"
 #include "Render/Window.hpp"
+#include "Render/Command.hpp"
 
 #include "Core/Entry.hpp"
