@@ -25,7 +25,9 @@ namespace Feather {
         Render::Window window;
         Layer::Stack layers;
     private:
-        bool running = true;        
+        bool running = true;
+        std::chrono::high_resolution_clock clock;
+        std::chrono::high_resolution_clock::time_point last = clock.now();
 
         void OnEvent(Event::Event& event);
         bool OnWindowClose(Event::WindowClose& event);

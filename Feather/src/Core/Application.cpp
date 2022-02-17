@@ -1,5 +1,6 @@
 #include "Precompiled.hpp"
 
+#include "Core/Time.hpp"
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
 #include "Core/Memory.hpp"
@@ -23,9 +24,13 @@ void Application::Run() {
         window.OnUpdate();
         Render::Command::Clear();
 
+        chrono::high_resolution_clock::time_point now = clock.now();
+        Time delta(chrono::duration<float>(now - last).count());
+        last = now;
+
         if (!window.IsMinimized()) {
             for (Unique<Layer::Layer>& layer : layers) {
-                layer->OnUpdate();
+                layer->OnUpdate(delta);
             }
         }
     }

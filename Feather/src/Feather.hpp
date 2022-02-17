@@ -3,6 +3,7 @@
 
 #include "Precompiled.hpp"
 
+#include "Core/Time.hpp"
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
 #include "Core/Memory.hpp"

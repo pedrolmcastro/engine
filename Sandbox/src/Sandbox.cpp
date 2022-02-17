@@ -24,7 +24,9 @@ public:
         vertexarray.SetIndex(Shared<Render::Index::Buffer>(sizeof(indices), indices));
     }
 
-    void OnUpdate() override {
+    void OnUpdate(Time delta) override {
+        Trace("%f", delta.GetSeconds());
+
         shader.Bind();
         vertexarray.Bind();
 

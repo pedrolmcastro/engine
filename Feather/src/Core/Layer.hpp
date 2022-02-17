@@ -4,6 +4,7 @@
 #include "Precompiled.hpp"
 #include "Core/Memory.hpp"
 #include "Core/Event.hpp"
+#include "Core/Time.hpp"
 
 // TODO: Nested Classes
 namespace Feather::Layer {
@@ -15,7 +16,7 @@ namespace Feather::Layer {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Time delta) {}
 		virtual void OnEvent(Event::Event& event) {}
 	};
 

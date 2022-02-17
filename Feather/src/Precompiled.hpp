@@ -3,6 +3,7 @@
 #include <array>
 #include <mutex>
 #include <memory>
+#include <chrono>
 #include <vector>
 #include <string>
 #include <cstdio>
