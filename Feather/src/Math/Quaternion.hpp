@@ -1,10 +1,13 @@
 #pragma once
 
 
+#include "Precompiled.hpp"
+
+#include "Math/Bool.hpp"
 #include "Math/Vector.hpp"
+#include "Debug/Assert.hpp"
 
 // TODO: Use operator<<()
-// TODO: Add Relational Operators
 namespace Feather::Math {
     class Quaternion {
     public:
@@ -42,6 +45,14 @@ namespace Feather::Math {
 
         Quaternion operator+() const { return *this; }
         Quaternion operator-() const { return *this * -1.0f; }
+
+
+        Bool4 operator==(const Quaternion& other) { return Bool4(x == other.x, y == other.y, z == other.z, w == other.w); }
+        Bool4 operator!=(const Quaternion& other) { return Bool4(x != other.x, y != other.y, z != other.z, w != other.w); }
+        Bool4 operator<=(const Quaternion& other) { return Bool4(x <= other.x, y <= other.y, z <= other.z, w <= other.w); }
+        Bool4 operator< (const Quaternion& other) { return Bool4(x <  other.x, y <  other.y, z <  other.z, w <  other.w); }
+        Bool4 operator>=(const Quaternion& other) { return Bool4(x >= other.x, y >= other.y, z >= other.z, w >= other.w); }
+        Bool4 operator> (const Quaternion& other) { return Bool4(x >  other.x, y >  other.y, z >  other.z, w >  other.w); }
 
 
         float& operator[](std::size_t index) {

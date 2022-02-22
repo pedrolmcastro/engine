@@ -2,11 +2,11 @@
 
 
 #include "Precompiled.hpp"
+
+#include "Math/Bool.hpp"
 #include "Debug/Assert.hpp"
 
 // TODO: Use operator<<()
-// TODO: Add Bool Vectors
-// TODO: Add Relational Operators
 namespace Feather::Math {
     template<typename T> class __Vector2__ {
     public:
@@ -40,6 +40,14 @@ namespace Feather::Math {
 
         __Vector2__ operator+() const { return *this; }
         __Vector2__ operator-() const { return *this * -1; }
+
+
+        Bool2 operator==(const __Vector2__& other) { return Bool2(x == other.x, y == other.y); }
+        Bool2 operator!=(const __Vector2__& other) { return Bool2(x != other.x, y != other.y); }
+        Bool2 operator<=(const __Vector2__& other) { return Bool2(x <= other.x, y <= other.y); }
+        Bool2 operator< (const __Vector2__& other) { return Bool2(x <  other.x, y <  other.y); }
+        Bool2 operator>=(const __Vector2__& other) { return Bool2(x >= other.x, y >= other.y); }
+        Bool2 operator> (const __Vector2__& other) { return Bool2(x >  other.x, y >  other.y); }
 
 
         T& operator[](std::size_t index) {
@@ -130,6 +138,14 @@ namespace Feather::Math {
 
         __Vector3__ operator+() const { return *this; }
         __Vector3__ operator-() const { return *this * -1; }
+
+
+        Bool3 operator==(const __Vector3__& other) { return Bool3(x == other.x, y == other.y, z == other.z); }
+        Bool3 operator!=(const __Vector3__& other) { return Bool3(x != other.x, y != other.y, z != other.z); }
+        Bool3 operator<=(const __Vector3__& other) { return Bool3(x <= other.x, y <= other.y, z <= other.z); }
+        Bool3 operator< (const __Vector3__& other) { return Bool3(x <  other.x, y <  other.y, z <  other.z); }
+        Bool3 operator>=(const __Vector3__& other) { return Bool3(x >= other.x, y >= other.y, z >= other.z); }
+        Bool3 operator> (const __Vector3__& other) { return Bool3(x >  other.x, y >  other.y, z >  other.z); }
 
 
         T& operator[](std::size_t index) {
@@ -223,6 +239,14 @@ namespace Feather::Math {
 
         __Vector4__ operator+() const { return *this; }
         __Vector4__ operator-() const { return *this * -1; }
+
+
+        Bool4 operator==(const __Vector4__& other) { return Bool4(x == other.x, y == other.y, z == other.z, w == other.w); }
+        Bool4 operator!=(const __Vector4__& other) { return Bool4(x != other.x, y != other.y, z != other.z, w != other.w); }
+        Bool4 operator<=(const __Vector4__& other) { return Bool4(x <= other.x, y <= other.y, z <= other.z, w <= other.w); }
+        Bool4 operator< (const __Vector4__& other) { return Bool4(x <  other.x, y <  other.y, z <  other.z, w <  other.w); }
+        Bool4 operator>=(const __Vector4__& other) { return Bool4(x >= other.x, y >= other.y, z >= other.z, w >= other.w); }
+        Bool4 operator> (const __Vector4__& other) { return Bool4(x >  other.x, y >  other.y, z >  other.z, w >  other.w); }
 
 
         T& operator[](std::size_t index) {
