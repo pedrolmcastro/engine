@@ -10,7 +10,8 @@ using namespace Feather;
 
 Render::Index::Buffer::Buffer(size_t size, const unsigned* vertices): count(size / sizeof(unsigned)) {
     glCreateBuffers(1, &buffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+
+    Bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 }
 

@@ -14,7 +14,8 @@ using namespace Feather;
 
 Render::Vertex::Buffer::Buffer(const Layout& layout, size_t size, const void* vertices): layout(layout) {
     glCreateBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+
+    Bind();
     glBufferData(GL_ARRAY_BUFFER, size, vertices, vertices == nullptr ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 }
 
@@ -31,14 +32,14 @@ void Render::Vertex::Buffer::Unbind() const {
 }
 
 void Render::Vertex::Buffer::SetData(size_t size, const void* data) {
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    Bind();
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 }
 
 
 Render::Vertex::Array::Array() {
     glCreateVertexArrays(1, &array);
-    glBindVertexArray(array);
+    Bind();
 }
 
 Render::Vertex::Array::~Array() {
