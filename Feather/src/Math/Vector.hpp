@@ -2,48 +2,66 @@
 
 
 #include "Precompiled.hpp"
-
-
-#define __VectorFunctions__(type)                                                                                                       \
-    inline type operator+(type first, const type& second) { return first += second; }                                                   \
-    inline type operator-(type first, const type& second) { return first -= second; }                                                   \
-    inline type operator*(type first, const type& second) { return first *= second; }                                                   \
-    inline type operator/(type first, const type& second) { return first /= second; }                                                   \
-                                                                                                                                        \
-    inline type operator+(type vector, float scalar) { return vector += scalar; }                                                       \
-    inline type operator-(type vector, float scalar) { return vector -= scalar; }                                                       \
-    inline type operator*(type vector, float scalar) { return vector *= scalar; }                                                       \
-    inline type operator/(type vector, float scalar) { return vector /= scalar; }                                                       \
-                                                                                                                                        \
-    inline type operator-(const type& vector) { return vector * -1.0f; }                                                                \
-                                                                                                                                        \
-    inline float Norm(const type& vector) { return std::sqrt(Dot(vector, vector)); }                                                    \
-    inline type Normalize(const type& vector) { return vector * (1.0f / Norm(vector)); }                                                \
-    inline float Distance(const type& first, const type& second) { return Norm(first - second); }                                       \
-    inline bool Orthogonal(const type& first, const type& second) { return Dot(first, second) < 10e-5; }                                \
-    inline float Euler(const type& first, const type& second) { return std::acos(Dot(first, second) / (Norm(first) * Norm(second))); }  \
-
+#include "Debug/Assert.hpp"
 
 // TODO: Use operator<<()
-// TODO: Add Forward(), Reflect() and Refract()
+// TODO: Add Bool Vectors
+// TODO: Add Relational Operators
 namespace Feather::Math {
-    class Vector2 {
+    template<typename T> class __Vector2__ {
     public:
-        union { float x, s, u, r; };
-        union { float y, t, v, g; };
+        union { T x, s, u, r; };
+        union { T y, t, v, g; };
 
-        Vector2(float x, float y): x(x), y(y) {}
-        Vector2(float scalar = 0.0f): x(scalar), y(scalar) {}
 
-        Vector2& operator+=(const Vector2& other) { x += other.x; y += other.y; return *this; }
-        Vector2& operator-=(const Vector2& other) { x -= other.x; y -= other.y; return *this; }
-        Vector2& operator*=(const Vector2& other) { x *= other.x; y *= other.y; return *this; }
-        Vector2& operator/=(const Vector2& other) { x /= other.x; y /= other.y; return *this; }
+        __Vector2__(T x, T y): x(x), y(y) {}
+        __Vector2__(T scalar = 0): x(scalar), y(scalar) {}
 
-        Vector2& operator+=(float scalar) { x += scalar; y += scalar; return *this; }
-        Vector2& operator-=(float scalar) { x -= scalar; y -= scalar; return *this; }
-        Vector2& operator*=(float scalar) { x *= scalar; y *= scalar; return *this; }
-        Vector2& operator/=(float scalar) { x /= scalar; y /= scalar; return *this; }
+
+        __Vector2__& operator+=(const __Vector2__& other) { x += other.x; y += other.y; return *this; }
+        __Vector2__& operator-=(const __Vector2__& other) { x -= other.x; y -= other.y; return *this; }
+        __Vector2__& operator*=(const __Vector2__& other) { x *= other.x; y *= other.y; return *this; }
+        __Vector2__& operator/=(const __Vector2__& other) { x /= other.x; y /= other.y; return *this; }
+
+        __Vector2__ operator+(const __Vector2__& other) const { return __Vector2__(*this) += other; }
+        __Vector2__ operator-(const __Vector2__& other) const { return __Vector2__(*this) -= other; }
+        __Vector2__ operator*(const __Vector2__& other) const { return __Vector2__(*this) *= other; }
+        __Vector2__ operator/(const __Vector2__& other) const { return __Vector2__(*this) /= other; }
+
+        __Vector2__& operator+=(T scalar) { x += scalar; y += scalar; return *this; }
+        __Vector2__& operator-=(T scalar) { x -= scalar; y -= scalar; return *this; }
+        __Vector2__& operator*=(T scalar) { x *= scalar; y *= scalar; return *this; }
+        __Vector2__& operator/=(T scalar) { x /= scalar; y /= scalar; return *this; }
+
+        __Vector2__ operator+(T scalar) const { return __Vector2__(*this) += scalar; }
+        __Vector2__ operator-(T scalar) const { return __Vector2__(*this) -= scalar; }
+        __Vector2__ operator*(T scalar) const { return __Vector2__(*this) *= scalar; }
+        __Vector2__ operator/(T scalar) const { return __Vector2__(*this) /= scalar; }
+
+        __Vector2__ operator+() const { return *this; }
+        __Vector2__ operator-() const { return *this * -1; }
+
+
+        T& operator[](std::size_t index) {
+            switch(index) {
+                case 0: return x;
+                case 1: return y;
+            }
+
+            Assert(index < 2, "Invalid vector index!");
+            return x;
+        }
+
+        T operator[](std::size_t index) const {
+            switch(index) {
+                case 0: return x;
+                case 1: return y;
+            }
+
+            Assert(index < 2, "Invalid vector index!");
+            return 0;
+        }
+
 
         operator std::string() const {
             std::stringstream stream;
@@ -51,32 +69,91 @@ namespace Feather::Math {
             stream << '[' << x << ", " << y << ']';
             return stream.str();
         }
+
+
+        T Dot(const __Vector2__& other) const { return x * other.x + y * other.y; }
+        T Cross(const __Vector2__& other) const { return x * other.y - y * other.x; }
+
+        T Length() const { return std::sqrt(Dot(*this)); }
+        T Distance(const __Vector2__& other) const { return (*this - other).Length(); }
+        __Vector2__ Normalize() const { T length = Length(); return length != 0 ? *this * (1 / Length()) : *this; }
+
+        bool Orthogonal(const __Vector2__& other) const { return Dot(other) < 10e-5; }
+        T Euler(const __Vector2__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
+
+
+        __Vector2__ Forward(const __Vector2__& incident, const __Vector2__& reference) { return reference.Dot(incident) < 0 ? *this : - *this; }
+        __Vector2__ Reflect(const __Vector2__& normal_) const { __Vector2__ normal = normal_.Normalize(); return *this - normal * (2 * normal.Dot(*this)); }
+
+        __Vector2__ Refract(const __Vector2__& normal_, float ratio) const {
+            __Vector2__ incident = Normalize();
+            __Vector2__ normal = normal_.Normalize();
+
+            T dot = normal.Dot(incident);
+            float k = 1.0f - ratio * ratio * (1.0f - dot * dot);
+            return k < 0.0f ? __Vector2__() : incident * ratio - normal * (ratio * dot + std::sqrt(k));
+        }
     };
 
-    float Cross(const Vector2& first, const Vector2& second);
-    float Dot(const Vector2& first, const Vector2& second);
-    __VectorFunctions__(Vector2);
 
-
-    class Vector3 {
+    template<typename T> class __Vector3__ {
     public:
-        union { float x, s, u, r; };
-        union { float y, t, v, g; };
-        union { float z, p, w, b; };
+        union { T x, s, u, r; };
+        union { T y, t, v, g; };
+        union { T z, p, w, b; };
 
-        Vector3(float x, float y, float z): x(x), y(y), z(z) {}
-        Vector3(float scalar = 0.0f): x(scalar), y(scalar), z(scalar) {}
-        Vector3(const Vector2& vector, float z = 0.0f): x(vector.x), y(vector.y), z(z) {}
 
-        Vector3& operator+=(const Vector3& other) { x += other.x; y += other.y; z += other.z; return *this; }
-        Vector3& operator-=(const Vector3& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
-        Vector3& operator*=(const Vector3& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
-        Vector3& operator/=(const Vector3& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
+        __Vector3__(T x, T y, T z): x(x), y(y), z(z) {}
+        __Vector3__(T scalar = 0): x(scalar), y(scalar), z(scalar) {}
+        __Vector3__(const __Vector2__<T>& vector, T z = 0): x(vector.x), y(vector.y), z(z) {}
 
-        Vector3& operator+=(float scalar) { x += scalar; y += scalar; z += scalar; return *this; }
-        Vector3& operator-=(float scalar) { x -= scalar; y -= scalar; z -= scalar; return *this; }
-        Vector3& operator*=(float scalar) { x *= scalar; y *= scalar; z *= scalar; return *this; }
-        Vector3& operator/=(float scalar) { x /= scalar; y /= scalar; z /= scalar; return *this; }
+
+        __Vector3__& operator+=(const __Vector3__& other) { x += other.x; y += other.y; z += other.z; return *this; }
+        __Vector3__& operator-=(const __Vector3__& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
+        __Vector3__& operator*=(const __Vector3__& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
+        __Vector3__& operator/=(const __Vector3__& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
+
+        __Vector3__ operator+(const __Vector3__& other) const { return __Vector3__(*this) += other; }
+        __Vector3__ operator-(const __Vector3__& other) const { return __Vector3__(*this) -= other; }
+        __Vector3__ operator*(const __Vector3__& other) const { return __Vector3__(*this) *= other; }
+        __Vector3__ operator/(const __Vector3__& other) const { return __Vector3__(*this) /= other; }
+
+        __Vector3__& operator+=(T scalar) { x += scalar; y += scalar; z += scalar; return *this; }
+        __Vector3__& operator-=(T scalar) { x -= scalar; y -= scalar; z -= scalar; return *this; }
+        __Vector3__& operator*=(T scalar) { x *= scalar; y *= scalar; z *= scalar; return *this; }
+        __Vector3__& operator/=(T scalar) { x /= scalar; y /= scalar; z /= scalar; return *this; }
+
+        __Vector3__ operator+(T scalar) const { return __Vector3__(*this) += scalar; }
+        __Vector3__ operator-(T scalar) const { return __Vector3__(*this) -= scalar; }
+        __Vector3__ operator*(T scalar) const { return __Vector3__(*this) *= scalar; }
+        __Vector3__ operator/(T scalar) const { return __Vector3__(*this) /= scalar; }
+
+        __Vector3__ operator+() const { return *this; }
+        __Vector3__ operator-() const { return *this * -1; }
+
+
+        T& operator[](std::size_t index) {
+            switch(index) {
+                case 0: return x;
+                case 1: return y;
+                case 2: return z;
+            }
+
+            Assert(index < 3, "Invalid vector index!");
+            return x;
+        }
+
+        T operator[](std::size_t index) const {
+            switch(index) {
+                case 0: return x;
+                case 1: return y;
+                case 2: return z;
+            }
+
+            Assert(index < 3, "Invalid vector index!");
+            return 0;
+        }
+
 
         operator std::string() const {
             std::stringstream stream;
@@ -84,33 +161,94 @@ namespace Feather::Math {
             stream << '[' << x << ", " << y << ", " << z << ']';
             return stream.str();
         }
+
+
+        T Dot(const __Vector3__& other) const { return x * other.x + y * other.y + z * other.z; }
+        __Vector3__ Cross(const __Vector3__& other) const { return __Vector3__(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x); }
+
+        T Length() const { return std::sqrt(Dot(*this)); }
+        T Distance(const __Vector3__& other) const { return (*this - other).Length(); }
+        __Vector3__ Normalize() const { T length = Length(); return length != 0 ? *this * (1 / Length()) : *this; }
+
+        bool Orthogonal(const __Vector3__& other) const { return Dot(other) < 10e-5; }
+        T Euler(const __Vector3__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
+
+
+        __Vector3__ Forward(const __Vector3__& incident, const __Vector3__& reference) { return reference.Dot(incident) < 0 ? *this : - *this; }
+        __Vector3__ Reflect(const __Vector3__& normal_) const { __Vector3__ normal = normal_.Normalize(); return *this - normal * (2 * normal.Dot(*this)); }
+
+        __Vector3__ Refract(const __Vector3__& normal_, float ratio) const {
+            __Vector3__ incident = Normalize();
+            __Vector3__ normal = normal_.Normalize();
+
+            T dot = normal.Dot(incident);
+            float k = 1.0f - ratio * ratio * (1.0f - dot * dot);
+            return k < 0.0f ? __Vector3__() : incident * ratio - normal * (ratio * dot + std::sqrt(k));
+        }
     };
 
-    Vector3 Cross(const Vector3& first, const Vector3& second);
-    float Dot(const Vector3& first, const Vector3& second);
-    __VectorFunctions__(Vector3);
 
-
-    class Vector4 {
+    template<typename T> class __Vector4__ {
     public:
-        union { float x, s, r; };
-        union { float y, t, g; };
-        union { float z, p, b; };
-        union { float w, q, a; };
+        union { T x, s, r; };
+        union { T y, t, g; };
+        union { T z, p, b; };
+        union { T w, q, a; };
 
-        Vector4(float x, float y, float z, float w): x(x), y(y), z(z), w(w) {}
-        Vector4(float scalar = 0.0f): x(scalar), y(scalar), z(scalar), w(scalar) {}
-        Vector4(const Vector3& vector, float w = 0.0f): x(vector.x), y(vector.y), z(vector.z), w(w) {}
 
-        Vector4& operator+=(const Vector4& other) { x += other.x; y += other.y; z += other.z; w += other.w; return *this; }
-        Vector4& operator-=(const Vector4& other) { x -= other.x; y -= other.y; z -= other.z; w -= other.w; return *this; }
-        Vector4& operator*=(const Vector4& other) { x *= other.x; y *= other.y; z *= other.z; w *= other.w; return *this; }
-        Vector4& operator/=(const Vector4& other) { x /= other.x; y /= other.y; z /= other.z; w /= other.w; return *this; }
+        __Vector4__(T x, T y, T z, T w): x(x), y(y), z(z), w(w) {}
+        __Vector4__(T scalar = 0): x(scalar), y(scalar), z(scalar), w(scalar) {}
+        __Vector4__(const __Vector3__<T>& vector, T w = 0): x(vector.x), y(vector.y), z(vector.z), w(w) {}
 
-        Vector4& operator+=(float scalar) { x += scalar; y += scalar; z += scalar; w += scalar; return *this; }
-        Vector4& operator-=(float scalar) { x -= scalar; y -= scalar; z -= scalar; w -= scalar; return *this; }
-        Vector4& operator*=(float scalar) { x *= scalar; y *= scalar; z *= scalar; w *= scalar; return *this; }
-        Vector4& operator/=(float scalar) { x /= scalar; y /= scalar; z /= scalar; w /= scalar; return *this; }
+
+        __Vector4__& operator+=(const __Vector4__& other) { x += other.x; y += other.y; z += other.z; w += other.w; return *this; }
+        __Vector4__& operator-=(const __Vector4__& other) { x -= other.x; y -= other.y; z -= other.z; w -= other.w; return *this; }
+        __Vector4__& operator*=(const __Vector4__& other) { x *= other.x; y *= other.y; z *= other.z; w *= other.w; return *this; }
+        __Vector4__& operator/=(const __Vector4__& other) { x /= other.x; y /= other.y; z /= other.z; w /= other.w; return *this; }
+
+        __Vector4__ operator+(const __Vector4__& other) const { return __Vector4__(*this) += other; }
+        __Vector4__ operator-(const __Vector4__& other) const { return __Vector4__(*this) -= other; }
+        __Vector4__ operator*(const __Vector4__& other) const { return __Vector4__(*this) *= other; }
+        __Vector4__ operator/(const __Vector4__& other) const { return __Vector4__(*this) /= other; }
+
+        __Vector4__& operator+=(T scalar) { x += scalar; y += scalar; z += scalar; w += scalar; return *this; }
+        __Vector4__& operator-=(T scalar) { x -= scalar; y -= scalar; z -= scalar; w -= scalar; return *this; }
+        __Vector4__& operator*=(T scalar) { x *= scalar; y *= scalar; z *= scalar; w *= scalar; return *this; }
+        __Vector4__& operator/=(T scalar) { x /= scalar; y /= scalar; z /= scalar; w /= scalar; return *this; }
+
+        __Vector4__ operator+(T scalar) const { return __Vector4__(*this) += scalar; }
+        __Vector4__ operator-(T scalar) const { return __Vector4__(*this) -= scalar; }
+        __Vector4__ operator*(T scalar) const { return __Vector4__(*this) *= scalar; }
+        __Vector4__ operator/(T scalar) const { return __Vector4__(*this) /= scalar; }
+
+        __Vector4__ operator+() const { return *this; }
+        __Vector4__ operator-() const { return *this * -1; }
+
+
+        T& operator[](std::size_t index) {
+            switch(index) {
+                case 0: return x;
+                case 1: return y;
+                case 2: return z;
+                case 3: return w;
+            }
+
+            Assert(index < 4, "Invalid vector index!");
+            return x;
+        }
+
+        T operator[](std::size_t index) const {
+            switch(index) {
+                case 0: return x;
+                case 1: return y;
+                case 2: return z;
+                case 3: return w;
+            }
+
+            Assert(index < 4, "Invalid vector index!");
+            return 0;
+        }
+
 
         operator std::string() const {
             std::stringstream stream;
@@ -118,8 +256,45 @@ namespace Feather::Math {
             stream << '[' << x << ", " << y << ", " << z << ", " << w << ']';
             return stream.str();
         }
+
+
+        T Dot(const __Vector4__& other) const { return x * other.x + y * other.y + z * other.z + w * other.w; }
+
+        T Length() const { return std::sqrt(Dot(*this)); }
+        T Distance(const __Vector4__& other) const { return (*this - other).Length(); }
+        __Vector4__ Normalize() const { T length = Length(); return length != 0 ? *this * (1 / Length()) : *this; }
+
+        bool Orthogonal(const __Vector4__& other) const { return Dot(other) < 10e-5; }
+        T Euler(const __Vector4__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
+
+
+        __Vector4__ Forward(const __Vector4__& incident, const __Vector4__& reference) { return reference.Dot(incident) < 0 ? *this : - *this; }
+        __Vector4__ Reflect(const __Vector4__& normal_) const { __Vector4__ normal = normal_.Normalize(); return *this - normal * (2 * normal.Dot(*this)); }
+
+        __Vector4__ Refract(const __Vector4__& normal_, float ratio) const {
+            __Vector4__ incident = Normalize();
+            __Vector4__ normal = normal_.Normalize();
+
+            T dot = normal.Dot(incident);
+            float k = 1.0f - ratio * ratio * (1.0f - dot * dot);
+            return k < 0.0f ? __Vector4__() : incident * ratio - normal * (ratio * dot + std::sqrt(k));
+        }
     };
 
-    float Dot(const Vector4& first, const Vector4& second);
-    __VectorFunctions__(Vector4);
+
+    using Int2 = __Vector2__<int>;
+    using Int3 = __Vector3__<int>;
+    using Int4 = __Vector4__<int>;
+
+    using Float2 = __Vector2__<float>;
+    using Float3 = __Vector3__<float>;
+    using Float4 = __Vector4__<float>;
+
+    using Double2 = __Vector2__<double>;
+    using Double3 = __Vector3__<double>;
+    using Double4 = __Vector4__<double>;
+
+    using Unsigned2 = __Vector2__<unsigned>;
+    using Unsigned3 = __Vector3__<unsigned>;
+    using Unsigned4 = __Vector4__<unsigned>;
 }

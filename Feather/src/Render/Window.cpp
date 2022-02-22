@@ -18,8 +18,8 @@ using namespace std;
 using namespace Feather;
 
 
-Render::Window::Window(const string& name, const Math::Vector2& size, function<void (Event&)> callback, bool vsync): name(name), size(size), callback(callback), vsync(vsync) {
-    window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
+Render::Window::Window(const string& title, const Math::Unsigned2& size, function<void (Event&)> callback, bool vsync): title(title), size(size), callback(callback), vsync(vsync) {
+    window = glfwCreateWindow(size.x, size.y, title.c_str(), nullptr, nullptr);
     Assert(window != nullptr, "Failed to create window!");
 
     glfwSetWindowUserPointer(window, this);
@@ -29,7 +29,7 @@ Render::Window::Window(const string& name, const Math::Vector2& size, function<v
 
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
 		Window& self = *(Window*)glfwGetWindowUserPointer(window);
-		self.size = { float(width), float(height) };
+		self.size = { unsigned(width), unsigned(height) };
 
 		Event::WindowResize event(self.size);
 		if (self.callback) self.callback(event);
@@ -39,7 +39,7 @@ Render::Window::Window(const string& name, const Math::Vector2& size, function<v
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
         if (minimized) {
-            self.size = { 0.0f, 0.0f };
+            self.size = { 0, 0 };
 
             Event::WindowResize event(self.size);
             if (self.callback) self.callback(event);
@@ -47,7 +47,7 @@ Render::Window::Window(const string& name, const Math::Vector2& size, function<v
         else {
             int width, height;
             glfwGetWindowSize(window, &width, &height);
-            self.size = { float(width), float(height) };
+            self.size = { unsigned(width), unsigned(height) };
 
             Event::WindowResize event(self.size);
             if (self.callback) self.callback(event);
@@ -56,7 +56,7 @@ Render::Window::Window(const string& name, const Math::Vector2& size, function<v
 
     glfwSetWindowPosCallback(window, [](GLFWwindow* window, int x, int y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
-        self.position = { float(x), float(y) };
+        self.position = { x, y };
 
         Event::WindowMove event(self.position);
         if (self.callback) self.callback(event);
@@ -116,14 +116,14 @@ Render::Window::Window(const string& name, const Math::Vector2& size, function<v
     glfwSetScrollCallback(window, [](GLFWwindow* window, double x, double y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        Event::MouseScroll event({ float(x), float(y) });
+        Event::MouseScroll event({ x, y });
         if (self.callback) self.callback(event);
     });
 
     glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        Event::MouseMove event({ float(x), float(y) });
+        Event::MouseMove event({ x, y });
         if (self.callback) self.callback(event);
     });
 
@@ -176,7 +176,7 @@ bool Render::Window::IsHovered() const {
 }
 
 bool Render::Window::IsMinimized() const {
-    return size.x == 0.0f || size.y == 0.0f;
+    return size.x == 0 || size.y == 0;
 }
 
 bool Render::Window::IsMaximized() const {

@@ -7,7 +7,7 @@ using namespace std;
 using namespace Feather;
 
 
-Math::Quaternion::Quaternion(const Vector3& angles) {
+Math::Quaternion::Quaternion(const Float3& angles) {
     float Z = angles.x * 0.5f;
     float Y = angles.y * 0.5f;
     float X = angles.z * 0.5f;
@@ -25,8 +25,8 @@ Math::Quaternion::Quaternion(const Vector3& angles) {
     w = cosZ * cosY * cosX + sinZ * sinY * sinX;
 }
 
-Math::Quaternion::Quaternion(const Vector3& axis, float angle) {
-    Vector3 normalized = Normalize(axis);
+Math::Quaternion::Quaternion(const Float3& axis, float angle) {
+    Float3 normalized = axis.Normalize();
     float half = angle * 0.5f;
     float sine = sin(half);
 
@@ -36,56 +36,35 @@ Math::Quaternion::Quaternion(const Vector3& axis, float angle) {
     w = cos(half);
 }
 
-Math::Quaternion::Quaternion(const Vector3& first, const Vector3& second) {
-    Vector3 cross = Cross(first, second);
+Math::Quaternion::Quaternion(const Float3& first, const Float3& second) {
+    Float3 cross = first.Cross(second);
 
     x = cross.x;
     y = cross.y;
     z = cross.z;
-    w = sqrt(Dot(first, first) * Dot(second, second)) + Dot(first, second);
+    w = sqrt(first.Dot(first) * second.Dot(second)) + first.Dot(second);
 }
 
-Math::Quaternion Math::operator*(const Quaternion& first, const Quaternion& second) {
+
+Math::Quaternion Math::Quaternion::operator*(const Quaternion& other) const {
     return Quaternion(
-          first.x * second.w + first.y * second.z - first.z * second.y + first.w * second.x,
-        - first.x * second.z + first.y * second.w + first.z * second.x + first.w * second.y,
-          first.x * second.y - first.y * second.x + first.z * second.w + first.w * second.z,
-        - first.x * second.x - first.y * second.y - first.z * second.z + first.w * second.w
+          x * other.w + y * other.z - z * other.y + w * other.x,
+        - x * other.z + y * other.w + z * other.x + w * other.y,
+          x * other.y - y * other.x + z * other.w + w * other.z,
+        - x * other.x - y * other.y - z * other.z + w * other.w
     );
 }
 
-Math::Vector3 Math::operator*(const Quaternion& quaternion, const Vector3& vector) {
-    Quaternion normalized = Normalize(quaternion);
-    Vector3 xyz(normalized.x, normalized.y, normalized.z);
+Math::Float3 Math::Quaternion::operator*(const Float3& vector) const {
+    Quaternion normalized = Normalize();
+    Float3 xyz(normalized.x, normalized.y, normalized.z);
 
-    return vector + Cross(xyz, Cross(xyz, vector) + vector * normalized.w) * 2.0f;
+    return vector + xyz.Cross(xyz.Cross(vector) + vector * normalized.w) * 2.0f;
 }
 
 
-float Math::Norm(const Quaternion& quaternion) {
-    return sqrt(Dot(quaternion, quaternion));
-}
-
-Math::Quaternion Math::Normalize(const Quaternion& quaternion) {
-    return quaternion * (1.0f / Norm(quaternion));
-}
-
-float Math::Dot(const Quaternion& first, const Quaternion& second) {
-    return first.x * second.x + first.y * second.y + first.z * second.z + first.w * second.w;
-}
-
-
-Math::Quaternion Math::Inverse(const Quaternion& quaternion) {
-    return Normalize(Conjugate(quaternion));
-}
-
-Math::Quaternion Math::Conjugate(const Quaternion& quaternion) {
-    return Quaternion(- quaternion.x, - quaternion.y, - quaternion.z, quaternion.w);
-}
-
-
-Math::Vector3 Math::Euler(const Quaternion& quaternion) {
-    Quaternion normalized = Normalize(quaternion);
+Math::Float3 Math::Quaternion::Euler() const {
+    Quaternion normalized = Normalize();
 
     float Z = atan2(2.0f * (normalized.x * normalized.w + normalized.y * normalized.z), 1.0f - 2.0f * (normalized.x * normalized.x + normalized.y * normalized.y));
 
@@ -94,32 +73,32 @@ Math::Vector3 Math::Euler(const Quaternion& quaternion) {
 
     float X = atan2(2.0f * (normalized.x * normalized.y + normalized.z * normalized.w), 1.0f - 2.0f * (normalized.y * normalized.y + normalized.z * normalized.z));
 
-    return Vector3(Z, Y, X);
+    return Float3(Z, Y, X);
 }
 
-Math::Quaternion Math::Slerp(const Quaternion& first_, const Quaternion& second_, float percentage) {
-    Quaternion first = Normalize(first_);
-    Quaternion second = Normalize(second_);
+Math::Quaternion Math::Quaternion::Slerp(const Quaternion& other_, float percentage) const {
+    Quaternion self = Normalize();
+    Quaternion other = other_.Normalize();
 
-    float dot = Dot(first, second);
+    float dot = self.Dot(other);
 
     if (dot < 0.0f) {
         dot *= -1.0f;
-        second *= -1.0f;
+        other *= -1.0f;
     }
 
     if (dot > 0.9999f) {
-        second -= first;
-        second *= percentage;
-        return Normalize(first += second);
+        other -= self;
+        other *= percentage;
+        return (self += other).Normalize();
     }
 
     float omega = acos(dot);
     float sineomega = sin(omega);
     float theta = omega * percentage;
 
-    first *= sin(omega - theta) / sineomega;
-    second *= sin(theta) / sineomega;
+    self *= sin(omega - theta) / sineomega;
+    other *= sin(theta) / sineomega;
 
-    return first += second;
+    return self += other;
 }

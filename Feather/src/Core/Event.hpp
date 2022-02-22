@@ -88,11 +88,11 @@ namespace Feather {
 
     class Event::WindowResize: public Event {
     public:
-        WindowResize(const Math::Vector2& size): size(size) {}
+        WindowResize(const Math::Unsigned2& size): size(size) {}
 
-        float GetWidth() const { return size.x; }
-        float GetHeight() const { return size.y; }
-        Math::Vector2 GetSize() const { return size; }
+        unsigned GetWidth() const { return size.x; }
+        unsigned GetHeight() const { return size.y; }
+        Math::Unsigned2 GetSize() const { return size; }
 
         operator std::string() const override {
             std::stringstream stream;
@@ -103,16 +103,16 @@ namespace Feather {
         __EventType__(Type::WINDOW_RESIZE);
         __EventCategory__(Category::WINDOW);
     private:
-        Math::Vector2 size;
+        Math::Unsigned2 size;
     };
 
     class Event::WindowMove: public Event {
     public:
-        WindowMove(const Math::Vector2& position): position(position) {}
+        WindowMove(const Math::Int2& position): position(position) {}
 
-        float GetX() const { return position.x; }
-        float GetY() const { return position.y; }
-        Math::Vector2 GetPosition() const { return position; }
+        int GetX() const { return position.x; }
+        int GetY() const { return position.y; }
+        Math::Int2 GetPosition() const { return position; }
 
         operator std::string() const override {
             std::stringstream stream;
@@ -123,7 +123,7 @@ namespace Feather {
         __EventType__(Type::WINDOW_MOVE);
         __EventCategory__(Category::WINDOW);
     private:
-        Math::Vector2 position;
+        Math::Int2 position;
     };
 
     class Event::WindowFocus: public Event {
@@ -201,11 +201,11 @@ namespace Feather {
 
     class Event::MouseScroll: public Event {
     public:
-        MouseScroll(const Math::Vector2& offset): offset(offset) {}
+        MouseScroll(const Math::Double2& offset): offset(offset) {}
 
-        float GetX() const { return offset.x; }
-        float GetY() const { return offset.y; }
-        Math::Vector2 GetOffset() const { return offset; }
+        double GetX() const { return offset.x; }
+        double GetY() const { return offset.y; }
+        Math::Double2 GetOffset() const { return offset; }
 
         operator std::string() const override {
             std::stringstream stream;
@@ -216,16 +216,16 @@ namespace Feather {
         __EventType__(Type::MOUSE_SCROLL);
         __EventCategory__(Category::INPUT | Category::MOUSE);
     private:
-        Math::Vector2 offset;
+        Math::Double2 offset;
     };
 
     class Event::MouseMove: public Event {
     public:
-        MouseMove(const Math::Vector2& position): position(position) {} 
+        MouseMove(const Math::Double2& position): position(position) {} 
 
-        float GetX() const { return position.x; }
-        float GetY() const { return position.y; }
-        Math::Vector2 GetPosition() const { return position; }
+        double GetX() const { return position.x; }
+        double GetY() const { return position.y; }
+        Math::Double2 GetPosition() const { return position; }
 
         operator std::string() const override {
             std::stringstream stream;
@@ -236,7 +236,7 @@ namespace Feather {
         __EventType__(Type::MOUSE_MOVE);
         __EventCategory__(Category::INPUT | Category::MOUSE);
     private:
-        Math::Vector2 position;
+        Math::Double2 position;
     };
 
 

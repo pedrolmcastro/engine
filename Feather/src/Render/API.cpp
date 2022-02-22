@@ -20,7 +20,7 @@ void Render::API::Draw(const Vertex::Array& vertex, size_t count) {
 }
 
 
-void Render::API::Clear(const Math::Vector4& color) {
+void Render::API::Clear(const Math::Float4& color) {
     glClearColor(color.r, color.g, color.b, color.a);
     glClear(GL_COLOR_BUFFER_BIT);
 }

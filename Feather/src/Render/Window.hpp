@@ -12,7 +12,7 @@ class GLFWwindow;
 namespace Feather::Render {
     class Window {
     public:
-        Window(const std::string& name, const Math::Vector2& size, std::function<void (Event&)> callback = {}, bool vsync = true);
+        Window(const std::string& title, const Math::Unsigned2& size, std::function<void (Event&)> callback = {}, bool vsync = true);
         ~Window();
 
         void OnUpdate();
@@ -25,22 +25,23 @@ namespace Feather::Render {
         bool IsMinimized() const;
         bool IsMaximized() const;
 
-        float GetWidth() const { return size.x; }
-        float GetHeight() const { return size.y; }
-        Math::Vector2 GetSize() const { return size; }
+        unsigned GetWidth() const { return size.x; }
+        unsigned GetHeight() const { return size.y; }
+        Math::Unsigned2 GetSize() const { return size; }
 
-        float GetX() const { return position.x; }
-        float GetY() const { return position.y; }
-        Math::Vector2 GetPosition() const { return position; }
+        int GetX() const { return position.x; }
+        int GetY() const { return position.y; }
+        Math::Int2 GetPosition() const { return position; }
 
-        std::string GetName() const { return name; }
+        std::string GetTitle() const { return title; }
 
         operator GLFWwindow*() const { return window; }
     private:
         bool vsync;
-        std::string name;
+        std::string title;
         GLFWwindow* window;
-        Math::Vector2 size, position;
+        Math::Int2 position;
+        Math::Unsigned2 size;
         std::function<void (Event&)> callback;
     };
 }

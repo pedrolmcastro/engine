@@ -11,7 +11,7 @@ namespace Feather::Render {
         static void Draw(const Vertex::Array& vertex);
         static void Draw(const Vertex::Array& vertex, std::size_t count);
 
-        static void Clear(const Math::Vector4& color);
+        static void Clear(const Math::Float4& color);
 
         static void SetViewport(std::size_t x, std::size_t y, std::size_t width, std::size_t height);
     };

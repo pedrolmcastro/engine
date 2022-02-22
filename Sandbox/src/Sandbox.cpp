@@ -42,7 +42,7 @@ private:
 
 class Sandbox: public Application {
 public:
-    Sandbox(): Application("Sandbox", { 800.0f, 450.0f }) {
+    Sandbox(): Application("Sandbox", { 800, 450 }) {
         Log::SetPriority(Log::Level::TRACE);
         layers.Push(Unique<Runtime>());
     }

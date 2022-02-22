@@ -25,10 +25,10 @@ bool Input::IsMousePressed(Mouse button) {
     return glfwGetMouseButton(window, int(button)) == GLFW_PRESS;
 }
 
-Math::Vector2 Input::GetMousePosition() {
-    if (!window) return Math::Vector2();
+Math::Double2 Input::GetMousePosition() {
+    if (!window) return Math::Double2();
 
     double x, y;
     glfwGetCursorPos(window, &x, &y);
-    return Math::Vector2(x, y);
+    return Math::Double2(x, y);
 }
