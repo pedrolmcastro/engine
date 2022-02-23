@@ -7,10 +7,9 @@
 #include "Core/Time.hpp"
 
 namespace Feather {
-	enum class Type { LAYER, OVERLAY, };
-
 	class Layer {
 	public:
+		enum class Type { LAYER, OVERLAY, };
 		class Stack;
 
 		virtual ~Layer() = default;
