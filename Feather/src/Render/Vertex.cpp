@@ -2,7 +2,7 @@
 
 #include "Core/Memory.hpp"
 
-#include "Render/Layout.hpp"
+#include "Render/Index.hpp"
 #include "Render/Shader.hpp"
 #include "Render/Vertex.hpp"
 
@@ -10,6 +10,19 @@
 
 using namespace std;
 using namespace Feather;
+
+
+Render::Vertex::Layout::Layout(std::initializer_list<Element> elements): elements(elements) {
+    size_t offset = 0;
+    stride = 0;
+
+    for (Element& element : this->elements) {
+        element.offset = offset;
+
+        offset += element.size;
+        stride += element.size;
+    }
+}
 
 
 Render::Vertex::Buffer::Buffer(const Layout& layout, size_t size, const void* vertices): layout(layout) {
