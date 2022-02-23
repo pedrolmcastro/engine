@@ -8,8 +8,8 @@ class Runtime: public Layer {
 public:
     void OnAttach() override {
         Render::Vertex::Layout layout = {
-            { Render::Shader::Data::VECTOR3 }, // a_Position
-            { Render::Shader::Data::VECTOR4 }, // a_Color
+            { Render::Shader::Data::FLOAT3 }, // a_Position
+            { Render::Shader::Data::FLOAT4 }, // a_Color
         };
 
         float vertices[3 * (3 + 4)] = {

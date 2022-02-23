@@ -12,13 +12,34 @@ using namespace Feather;
 
 size_t Render::Shader::CountOf(Data data) {
     switch (data) {
-        case Shader::Data::FLOAT:   return 1;
-        case Shader::Data::VECTOR2: return 2;
-        case Shader::Data::VECTOR3: return 3;
-        case Shader::Data::VECTOR4: return 4;
-        case Shader::Data::MATRIX2: return 2;
-        case Shader::Data::MATRIX3: return 3;
-        case Shader::Data::MATRIX4: return 4;
+        case Data::BOOL:  return 1;
+        case Data::BOOL2: return 2;
+        case Data::BOOL3: return 3;
+        case Data::BOOL4: return 4;
+
+        case Data::INT:  return 1;
+        case Data::INT2: return 2;
+        case Data::INT3: return 3;
+        case Data::INT4: return 4;
+
+        case Data::UNSIGNED:  return 1;
+        case Data::UNSIGNED2: return 2;
+        case Data::UNSIGNED3: return 3;
+        case Data::UNSIGNED4: return 4;
+
+        case Data::FLOAT:  return 1;
+        case Data::FLOAT2: return 2;
+        case Data::FLOAT3: return 3;
+        case Data::FLOAT4: return 4;
+
+        case Data::DOUBLE:  return 1;
+        case Data::DOUBLE2: return 2;
+        case Data::DOUBLE3: return 3;
+        case Data::DOUBLE4: return 4;
+
+        case Data::MATRIX2: return 2;
+        case Data::MATRIX3: return 3;
+        case Data::MATRIX4: return 4;
     }
 
     Assert(false, "Unknown shader data type!");
@@ -27,10 +48,31 @@ size_t Render::Shader::CountOf(Data data) {
 
 size_t Render::Shader::SizeOf(Data data) {
     switch (data) {
-        case Data::FLOAT:   return sizeof(float);
-        case Data::VECTOR2: return sizeof(float) * 2;
-        case Data::VECTOR3: return sizeof(float) * 3;
-        case Data::VECTOR4: return sizeof(float) * 4;
+        case Data::BOOL:  return sizeof(bool) * 1;
+        case Data::BOOL2: return sizeof(bool) * 2;
+        case Data::BOOL3: return sizeof(bool) * 3;
+        case Data::BOOL4: return sizeof(bool) * 4;
+
+        case Data::INT:  return sizeof(int) * 1;
+        case Data::INT2: return sizeof(int) * 2;
+        case Data::INT3: return sizeof(int) * 3;
+        case Data::INT4: return sizeof(int) * 4;
+
+        case Data::UNSIGNED:  return sizeof(unsigned) * 1;
+        case Data::UNSIGNED2: return sizeof(unsigned) * 2;
+        case Data::UNSIGNED3: return sizeof(unsigned) * 3;
+        case Data::UNSIGNED4: return sizeof(unsigned) * 4;
+
+        case Data::FLOAT:  return sizeof(float) * 1;
+        case Data::FLOAT2: return sizeof(float) * 2;
+        case Data::FLOAT3: return sizeof(float) * 3;
+        case Data::FLOAT4: return sizeof(float) * 4;
+
+        case Data::DOUBLE:  return sizeof(double) * 1;
+        case Data::DOUBLE2: return sizeof(double) * 2;
+        case Data::DOUBLE3: return sizeof(double) * 3;
+        case Data::DOUBLE4: return sizeof(double) * 4;
+
         case Data::MATRIX2: return sizeof(float) * 2 * 2;
         case Data::MATRIX3: return sizeof(float) * 3 * 3;
         case Data::MATRIX4: return sizeof(float) * 4 * 4;
@@ -42,13 +84,12 @@ size_t Render::Shader::SizeOf(Data data) {
 
 GLenum Render::Shader::TypeOf(Data data) {
     switch (data) {
-        case Data::FLOAT:   return GL_FLOAT;
-        case Data::VECTOR2: return GL_FLOAT;
-        case Data::VECTOR3: return GL_FLOAT;
-        case Data::VECTOR4: return GL_FLOAT;
-        case Data::MATRIX2: return GL_FLOAT;
-        case Data::MATRIX3: return GL_FLOAT;
-        case Data::MATRIX4: return GL_FLOAT;
+        case Data::BOOL     ... Data::BOOL4:     return GL_UNSIGNED_BYTE;
+        case Data::INT      ... Data::INT4:      return GL_INT;
+        case Data::UNSIGNED ... Data::UNSIGNED4: return GL_UNSIGNED_INT;
+        case Data::FLOAT    ... Data::FLOAT4:    return GL_FLOAT;
+        case Data::DOUBLE   ... Data::DOUBLE4:   return GL_DOUBLE;
+        case Data::MATRIX2  ... Data::MATRIX4:   return GL_FLOAT;
     }
 
     Assert(false, "Unknown shader data type!");
@@ -58,7 +99,7 @@ GLenum Render::Shader::TypeOf(Data data) {
 GLenum Render::Shader::TypeOf(const std::string& type) {
     // TODO: Review Shader Types
     if (type == "vertex")                       return GL_VERTEX_SHADER;
-    if (type == "fragment" || type == "pixel")  return GL_FRAGMENT_SHADER;
+    if (type == "pixel" || type == "fragment")  return GL_FRAGMENT_SHADER;
 
     // TODO: Use std::format()
     stringstream stream;

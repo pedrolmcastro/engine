@@ -12,6 +12,7 @@ namespace Feather::Render::Vertex {
 		std::size_t size, offset = 0;
 
 		Element(Shader::Data type, bool normalized = false): type(type), size(Shader::SizeOf(type)), normalized(normalized) {}
+		operator Shader::Data() const { return type; }
     };
 
 

@@ -63,19 +63,26 @@ void Render::Vertex::Array::AddVertex(Shared<Vertex::Buffer> vertex) {
 
     for (const Element& element : layout) {
         switch(element.type) {
-            case Shader::Data::FLOAT ... Shader::Data::VECTOR4: {
+            case Shader::Data::BOOL ... Shader::Data::UNSIGNED4: {
                 glEnableVertexAttribArray(position);
-			    glVertexAttribPointer(position, Shader::CountOf(element.type), Shader::TypeOf(element.type), element.normalized, stride, (const void*)element.offset);
-				position++;
+                glVertexAttribIPointer(position, Shader::CountOf(element), Shader::TypeOf(element), stride, (const void*)element.offset);
+                position++;
+                break;
+            }
+            
+            case Shader::Data::FLOAT ... Shader::Data::DOUBLE4: {
+                glEnableVertexAttribArray(position);
+			    glVertexAttribPointer(position, Shader::CountOf(element), Shader::TypeOf(element), element.normalized, stride, (const void*)element.offset);
+			    position++;
 			    break;
             }
 
             case Shader::Data::MATRIX2 ... Shader::Data::MATRIX4: {
-                size_t count = Shader::CountOf(element.type);
+                size_t count = Shader::CountOf(element);
 
                 for (size_t i = 0; i < count; i++) {
                     glEnableVertexAttribArray(position);
-                    glVertexAttribPointer(position, count, Shader::TypeOf(element.type), element.normalized, stride, (const void*)(element.offset + sizeof(float) * count * i));
+                    glVertexAttribPointer(position, count, Shader::TypeOf(element), element.normalized, stride, (const void*)(element.offset + sizeof(float) * count * i));
                     glVertexAttribDivisor(position, 1);
                     position++;
                 }

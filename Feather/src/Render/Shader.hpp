@@ -7,11 +7,15 @@ typedef unsigned GLenum;
 namespace Feather::Render {
     class Shader {
     public:
-        // TODO: Add Integer Data Types
-        enum class Data { FLOAT, VECTOR2, VECTOR3, VECTOR4, MATRIX2, MATRIX3, MATRIX4, };
+        enum class Data {
+            BOOL, BOOL2, BOOL3, BOOL4, INT, INT2, INT3, INT4, UNSIGNED, UNSIGNED2, UNSIGNED3, UNSIGNED4,
+            FLOAT, FLOAT2, FLOAT3, FLOAT4, DOUBLE, DOUBLE2, DOUBLE3, DOUBLE4, MATRIX2, MATRIX3, MATRIX4,
+        };
+
         static std::size_t CountOf(Data data);
         static std::size_t SizeOf(Data data);
         static GLenum TypeOf(Data data);
+
 
         Shader(const std::string& vertex, const std::string& fragment);
         Shader(const std::filesystem::path& path);
