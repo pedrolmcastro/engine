@@ -6,7 +6,7 @@ using namespace std;
 using namespace Feather;
 
 
-Color::Color(Foreground fore, Background back) {
+Debug::Color::Color(Foreground fore, Background back) {
     cout << "\e[0;" << int(fore);
 
     if (back != Background::NONE) {
@@ -16,6 +16,6 @@ Color::Color(Foreground fore, Background back) {
     cout << 'm';
 }
 
-Color::~Color() {
+Debug::Color::~Color() {
     cout << "\e[K\e[0m";
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Feather {
+namespace Feather::Debug {
     class Color {
     public:
         enum class Foreground { RED = 91, GREEN = 92, YELLOW = 93, WHITE = 97};

@@ -43,7 +43,7 @@ private:
 class Sandbox: public Application {
 public:
     Sandbox(): Application("Sandbox", { 800, 450 }) {
-        Log::SetPriority(Log::Level::TRACE);
+        Debug::Log::SetPriority(Debug::Log::Level::TRACE);
         layers.Push(Unique<Runtime>());
     }
 };

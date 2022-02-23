@@ -7,11 +7,11 @@ using namespace std;
 using namespace Feather;
 
 
-mutex Log::mtx;
-Log::Level Log::priority = Log::Level::INFO;
-const char* Log::bagdes[] = { "TRACE:", "INFO: ", "WARN: ", "ERROR:", "FATAL:", };
+mutex Debug::Log::mtx;
+Debug::Log::Level Debug::Log::priority = Log::Level::INFO;
+const char* Debug::Log::bagdes[] = { "TRACE:", "INFO: ", "WARN: ", "ERROR:", "FATAL:", };
 
-pair<Color::Foreground, Color::Background> Log::colors[] = {
+pair<Debug::Color::Foreground, Debug::Color::Background> Debug::Log::colors[] = {
     { Color::Foreground::WHITE,  Color::Background::NONE },
     { Color::Foreground::GREEN,  Color::Background::NONE },
     { Color::Foreground::YELLOW, Color::Background::NONE },
@@ -21,7 +21,7 @@ pair<Color::Foreground, Color::Background> Log::colors[] = {
 
 
 // TODO: Use std::format()
-void Log::Print(Level level, const char* message, ...) {
+void Debug::Log::Print(Level level, const char* message, ...) {
     if (priority <= level) {
         scoped_lock lock(mtx);
 

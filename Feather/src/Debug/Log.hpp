@@ -4,10 +4,10 @@
 #include "Precompiled.hpp"
 #include "Debug/Color.hpp"
 
-namespace Feather {
+namespace Feather::Debug {
     class Log {
     public:
-        enum class Level { TRACE, INFO, WARN, ERROR, FATAL };
+        enum class Level { TRACE, INFO, WARN, ERROR, FATAL, };
         static void SetPriority(Level level) { priority = level; }
 
         static void Print(Level level, const char* message, ...);
@@ -20,11 +20,11 @@ namespace Feather {
 }
 
 #ifdef LOGGING
-    #define Trace(message, ...) Feather::Log::Print(Feather::Log::Level::TRACE, message __VA_OPT__(,) __VA_ARGS__)
-    #define Info(message, ...)  Feather::Log::Print(Feather::Log::Level::INFO,  message __VA_OPT__(,) __VA_ARGS__)
-    #define Warn(message, ...)  Feather::Log::Print(Feather::Log::Level::WARN,  message __VA_OPT__(,) __VA_ARGS__)
-    #define Error(message, ...) Feather::Log::Print(Feather::Log::Level::ERROR, message __VA_OPT__(,) __VA_ARGS__)
-    #define Fatal(message, ...) Feather::Log::Print(Feather::Log::Level::FATAL, message __VA_OPT__(,) __VA_ARGS__)
+    #define Trace(message, ...) ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::TRACE, message __VA_OPT__(,) __VA_ARGS__)
+    #define Info(message, ...)  ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::INFO,  message __VA_OPT__(,) __VA_ARGS__)
+    #define Warn(message, ...)  ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::WARN,  message __VA_OPT__(,) __VA_ARGS__)
+    #define Error(message, ...) ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::ERROR, message __VA_OPT__(,) __VA_ARGS__)
+    #define Fatal(message, ...) ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::FATAL, message __VA_OPT__(,) __VA_ARGS__)
 #else
     #define Trace(...)
     #define Info(...)
