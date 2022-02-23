@@ -87,7 +87,7 @@ namespace Feather::Math {
         __Vector2__ Normalize() const { T length = Length(); return length != 0 ? *this * (1 / Length()) : *this; }
 
         bool Orthogonal(const __Vector2__& other) const { return Dot(other) < 10e-5; }
-        T Euler(const __Vector2__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
+        T Angle(const __Vector2__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
 
 
         __Vector2__ Forward(const __Vector2__& incident, const __Vector2__& reference) { return reference.Dot(incident) < 0 ? *this : - *this; }
@@ -187,7 +187,7 @@ namespace Feather::Math {
         __Vector3__ Normalize() const { T length = Length(); return length != 0 ? *this * (1 / Length()) : *this; }
 
         bool Orthogonal(const __Vector3__& other) const { return Dot(other) < 10e-5; }
-        T Euler(const __Vector3__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
+        T Angle(const __Vector3__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
 
 
         __Vector3__ Forward(const __Vector3__& incident, const __Vector3__& reference) { return reference.Dot(incident) < 0 ? *this : - *this; }
@@ -289,7 +289,7 @@ namespace Feather::Math {
         __Vector4__ Normalize() const { T length = Length(); return length != 0 ? *this * (1 / Length()) : *this; }
 
         bool Orthogonal(const __Vector4__& other) const { return Dot(other) < 10e-5; }
-        T Euler(const __Vector4__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
+        T Angle(const __Vector4__& other) const { return std::acos(Dot(other) / (Length() * other.Length())); }
 
 
         __Vector4__ Forward(const __Vector4__& incident, const __Vector4__& reference) { return reference.Dot(incident) < 0 ? *this : - *this; }
