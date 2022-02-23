@@ -2,10 +2,11 @@
 
 
 #include "Precompiled.hpp"
+#include "Input/Input.hpp"
 
 namespace Feather {
     // From GLFW 3
-	enum class Key {
+	enum class Input::Key {
         SPACE       = 32,
         APOSTROPHE  = 39,
         COMMA       = 44,
@@ -141,8 +142,8 @@ namespace Feather {
         MENU        = 348,
 	};
 
-    inline bool operator<=(Key key, int value) { return int(key) <= value; }
-    inline bool operator>=(Key key, int value) { return int(key) >= value; }
+    inline bool operator<=(Input::Key key, int value) { return int(key) <= value; }
+    inline bool operator>=(Input::Key key, int value) { return int(key) >= value; }
     
-    inline std::ostream& operator<<(std::ostream& stream, Key key) { if (key >= 32 && key <= 126) stream << char(key); else stream << '#' << int(key); return stream; }
+    inline std::ostream& operator<<(std::ostream& stream, Input::Key key) { if (key >= 32 && key <= 126) stream << char(key); else stream << '#' << int(key); return stream; }
 }

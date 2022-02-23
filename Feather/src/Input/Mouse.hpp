@@ -2,10 +2,11 @@
 
 
 #include "Precompiled.hpp"
+#include "Input/Input.hpp"
 
 namespace Feather {
 	// From GLFW 3
-	enum class Mouse {
+	enum class Input::Mouse {
         B0     = 0,
         B1     = 1,
         B2     = 2,
@@ -20,5 +21,5 @@ namespace Feather {
         MIDDLE = B2,
 	};
 
-    inline std::ostream& operator<<(std::ostream& stream, Mouse button) { stream << int(button); return stream; }
+    inline std::ostream& operator<<(std::ostream& stream, Input::Mouse button) { stream << int(button); return stream; }
 }

@@ -164,18 +164,18 @@ namespace Feather {
 
     class __Mouse__: public Event {
     public:
-        Mouse GetButton() const { return button; }
+        Input::Mouse GetButton() const { return button; }
 
         __EventCategory__(Category::INPUT | Category::MOUSE);
     protected:
-        Mouse button;
+        Input::Mouse button;
 
-        __Mouse__(Mouse button): button(button) {}
+        __Mouse__(Input::Mouse button): button(button) {}
     };
 
     class Event::MousePress: public __Mouse__ {
     public:
-        MousePress(Mouse button): __Mouse__(button) {}
+        MousePress(Input::Mouse button): __Mouse__(button) {}
 
         operator std::string() const override {
             std::stringstream stream;
@@ -188,7 +188,7 @@ namespace Feather {
 
     class Event::MouseRelease: public __Mouse__ {
     public:
-        MouseRelease(Mouse button): __Mouse__(button) {}
+        MouseRelease(Input::Mouse button): __Mouse__(button) {}
 
         operator std::string() const override {
             std::stringstream stream;
@@ -242,18 +242,18 @@ namespace Feather {
 
     class __Key__: public Event {
     public:
-        Key GetKey() const { return key; }
+        Input::Key GetKey() const { return key; }
 
         __EventCategory__(Category::INPUT | Category::KEY);
     protected:
-        Key key;
+        Input::Key key;
 
-        __Key__(Key key): key(key) {}
+        __Key__(Input::Key key): key(key) {}
     };
 
     class Event::KeyPress: public __Key__ {
     public:
-        KeyPress(Key key, bool repeat): __Key__(key), repeat(repeat) {}
+        KeyPress(Input::Key key, bool repeat): __Key__(key), repeat(repeat) {}
 
         bool GetRepeat() const { return repeat; }
 
@@ -270,7 +270,7 @@ namespace Feather {
 
     class Event::KeyRelease: public __Key__ {
     public:
-        KeyRelease(Key key): __Key__(key) {}
+        KeyRelease(Input::Key key): __Key__(key) {}
 
         operator std::string() const override {
             std::stringstream stream;

@@ -100,13 +100,13 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
 
         switch (action) {
             case GLFW_PRESS: {
-                Event::MousePress event((Mouse)button);
+                Event::MousePress event((Input::Mouse)button);
                 if (self.callback) self.callback(event);
                 break;
             }
 
             case GLFW_RELEASE: {
-                Event::MouseRelease event((Mouse)button);
+                Event::MouseRelease event((Input::Mouse)button);
                 if (self.callback) self.callback(event);
                 break;
             }
@@ -132,19 +132,19 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
 
         switch (action) {
             case GLFW_PRESS: {
-                Event::KeyPress event((Key)key, false);
+                Event::KeyPress event((Input::Key)key, false);
                 if (self.callback) self.callback(event);
                 break;
             }
 
             case GLFW_REPEAT: {
-                Event::KeyPress event((Key)key, true);
+                Event::KeyPress event((Input::Key)key, true);
                 if (self.callback) self.callback(event);
                 break;
 			}
 
             case GLFW_RELEASE: {
-                Event::KeyRelease event((Key)key);
+                Event::KeyRelease event((Input::Key)key);
                 if (self.callback) self.callback(event);
                 break;
             }

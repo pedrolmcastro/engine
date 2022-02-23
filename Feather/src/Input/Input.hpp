@@ -2,9 +2,6 @@
 
 
 #include "Precompiled.hpp"
-
-#include "Input/Key.hpp"
-#include "Input/Mouse.hpp"
 #include "Math/Vector.hpp"
 
 class GLFWwindow;
@@ -12,6 +9,9 @@ class GLFWwindow;
 namespace Feather {
     class Input {
     public:
+		enum class Key;
+		enum class Mouse;
+
 		static bool IsKeyPressed(Key key);
 		static bool IsMousePressed(Mouse button);
 
