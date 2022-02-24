@@ -1,6 +1,7 @@
 # Compiled External Libraries
-GLFW="NO"
+STB="NO"
 GLAD="NO"
+GLFW="NO"
 
 # Build Configuration
 LAST="DEBUG"

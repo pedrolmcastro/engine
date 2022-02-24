@@ -6,6 +6,15 @@ source .data.sh
 CONFIG=${1:-DEBUG}
 
 
+if [ $STB != "YES" ]; then
+    pushd Vendor/stb
+        make clean
+        make -s
+    popd
+
+    sed -i "s/STB=\"$STB\"/STB=\"YES\"/g" .data.sh
+fi
+
 if [ $GLAD != "YES" ]; then
     pushd Vendor/Glad
         make clean

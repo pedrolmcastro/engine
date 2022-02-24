@@ -5,7 +5,7 @@ OBJDIR := obj
 LIBDIR := lib
 
 LDFLAGS = -L$(LIBDIR)
-LDLIBS  = -lFeather -lglad $(shell pkg-config --static --libs glfw3)
+LDLIBS  = -lFeather -lstb -lglad $(shell pkg-config --static --libs glfw3)
 
 CPPFLAGS += -I ../Feather/src
 CXXFLAGS += -std=c++2a
