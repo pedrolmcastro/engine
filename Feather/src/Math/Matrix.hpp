@@ -43,6 +43,9 @@ namespace Feather::Math {
         float operator()(std::size_t row, std::size_t column) const { return elements[row + column * 2]; }
 
 
+        operator const float*() const { return elements.data(); }
+
+
         operator std::string() const {
             std::stringstream stream;
             stream << std::fixed << std::setprecision(2);
@@ -93,6 +96,9 @@ namespace Feather::Math {
 
         float& operator()(std::size_t row, std::size_t column) { return elements[row + column * 3]; }
         float operator()(std::size_t row, std::size_t column) const { return elements[row + column * 3]; }
+
+
+        operator const float*() const { return elements.data(); }
 
 
         operator std::string() const {
@@ -158,6 +164,9 @@ namespace Feather::Math {
 
         float& operator()(std::size_t row, std::size_t column) { return elements[row + column * 4]; }
         float operator()(std::size_t row, std::size_t column) const { return elements[row + column * 4]; }
+
+
+        operator const float*() const { return elements.data(); }
 
 
         operator std::string() const {

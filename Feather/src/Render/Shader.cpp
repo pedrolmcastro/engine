@@ -2,6 +2,9 @@
 
 #include "Debug/Assert.hpp"
 
+#include "Math/Matrix.hpp"
+#include "Math/Vector.hpp"
+
 #include "Render/Shader.hpp"
 
 #include <glad/glad.h>
@@ -246,4 +249,83 @@ void Render::Shader::Compile(const unordered_map<GLenum, string>& sources) {
         glDetachShader(program, shader);
         glDeleteShader(shader);
     }
+}
+
+
+void Render::Shader::Upload(const string& name, int value) const {
+    Bind();
+	glUniform1i(glGetUniformLocation(program, name.c_str()), value);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Int2& values) const {
+    Bind();
+	glUniform2i(glGetUniformLocation(program, name.c_str()), values.x, values.y);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Int3& values) const {
+    Bind();
+	glUniform3i(glGetUniformLocation(program, name.c_str()), values.x, values.y, values.z);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Int4& values) const {
+    Bind();
+	glUniform4i(glGetUniformLocation(program, name.c_str()), values.x, values.y, values.z, values.w);
+}
+
+
+void Render::Shader::Upload(const string& name, unsigned value) const {
+    Bind();
+	glUniform1ui(glGetUniformLocation(program, name.c_str()), value);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Unsigned2& values) const {
+    Bind();
+	glUniform2ui(glGetUniformLocation(program, name.c_str()), values.x, values.y);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Unsigned3& values) const {
+    Bind();
+	glUniform3ui(glGetUniformLocation(program, name.c_str()), values.x, values.y, values.z);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Unsigned4& values) const {
+    Bind();
+	glUniform4ui(glGetUniformLocation(program, name.c_str()), values.x, values.y, values.z, values.w);
+}
+
+
+void Render::Shader::Upload(const string& name, float value) const {
+    Bind();
+	glUniform1f(glGetUniformLocation(program, name.c_str()), value);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Float2& values) const {
+    Bind();
+	glUniform2f(glGetUniformLocation(program, name.c_str()), values.x, values.y);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Float3& values) const {
+    Bind();
+	glUniform3f(glGetUniformLocation(program, name.c_str()), values.x, values.y, values.z);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Float4& values) const {
+    Bind();
+	glUniform4f(glGetUniformLocation(program, name.c_str()), values.x, values.y, values.z, values.w);
+}
+
+
+void Render::Shader::Upload(const string& name, const Math::Matrix2& values) const {
+    Bind();
+	glUniformMatrix2fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, values);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Matrix3& values) const {
+    Bind();
+    glUniformMatrix3fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, values);
+}
+
+void Render::Shader::Upload(const string& name, const Math::Matrix4& values) const {
+    Bind();
+    glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, values);
 }
