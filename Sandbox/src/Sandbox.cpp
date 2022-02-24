@@ -9,23 +9,30 @@ public:
     void OnAttach() override {
         Render::Vertex::Layout layout = {
             { Render::Shader::Data::FLOAT3 }, // a_Position
-            { Render::Shader::Data::FLOAT4 }, // a_Color
+            { Render::Shader::Data::FLOAT2 }, // a_TextureCoordinate
         };
 
-        float vertices[3 * (3 + 4)] = {
-            -0.5f, -0.5f, 0.0f,  0.8f, 0.2f, 0.2f, 1.0f,
-             0.5f, -0.5f, 0.0f,  0.2f, 0.8f, 0.2f, 1.0f,
-             0.0f,  0.5f, 0.0f,  0.2f, 0.2f, 0.8f, 1.0f,
+        float vertices[4 * (3 + 2)] = {
+            -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
+            -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,
+             0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
+             0.5f,  0.5f, 0.0f,  1.0f, 1.0f,
         };
 
-        unsigned indices[3] = { 0, 1, 2 };
+        unsigned indices[2 * 3] = {
+            0, 1, 2,
+            1, 2, 3,
+        };
 
         vertexarray.AddVertex(Shared<Render::Vertex::Buffer>(layout, sizeof(vertices), vertices));
         vertexarray.SetIndex(Shared<Render::Index::Buffer>(sizeof(indices), indices));
+
+        shader.Upload("u_Texture", 0);
     }
 
     void OnUpdate(Time delta) override {
         shader.Bind();
+        texture.Bind();
         vertexarray.Bind();
 
         Render::Command::Draw(vertexarray);
@@ -37,12 +44,13 @@ public:
 private:
     Render::Vertex::Array vertexarray;
     Render::Shader shader = { "assets/shaders/Default.glsl" };
+    Render::Texture::Surface texture = { "assets/textures/Checkerboard.png", Render::Texture::Filter::NEAREST };
 };
 
 
 class Sandbox: public Application {
 public:
-    Sandbox(): Application("Sandbox", { 800, 450 }) {
+    Sandbox(): Application("Sandbox", { 800, 800 }) {
         Debug::Log::SetPriority(Debug::Log::Level::TRACE);
         layers.Push(Unique<Runtime>());
     }

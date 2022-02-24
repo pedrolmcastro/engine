@@ -2,12 +2,12 @@
 #version 460 core
 
 layout(location = 0) in vec3 a_Position;
-layout(location = 1) in vec4 a_Color;
+layout(location = 1) in vec2 a_TextureCoordinate;
 
-out vec4 v_Color;
+out vec2 v_TextureCoordinate;
 
 void main() {
-    v_Color = a_Color;
+    v_TextureCoordinate = a_TextureCoordinate;
     gl_Position = vec4(a_Position, 1.0);
 }
 
@@ -17,8 +17,9 @@ void main() {
 
 layout(location = 0) out vec4 o_Color;
 
-in vec4 v_Color;
+in vec2 v_TextureCoordinate;
+uniform sampler2D u_Texture;
 
 void main() {
-    o_Color = v_Color;
+    o_Color = texture(u_Texture, v_TextureCoordinate);
 }

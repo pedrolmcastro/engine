@@ -27,5 +27,6 @@
 #include "Render/Shader.hpp"
 #include "Render/Window.hpp"
 #include "Render/Command.hpp"
+#include "Render/Texture.hpp"
 
 #include "Core/Entry.hpp"
