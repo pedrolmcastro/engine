@@ -59,15 +59,15 @@ namespace Feather::Render::Vertex {
         void Bind() const;
         void Unbind() const;
 
-        void AddVertex(Shared<Vertex::Buffer> vertex);
-        const std::vector<Shared<Vertex::Buffer>>& GetVertex() const { return vertex; }
+        void AddVertex(Unique<Vertex::Buffer> vertex);
+        const std::vector<Unique<Vertex::Buffer>>& GetVertex() const { return vertex; }
 
-        void SetIndex(Shared<Index::Buffer> index);
-        Shared<Index::Buffer> GetIndex() const { return index; }
+        void SetIndex(Unique<Index::Buffer> index);
+        const Index::Buffer& GetIndex() const { return *index; }
     private:
         unsigned array;
         std::size_t position = 0;
-        Shared<Index::Buffer> index = nullptr;
-        std::vector<Shared<Vertex::Buffer>> vertex;
+        Unique<Index::Buffer> index = nullptr;
+        std::vector<Unique<Vertex::Buffer>> vertex;
     };
 }

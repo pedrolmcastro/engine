@@ -8,7 +8,7 @@ namespace Feather::Render::Index {
     public:
         Buffer(std::size_t size, const unsigned* vertices);
         ~Buffer();
-        
+
         void Bind() const;
         void Unbind() const;
 

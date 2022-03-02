@@ -12,7 +12,7 @@ using namespace Feather;
 
 
 void Render::API::Draw(const Vertex::Array& vertex) {
-    glDrawElements(GL_TRIANGLES, vertex.GetIndex()->GetCount(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, vertex.GetIndex().GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 void Render::API::Draw(const Vertex::Array& vertex, size_t count) {

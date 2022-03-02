@@ -33,6 +33,7 @@ Render::Vertex::Buffer::Buffer(const Layout& layout, size_t size, const void* ve
 }
 
 Render::Vertex::Buffer::~Buffer() {
+    Unbind();
     glDeleteBuffers(1, &buffer);
 }
 
@@ -56,6 +57,7 @@ Render::Vertex::Array::Array() {
 }
 
 Render::Vertex::Array::~Array() {
+    Unbind();
     glDeleteVertexArrays(1, &array);
 }
 
@@ -67,7 +69,7 @@ void Render::Vertex::Array::Unbind() const {
     glBindVertexArray(0);
 }
 
-void Render::Vertex::Array::AddVertex(Shared<Vertex::Buffer> vertex) {
+void Render::Vertex::Array::AddVertex(Unique<Vertex::Buffer> vertex) {
     Bind();
     vertex->Bind();
 
@@ -104,12 +106,12 @@ void Render::Vertex::Array::AddVertex(Shared<Vertex::Buffer> vertex) {
         }
     }
 
-    this->vertex.push_back(vertex);
+    this->vertex.push_back(move(vertex));
 }
 
-void Render::Vertex::Array::SetIndex(Shared<Index::Buffer> index) {
+void Render::Vertex::Array::SetIndex(Unique<Index::Buffer> index) {
     Bind();
     index->Bind();
 
-    this->index = index;
+    this->index = move(index);
 }

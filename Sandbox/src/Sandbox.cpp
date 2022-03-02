@@ -24,8 +24,8 @@ public:
             1, 2, 3,
         };
 
-        vertexarray.AddVertex(Shared<Render::Vertex::Buffer>(layout, sizeof(vertices), vertices));
-        vertexarray.SetIndex(Shared<Render::Index::Buffer>(sizeof(indices), indices));
+        vertexarray.AddVertex(Unique<Render::Vertex::Buffer>(layout, sizeof(vertices), vertices));
+        vertexarray.SetIndex(Unique<Render::Index::Buffer>(sizeof(indices), indices));
 
         shader.Upload("u_Texture", 0);
     }

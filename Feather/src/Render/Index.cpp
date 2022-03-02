@@ -16,6 +16,7 @@ Render::Index::Buffer::Buffer(size_t size, const unsigned* vertices): count(size
 }
 
 Render::Index::Buffer::~Buffer() {
+    Unbind();
     glDeleteBuffers(1, &buffer);
 }
 
