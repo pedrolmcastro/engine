@@ -56,7 +56,7 @@ namespace Feather::Math {
                 case 1: return y;
             }
 
-            Assert(index < 2, "Invalid vector index!");
+            Assert(index < 2, "Invalid vector index: %lu", index);
             return x;
         }
 
@@ -66,7 +66,7 @@ namespace Feather::Math {
                 case 1: return y;
             }
 
-            Assert(index < 2, "Invalid vector index!");
+            Assert(index < 2, "Invalid vector index: %lu", index);
             return 0;
         }
 
@@ -155,7 +155,7 @@ namespace Feather::Math {
                 case 2: return z;
             }
 
-            Assert(index < 3, "Invalid vector index!");
+            Assert(index < 3, "Invalid vector index: %lu", index);
             return x;
         }
 
@@ -166,7 +166,7 @@ namespace Feather::Math {
                 case 2: return z;
             }
 
-            Assert(index < 3, "Invalid vector index!");
+            Assert(index < 3, "Invalid vector index: %lu", index);
             return 0;
         }
 
@@ -257,7 +257,7 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid vector index!");
+            Assert(index < 4, "Invalid vector index: %lu", index);
             return x;
         }
 
@@ -269,7 +269,7 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid vector index!");
+            Assert(index < 4, "Invalid vector index: %lu", index);
             return 0;
         }
 

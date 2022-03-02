@@ -29,7 +29,9 @@ Render::Texture::Surface::Surface(const filesystem::path& path, Filter filter) {
 
     stbi_set_flip_vertically_on_load(true);
     stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-    Assert(data, "Failed to load texture image");
+    
+    // TODO: Add Error Texture
+    Assert(data, "Failed to load texture image: %s", path.c_str());
 
     size = { unsigned(width), unsigned(height) };
     GLenum internal;
@@ -47,7 +49,7 @@ Render::Texture::Surface::Surface(const filesystem::path& path, Filter filter) {
             break;
         
         default:
-            Assert(false, "Invalid texture image format");
+            Assert(false, "Invalid texture image format: %s", path.c_str());
             break;
     }
 
@@ -85,6 +87,6 @@ void Render::Texture::Surface::Unbind() {
 
 
 void Render::Texture::Surface::SetData(size_t size, const void* data) {
-    Assert(size == this->size.x * this->size.y * (format == GL_RGBA ? 4 : 3), "Invalid texture data size!");
+    Assert(size == this->size.x * this->size.y * (format == GL_RGBA ? 4 : 3), "Invalid texture data size: %lu", size);
     glTextureSubImage2D(texture, 0, 0, 0, this->size.x, this->size.y, format, GL_UNSIGNED_BYTE, data);
 }

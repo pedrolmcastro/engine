@@ -63,7 +63,7 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid quaternion index!");
+            Assert(index < 4, "Invalid quaternion index: %lu", index);
             return x;
         }
 
@@ -75,7 +75,7 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid quaternion index!");
+            Assert(index < 4, "Invalid quaternion index: %lu", index);
             return 0;
         }
 

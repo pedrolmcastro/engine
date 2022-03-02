@@ -45,7 +45,7 @@ size_t Render::Shader::CountOf(Data data) {
         case Data::MATRIX4: return 4;
     }
 
-    Assert(false, "Unknown shader data type!");
+    Assert(false, "Unknown shader data type: %u", unsigned(data));
     return 0;
 }
 
@@ -81,7 +81,7 @@ size_t Render::Shader::SizeOf(Data data) {
         case Data::MATRIX4: return sizeof(float) * 4 * 4;
     }
 
-    Assert(false, "Unknown shader data type!");
+    Assert(false, "Unknown shader data type: %u", unsigned(data));
     return 0;
 }
 
@@ -95,19 +95,16 @@ GLenum Render::Shader::TypeOf(Data data) {
         case Data::MATRIX2  ... Data::MATRIX4:   return GL_FLOAT;
     }
 
-    Assert(false, "Unknown shader data type!");
+    Assert(false, "Unknown shader data type: %u", unsigned(data));
     return 0;
 }
 
 GLenum Render::Shader::TypeOf(const std::string& type) {
     // TODO: Review Shader Types
-    if (type == "vertex")                       return GL_VERTEX_SHADER;
-    if (type == "pixel" || type == "fragment")  return GL_FRAGMENT_SHADER;
+    if (type == "vertex")   return GL_VERTEX_SHADER;
+    if (type == "pixel")    return GL_FRAGMENT_SHADER;
 
-    // TODO: Use std::format()
-    stringstream stream;
-    stream << "Unknown shader type: " << type;
-    Assert(false, stream.str().c_str());
+    Assert(false, "Unknown shader type: %s", type.c_str());
     return 0;
 }
 
@@ -143,10 +140,7 @@ void Render::Shader::Unbind() const {
 
 string Render::Shader::Read(const filesystem::path& path) const {
     ifstream file(path);
-    // TODO: Use std::format()
-    stringstream stream;
-    stream << "Failed to open file: " << path;
-    Assert(file, stream.str().c_str());
+    Assert(file, "Failed to open shader file: %s", path.c_str());
 
     stringstream buffer;
     buffer << file.rdbuf();
@@ -159,13 +153,13 @@ unordered_map<GLenum, string> Render::Shader::Split(const string& file) const {
 
     while (position != string::npos) {
         size_t endofline = file.find_first_of("\r\n", position);
-        Assert(endofline != string::npos, "Expected new line after shader type");
-        
+        Assert(endofline != string::npos, "Expected new line after shader type!");
+
         size_t begin = position + 6;
         string type = file.substr(begin, endofline - begin);
 
         size_t next = file.find_first_not_of("\r\n", endofline);
-        Assert(next != string::npos, "Expected source code after shader type");
+        Assert(next != string::npos, "Expected source code after shader type!");
 
         position = file.find("#type", next);
         sources[TypeOf(type)] = position == string::npos ? file.substr(next) : file.substr(next, position - next);
@@ -207,10 +201,7 @@ void Render::Shader::Compile(const unordered_map<GLenum, string>& sources) {
             glDeleteProgram(program);
             program = 0;
 
-            // TODO: Use std::format()
-            stringstream stream;
-            stream << "Failed to compile shader: " << message.data();
-            Assert(false, stream.str().c_str());
+            Assert(false, "Failed to compile shader: %s", message.data());
             return;
         }
 
@@ -237,10 +228,7 @@ void Render::Shader::Compile(const unordered_map<GLenum, string>& sources) {
         glDeleteProgram(program);
         program = 0;
 
-        // TODO: Use std::format()
-        stringstream stream;
-        stream << "Failed to compile shader: " << message.data();
-        Assert(false, stream.str().c_str());
+        Assert(false, "Failed to compile shader: %s", message.data());
         return;
     }
 
