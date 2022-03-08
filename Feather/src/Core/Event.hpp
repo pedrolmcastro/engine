@@ -13,8 +13,6 @@
     static Type GetStaticType() { return type; }                \
     Type GetType() const override { return GetStaticType(); }   \
 
-#define __EventString__(str) operator std::string() const override { return str; }
-
 #define __EventCategory__(category) Category GetCategory() const override { return category; }
 
 
@@ -55,17 +53,20 @@ namespace Feather {
 
         bool handled = false;
 
+
         virtual ~Event() = default;
+
 
         friend Category operator|(Category first, Category second) { return Category(int(first) | int(second)); }
         friend bool operator&(Category first, Category second) { return int(first) & int(second); }
         bool In(Category category) { return GetCategory() & category; }
 
+
         virtual Type GetType() const = 0;
         virtual Category GetCategory() const = 0;
 
-        // TODO: Use operator<<()
-        virtual operator std::string() const { return "Event"; }
+
+        friend std::ostream& operator<<(std::ostream& stream, const Event& event) { return stream << "Event"; }
     };
 
 
@@ -76,7 +77,7 @@ namespace Feather {
 
         template<typename T, typename F> bool Dispatch(const F& callback) {
             if (event.GetType() == T::GetStaticType()) {
-                event.handled |= callback((T&)event);
+                event.handled |= callback(dynamic_cast<T&>(event));
                 return true;
             }
             return false;
@@ -94,11 +95,7 @@ namespace Feather {
         unsigned GetHeight() const { return size.y; }
         Math::Unsigned2 GetSize() const { return size; }
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "WindowResize: " << std::string(size);
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const WindowResize& event) { return stream << "Window Resize: " << event.size; }
 
         __EventType__(Type::WINDOW_RESIZE);
         __EventCategory__(Category::WINDOW);
@@ -114,11 +111,7 @@ namespace Feather {
         int GetY() const { return position.y; }
         Math::Int2 GetPosition() const { return position; }
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "WindowMove: " << std::string(position);
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const WindowMove& event) { return stream << "Window Move: " << event.position; }
 
         __EventType__(Type::WINDOW_MOVE);
         __EventCategory__(Category::WINDOW);
@@ -128,35 +121,35 @@ namespace Feather {
 
     class Event::WindowFocus: public Event {
     public:
-        __EventString__("WindowFocus");
+        friend std::ostream& operator<<(std::ostream& stream, const WindowFocus& event) { return stream << "Window Focus"; }
         __EventType__(Type::WINDOW_FOCUS);
         __EventCategory__(Category::WINDOW);
     };
 
     class Event::WindowUnfocus: public Event {
     public:
-        __EventString__("WindowUnfocus");
+        friend std::ostream& operator<<(std::ostream& stream, const WindowUnfocus& event) { return stream << "Window Unfocus"; }
         __EventType__(Type::WINDOW_UNFOCUS);
         __EventCategory__(Category::WINDOW);
     };
 
     class Event::WindowHover: public Event {
     public:
-        __EventString__("WindowHover");
+        friend std::ostream& operator<<(std::ostream& stream, const WindowHover& event) { return stream << "Window Hover"; }
         __EventType__(Type::WINDOW_HOVER);
         __EventCategory__(Category::WINDOW);
     };
 
     class Event::WindowUnhover: public Event {
     public:
-        __EventString__("WindowUnhover");
+        friend std::ostream& operator<<(std::ostream& stream, const WindowUnhover& event) { return stream << "Window Unhover"; }
         __EventType__(Type::WINDOW_UNHOVER);
         __EventCategory__(Category::WINDOW);
     };
 
     class Event::WindowClose: public Event {
     public:
-        __EventString__("WindowClose");
+        friend std::ostream& operator<<(std::ostream& stream, const WindowClose& event) { return stream << "Window Close"; }
         __EventType__(Type::WINDOW_CLOSE);
         __EventCategory__(Category::WINDOW);
     };
@@ -177,11 +170,7 @@ namespace Feather {
     public:
         MousePress(Input::Mouse button): __Mouse__(button) {}
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "MousePress: " << button;
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const MousePress& event) { return stream << "Mouse Press: " << event.button; }
 
         __EventType__(Type::MOUSE_PRESS);
     };
@@ -190,11 +179,7 @@ namespace Feather {
     public:
         MouseRelease(Input::Mouse button): __Mouse__(button) {}
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "MouseRelease: " << button;
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const MouseRelease& event) { return stream << "Mouse Release: " << event.button; }
 
         __EventType__(Type::MOUSE_RELEASE);
     };
@@ -207,11 +192,7 @@ namespace Feather {
         double GetY() const { return offset.y; }
         Math::Double2 GetOffset() const { return offset; }
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "MouseScroll: " << std::string(offset);
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const MouseScroll& event) { return stream << "Mouse Scroll: " << event.offset; }
 
         __EventType__(Type::MOUSE_SCROLL);
         __EventCategory__(Category::INPUT | Category::MOUSE);
@@ -227,11 +208,7 @@ namespace Feather {
         double GetY() const { return position.y; }
         Math::Double2 GetPosition() const { return position; }
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "MouseMove: " << std::string(position);
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const MouseMove& event) { return stream << "Mouse Move: " << event.position; }
 
         __EventType__(Type::MOUSE_MOVE);
         __EventCategory__(Category::INPUT | Category::MOUSE);
@@ -257,11 +234,7 @@ namespace Feather {
 
         bool GetRepeat() const { return repeat; }
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "KeyPress: [" << key << ", " << repeat << ']';
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const KeyPress& event) { return stream << "Key Press: [" << event.key << ", " << event.repeat << ']'; }
 
         __EventType__(Type::KEY_PRESS);
     private:
@@ -272,11 +245,7 @@ namespace Feather {
     public:
         KeyRelease(Input::Key key): __Key__(key) {}
 
-        operator std::string() const override {
-            std::stringstream stream;
-            stream << "KeyRelease: " << key;
-            return stream.str();
-        }
+        friend std::ostream& operator<<(std::ostream& stream, const KeyRelease& event) { return stream << "Key Release: " << event.key; }
 
         __EventType__(Type::KEY_RELEASE);
     };

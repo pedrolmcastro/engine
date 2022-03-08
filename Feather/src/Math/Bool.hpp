@@ -4,7 +4,6 @@
 #include "Precompiled.hpp"
 #include "Debug/Assert.hpp"
 
-// TODO: Use operator<<()
 namespace Feather::Math {
     class Bool2 {
     public:
@@ -27,7 +26,7 @@ namespace Feather::Math {
                 case 1: return y;
             }
 
-            Assert(index < 2, "Invalid vector index: %lu", index);
+            Assert(index < 2, "Invalid vector index: ", index);
             return x;
         }
 
@@ -37,15 +36,13 @@ namespace Feather::Math {
                 case 1: return y;
             }
 
-            Assert(index < 2, "Invalid vector index: %lu", index);
+            Assert(index < 2, "Invalid vector index: ", index);
             return 0;
         }
 
 
-        operator std::string() const {
-            std::stringstream stream;
-            stream << '[' << x << ", " << y << ']';
-            return stream.str();
+        friend std::ostream& operator<<(std::ostream& stream, const Bool2& vector) {
+            return stream << '[' << vector.x << ", " << vector.y << ']';
         }
 
 
@@ -79,7 +76,7 @@ namespace Feather::Math {
                 case 2: return z;
             }
 
-            Assert(index < 3, "Invalid vector index: %lu", index);
+            Assert(index < 3, "Invalid vector index: ", index);
             return x;
         }
 
@@ -90,15 +87,13 @@ namespace Feather::Math {
                 case 2: return z;
             }
 
-            Assert(index < 3, "Invalid vector index: %lu", index);
+            Assert(index < 3, "Invalid vector index: ", index);
             return 0;
         }
 
 
-        operator std::string() const {
-            std::stringstream stream;
-            stream << '[' << x << ", " << y << ", " << z << ']';
-            return stream.str();
+        friend std::ostream& operator<<(std::ostream& stream, const Bool3& vector) {
+            return stream << '[' << vector.x << ", " << vector.y << ", " << vector.z << ']';
         }
 
 
@@ -134,7 +129,7 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid vector index: %lu", index);
+            Assert(index < 4, "Invalid vector index: ", index);
             return x;
         }
 
@@ -146,15 +141,13 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid vector index: %lu", index);
+            Assert(index < 4, "Invalid vector index: ", index);
             return 0;
         }
 
 
-        operator std::string() const {
-            std::stringstream stream;
-            stream << '[' << x << ", " << y << ", " << z << ", " << w << ']';
-            return stream.str();
+        friend std::ostream& operator<<(std::ostream& stream, const Bool4& vector) {
+            return stream << '[' << vector.x << ", " << vector.y << ", " << vector.z << ", " << vector.w << ']';
         }
 
 

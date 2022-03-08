@@ -3,11 +3,12 @@
 
 #include "Precompiled.hpp"
 
-#include "Math/Bool.hpp"
-#include "Math/Vector.hpp"
 #include "Debug/Assert.hpp"
 
-// TODO: Use operator<<()
+#include "Math/Bool.hpp"
+#include "Math/Vector.hpp"
+
+
 namespace Feather::Math {
     class Quaternion {
     public:
@@ -63,7 +64,7 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid quaternion index: %lu", index);
+            Assert(index < 4, "Invalid quaternion index: ", index);
             return x;
         }
 
@@ -75,16 +76,19 @@ namespace Feather::Math {
                 case 3: return w;
             }
 
-            Assert(index < 4, "Invalid quaternion index: %lu", index);
+            Assert(index < 4, "Invalid quaternion index: ", index);
             return 0;
         }
 
 
-        operator std::string() const {
-            std::stringstream stream;
+        friend std::ostream& operator<<(std::ostream& stream, const Quaternion& quaternion) {
+            std::ios::fmtflags flags(stream.flags());
+
             stream << std::fixed << std::setprecision(2);
-            stream << '[' << x << ", " << y << ", " << z << ", " << w << ']';
-            return stream.str();
+            stream << '[' << quaternion.x << ", " << quaternion.y << ", " << quaternion.z << ", " << quaternion.w << ']';
+
+            stream.flags(flags);
+            return stream;
         }
 
 

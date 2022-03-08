@@ -14,7 +14,7 @@ public:
 
         for (Scene::Entity& entity : scene->View<Scene::Component::Transform>()) {
             Scene::Component::Transform& component = entity.Get<Scene::Component::Transform>();
-            Trace("%s %s %s", string(component.translation).c_str(), string(component.rotation).c_str(), string(component.scale).c_str());
+            Trace(component.translation, ' ', component.rotation, ' ', component.scale);
         }
 
 

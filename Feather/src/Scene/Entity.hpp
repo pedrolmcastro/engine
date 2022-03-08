@@ -18,7 +18,7 @@ namespace Feather {
 
 
         template<typename... Args> bool Has() const {
-            Assert(scene->Has(entity), "Scene does not have entity %lu!", entity);
+            Assert(scene->Has(entity), "Scene does not have entity: ", entity);
             Assert(sizeof...(Args) > 0, "No components specified!");
 
             std::size_t types[] = { 0, Component::TypeOf<Args>()... };
@@ -28,8 +28,8 @@ namespace Feather {
         }
 
         template<typename T> T& Get() const {
-            Assert(scene->Has(entity), "Scene does not have entity %lu!", entity);
-            Assert(Has<T>(), "Entity %lu does not have component %lu!", entity, Component::TypeOf<T>());
+            Assert(scene->Has(entity), "Scene does not have entity: ", entity);
+            Assert(Has<T>(), "Entity ", entity, " does not have component: ", Component::TypeOf<T>());
 
             std::size_t type = Component::TypeOf<T>();
             return scene->pools[type]->Get<T>(entity);
@@ -37,8 +37,8 @@ namespace Feather {
 
 
         template<typename T, typename... Args> T& Add(Args&&... args) {
-            Assert(scene->Has(entity), "Scene does not have entity %lu!", entity);
-            Assert(!Has<T>(), "Entity %lu already has component %lu!", entity, Component::TypeOf<T>());
+            Assert(scene->Has(entity), "Scene does not have entity: ", entity);
+            Assert(!Has<T>(), "Entity ", entity, " already has component: ", Component::TypeOf<T>());
 
             std::size_t type = Component::TypeOf<T>();
 
@@ -49,8 +49,8 @@ namespace Feather {
         }
 
         template<typename T> void Remove() {
-            Assert(scene->Has(entity), "Scene does not have entity %lu!", entity);
-            Assert(Has<T>(), "Entity %lu does not have component %lu!", entity, Component::TypeOf<T>());
+            Assert(scene->Has(entity), "Scene does not have entity: ", entity);
+            Assert(Has<T>(), "Entity ", entity, " does not have component: ", Component::TypeOf<T>());
 
             std::size_t type = Component::TypeOf<T>();
             scene->pools[type]->Remove(entity);

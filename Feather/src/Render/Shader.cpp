@@ -45,7 +45,7 @@ size_t Render::Shader::CountOf(Data data) {
         case Data::MATRIX4: return 4;
     }
 
-    Assert(false, "Unknown shader data type: %u", unsigned(data));
+    Assert(false, "Unknown shader data type: ", static_cast<std::underlying_type<Data>::type>(data));
     return 0;
 }
 
@@ -81,7 +81,7 @@ size_t Render::Shader::SizeOf(Data data) {
         case Data::MATRIX4: return sizeof(float) * 4 * 4;
     }
 
-    Assert(false, "Unknown shader data type: %u", unsigned(data));
+    Assert(false, "Unknown shader data type: ", static_cast<std::underlying_type<Data>::type>(data));
     return 0;
 }
 
@@ -95,7 +95,7 @@ GLenum Render::Shader::TypeOf(Data data) {
         case Data::MATRIX2  ... Data::MATRIX4:   return GL_FLOAT;
     }
 
-    Assert(false, "Unknown shader data type: %u", unsigned(data));
+    Assert(false, "Unknown shader data type: ", static_cast<std::underlying_type<Data>::type>(data));
     return 0;
 }
 
@@ -104,7 +104,7 @@ GLenum Render::Shader::TypeOf(const std::string& type) {
     if (type == "vertex")   return GL_VERTEX_SHADER;
     if (type == "pixel")    return GL_FRAGMENT_SHADER;
 
-    Assert(false, "Unknown shader type: %s", type.c_str());
+    Assert(false, "Unknown shader type: ", type);
     return 0;
 }
 
@@ -140,7 +140,7 @@ void Render::Shader::Unbind() const {
 
 string Render::Shader::Read(const filesystem::path& path) const {
     ifstream file(path);
-    Assert(file, "Failed to open shader file: %s", path.c_str());
+    Assert(file, "Failed to open shader file: ", path);
 
     stringstream buffer;
     buffer << file.rdbuf();
@@ -201,7 +201,7 @@ void Render::Shader::Compile(const unordered_map<GLenum, string>& sources) {
             glDeleteProgram(program);
             program = 0;
 
-            Assert(false, "Failed to compile shader: %s", message.data());
+            Assert(false, "Failed to compile shader: ", message.data());
             return;
         }
 
@@ -228,7 +228,7 @@ void Render::Shader::Compile(const unordered_map<GLenum, string>& sources) {
         glDeleteProgram(program);
         program = 0;
 
-        Assert(false, "Failed to compile shader: %s", message.data());
+        Assert(false, "Failed to compile shader: ", message.data());
         return;
     }
 

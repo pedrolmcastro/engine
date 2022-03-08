@@ -142,8 +142,12 @@ namespace Feather {
         MENU        = 348,
 	};
 
-    inline bool operator<=(Input::Key key, int value) { return int(key) <= value; }
-    inline bool operator>=(Input::Key key, int value) { return int(key) >= value; }
-    
-    inline std::ostream& operator<<(std::ostream& stream, Input::Key key) { if (key >= 32 && key <= 126) stream << char(key); else stream << '#' << int(key); return stream; }
+
+    inline bool operator<=(Input::Key key, std::underlying_type<Input::Key>::type value) { return static_cast<std::underlying_type<Input::Key>::type>(key) <= value; }
+    inline bool operator>=(Input::Key key, std::underlying_type<Input::Key>::type value) { return static_cast<std::underlying_type<Input::Key>::type>(key) >= value; }
+
+    inline std::ostream& operator<<(std::ostream& stream, Input::Key key) {
+        if (key >= 32 && key <= 126) return stream << static_cast<char>(key);
+        return stream << '#' << static_cast<std::underlying_type<Input::Key>::type>(key);
+    }
 }

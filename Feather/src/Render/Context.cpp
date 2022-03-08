@@ -16,7 +16,7 @@ Render::Context::Context() {
     Assert(success, "Failed to initialize GLFW!");
 
     glfwSetErrorCallback([](int error, const char* message) {
-        Assert(false, "GLFW Error %d: %s", error, message);
+        Assert(false, "GLFW Error ", error, ": ", message);
     });
 }
 

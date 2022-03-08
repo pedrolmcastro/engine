@@ -5,7 +5,6 @@
 #include "Math/Vector.hpp"
 #include "Math/Quaternion.hpp"
 
-// TODO: Use operator<<()
 namespace Feather::Math {
     class Matrix2 {
     public:
@@ -43,15 +42,18 @@ namespace Feather::Math {
         float operator()(std::size_t row, std::size_t column) const { return elements[row + column * 2]; }
 
 
-        operator const float*() const { return elements.data(); }
+        friend std::ostream& operator<<(std::ostream& stream, const Matrix2& matrix) {
+            std::ios::fmtflags flags(stream.flags());
 
-
-        operator std::string() const {
-            std::stringstream stream;
             stream << std::fixed << std::setprecision(2);
-            stream << '['; for (std::size_t i = 0; i < 2 * 2 - 1; i++) stream << elements[i] << ", "; stream << elements[2 * 2 - 1] << ']';
-            return stream.str();
+            stream << '['; for (std::size_t i = 0; i < 2 * 2 - 1; i++) stream << matrix.elements[i] << ", "; stream << matrix.elements[2 * 2 - 1] << ']';
+
+            stream.flags(flags);
+            return stream;
         }
+
+
+        operator const float*() const { return elements.data(); }
 
 
         Matrix2 Inverse() const;
@@ -98,15 +100,18 @@ namespace Feather::Math {
         float operator()(std::size_t row, std::size_t column) const { return elements[row + column * 3]; }
 
 
-        operator const float*() const { return elements.data(); }
+        friend std::ostream& operator<<(std::ostream& stream, const Matrix3& matrix) {
+            std::ios::fmtflags flags(stream.flags());
 
-
-        operator std::string() const {
-            std::stringstream stream;
             stream << std::fixed << std::setprecision(2);
-            stream << '['; for (std::size_t i = 0; i < 3 * 3 - 1; i++) stream << elements[i] << ", "; stream << elements[3 * 3 - 1] << ']';
-            return stream.str();
+            stream << '['; for (std::size_t i = 0; i < 3 * 3 - 1; i++) stream << matrix.elements[i] << ", "; stream << matrix.elements[3 * 3 - 1] << ']';
+
+            stream.flags(flags);
+            return stream;
         }
+
+
+        operator const float*() const { return elements.data(); }
 
 
         Matrix3 Inverse() const;
@@ -166,15 +171,18 @@ namespace Feather::Math {
         float operator()(std::size_t row, std::size_t column) const { return elements[row + column * 4]; }
 
 
-        operator const float*() const { return elements.data(); }
+        friend std::ostream& operator<<(std::ostream& stream, const Matrix4& matrix) {
+            std::ios::fmtflags flags(stream.flags());
 
-
-        operator std::string() const {
-            std::stringstream stream;
             stream << std::fixed << std::setprecision(2);
-            stream << '['; for (std::size_t i = 0; i < 4 * 4 - 1; i++) stream << elements[i] << ", "; stream << elements[4 * 4 - 1] << ']';
-            return stream.str();
+            stream << '['; for (std::size_t i = 0; i < 4 * 4 - 1; i++) stream << matrix.elements[i] << ", "; stream << matrix.elements[4 * 4 - 1] << ']';
+
+            stream.flags(flags);
+            return stream;
         }
+
+
+        operator const float*() const { return elements.data(); }
 
 
         Matrix4 Inverse() const;

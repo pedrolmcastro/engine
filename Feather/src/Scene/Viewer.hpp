@@ -32,7 +32,7 @@ namespace Feather {
             std::size_t minimum = 0;
 
             for (std::size_t i = 1; i <= sizeof...(Args); i++) {
-                Assert(types[i] < scene->pools.size() && scene->pools[types[i]], "Scene does not have component %lu!", types[i]);
+                Assert(types[i] < scene->pools.size() && scene->pools[types[i]], "Scene does not have component: ", types[i]);
                 if (scene->pools[types[i]]->entities.size() < scene->pools[minimum]->entities.size()) minimum = types[i];
             }
 

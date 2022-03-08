@@ -24,7 +24,7 @@ namespace Feather {
 
 
         template<typename T> T& Get(std::size_t index) const {
-            Assert(index < size, "Invalid component vector index: %d", index);
+            Assert(index < size, "Invalid component vector index: ", index);
             return *reinterpret_cast<T*>(data + index * width);
         }
 
@@ -44,7 +44,7 @@ namespace Feather {
         }
 
         void Remove(std::size_t index) {
-            Assert(index < size, "Invalid component vector index: %d", index);
+            Assert(index < size, "Invalid component vector index: ", index);
             Get<Component>(index).OnRemove();
 
             size--;
@@ -69,13 +69,13 @@ namespace Feather {
         }
 
         template<typename T> T& Get(std::size_t entity) const {
-            Assert(Has(entity), "Entity %lu does not have component %lu!", entity, Component::TypeOf<T>());
+            Assert(Has(entity), "Entity ", entity, " does not have component: ", Component::TypeOf<T>());
             return components.Get<T>(indices[entity]);
         }
 
 
         template<typename T, typename... Args> T& Add(std::size_t entity, Args&&... args) {
-            Assert(!Has(entity), "Entity %lu already has component %lu!", entity, Component::TypeOf<T>());
+            Assert(!Has(entity), "Entity ", entity, " already has component: ", Component::TypeOf<T>());
 
             if (entity >= indices.size()) indices.resize(entity + 1, NONE);
             indices[entity] = entities.size();
@@ -85,7 +85,7 @@ namespace Feather {
         }
 
         void Remove(std::size_t entity) {
-            Assert(Has(entity), "Entity %lu does not have component!", entity);
+            Assert(Has(entity), "Entity ", entity, " does not have component!");
 
             std::size_t temporary = entities[entities.size() - 1];
             entities[indices[entity]] = temporary;
