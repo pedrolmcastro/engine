@@ -79,9 +79,9 @@ void Render::Texture::Surface::Bind(size_t slot) {
 }
 
 void Render::Texture::Surface::Unbind() {
-    if (slot != SIZE_MAX) {
+    if (slot != NONE) {
         glBindTextureUnit(slot, 0);
-        slot = SIZE_MAX;
+        slot = NONE;
     }
 }
 

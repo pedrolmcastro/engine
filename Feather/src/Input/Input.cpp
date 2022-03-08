@@ -16,13 +16,13 @@ GLFWwindow* Input::window = nullptr;
 bool Input::IsKeyPressed(Key key) {
     if (!window) return false;
 
-    int state = glfwGetKey(window, int(key));
+    int state = glfwGetKey(window, static_cast<int>(key));
     return state == GLFW_PRESS || state == GLFW_REPEAT;
 }
 
 bool Input::IsMousePressed(Mouse button) {
     if (!window) return false;
-    return glfwGetMouseButton(window, int(button)) == GLFW_PRESS;
+    return glfwGetMouseButton(window, static_cast<int>(button)) == GLFW_PRESS;
 }
 
 Math::Double2 Input::GetMousePosition() {

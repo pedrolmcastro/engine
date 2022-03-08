@@ -20,7 +20,7 @@ using namespace Feather;
 
 Render::Window::Window(const string& title, const Math::Unsigned2& size, function<void (Event&)> callback, bool vsync): title(title), size(size), callback(callback), vsync(vsync) {
     window = glfwCreateWindow(size.x, size.y, title.c_str(), nullptr, nullptr);
-    Assert(window != nullptr, "Failed to create window!");
+    Assert(window, "Failed to create window!");
 
     glfwSetWindowUserPointer(window, this);
     Context::Load(window);
@@ -29,7 +29,7 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
 
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
 		Window& self = *(Window*)glfwGetWindowUserPointer(window);
-		self.size = { unsigned(width), unsigned(height) };
+		self.size = Math::Unsigned2(width, height);
 
 		Event::WindowResize event(self.size);
 		if (self.callback) self.callback(event);
@@ -39,7 +39,7 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
         if (minimized) {
-            self.size = { 0, 0 };
+            self.size = Math::Unsigned2();
 
             Event::WindowResize event(self.size);
             if (self.callback) self.callback(event);
@@ -47,7 +47,7 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
         else {
             int width, height;
             glfwGetWindowSize(window, &width, &height);
-            self.size = { unsigned(width), unsigned(height) };
+            self.size = Math::Unsigned2(width, height);
 
             Event::WindowResize event(self.size);
             if (self.callback) self.callback(event);
@@ -56,7 +56,7 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
 
     glfwSetWindowPosCallback(window, [](GLFWwindow* window, int x, int y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
-        self.position = { x, y };
+        self.position = Math::Int2(x, y);
 
         Event::WindowMove event(self.position);
         if (self.callback) self.callback(event);
@@ -100,13 +100,13 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
 
         switch (action) {
             case GLFW_PRESS: {
-                Event::MousePress event((Input::Mouse)button);
+                Event::MousePress event(static_cast<Input::Mouse>(button));
                 if (self.callback) self.callback(event);
                 break;
             }
 
             case GLFW_RELEASE: {
-                Event::MouseRelease event((Input::Mouse)button);
+                Event::MouseRelease event(static_cast<Input::Mouse>(button));
                 if (self.callback) self.callback(event);
                 break;
             }
@@ -116,14 +116,14 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
     glfwSetScrollCallback(window, [](GLFWwindow* window, double x, double y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        Event::MouseScroll event({ x, y });
+        Event::MouseScroll event(Math::Double2(x, y));
         if (self.callback) self.callback(event);
     });
 
     glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
         Window& self = *(Window*)glfwGetWindowUserPointer(window);
 
-        Event::MouseMove event({ x, y });
+        Event::MouseMove event(Math::Double2(x, y));
         if (self.callback) self.callback(event);
     });
 
@@ -132,19 +132,19 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
 
         switch (action) {
             case GLFW_PRESS: {
-                Event::KeyPress event((Input::Key)key, false);
+                Event::KeyPress event(static_cast<Input::Key>(key), false);
                 if (self.callback) self.callback(event);
                 break;
             }
 
             case GLFW_REPEAT: {
-                Event::KeyPress event((Input::Key)key, true);
+                Event::KeyPress event(static_cast<Input::Key>(key), true);
                 if (self.callback) self.callback(event);
                 break;
 			}
 
             case GLFW_RELEASE: {
-                Event::KeyRelease event((Input::Key)key);
+                Event::KeyRelease event(static_cast<Input::Key>(key));
                 if (self.callback) self.callback(event);
                 break;
             }
@@ -156,7 +156,7 @@ Render::Window::~Window() {
     glfwDestroyWindow(window);
 }
 
-void Render::Window::OnUpdate() {
+void Render::Window::OnUpdate() const {
     glfwPollEvents();
     glfwSwapBuffers(window);
 }

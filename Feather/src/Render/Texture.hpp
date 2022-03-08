@@ -9,23 +9,30 @@ typedef unsigned GLenum;
 namespace Feather::Render {
     class Texture {
     public:
+        static const std::size_t NONE = SIZE_MAX;
+
+
         enum class Filter { LINEAR, NEAREST, };
         enum class Format { RGB, RGBA, };
+
         class Surface;
+
 
         Texture() = default;
         Texture(const Math::Unsigned2& size): size(size) {}
 
         virtual ~Texture() = default;
 
+
         unsigned GetWidth() const { return size.x; }
         unsigned GetHeight() const { return size.y; }
         Math::Unsigned2 GetSize() const { return size; }
 
+        virtual void SetData(std::size_t size, const void* data) = 0;
+
+
         virtual void Bind(std::size_t slot = 0) = 0;
         virtual void Unbind() = 0;
-
-        virtual void SetData(std::size_t size, const void* data) = 0;
     protected:
         Math::Unsigned2 size;
     };
@@ -44,6 +51,6 @@ namespace Feather::Render {
     private:
         GLenum format;
         unsigned texture;
-        std::size_t slot = SIZE_MAX;
+        std::size_t slot = NONE;
     };
 }

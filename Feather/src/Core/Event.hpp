@@ -53,19 +53,19 @@ namespace Feather {
         }
 
 
-        std::size_t GetType() { return type; }
+        std::size_t GetType() const { return type; }
         virtual Category GetCategory() const { return Category::NONE; }
 
 
         friend Category operator|(Category first, Category second) {
-            return Category(static_cast<std::underlying_type<Category>::type>(first) | static_cast<std::underlying_type<Category>::type>(second));
+            return static_cast<Category>(static_cast<std::underlying_type<Category>::type>(first) | static_cast<std::underlying_type<Category>::type>(second));
         }
 
         friend Category operator&(Category first, Category second) {
-            return Category(static_cast<std::underlying_type<Category>::type>(first) & static_cast<std::underlying_type<Category>::type>(second));
+            return static_cast<Category>(static_cast<std::underlying_type<Category>::type>(first) & static_cast<std::underlying_type<Category>::type>(second));
         }
 
-        bool In(Category category) {
+        bool In(Category category) const {
             return static_cast<bool>(GetCategory() & category);
         }
 

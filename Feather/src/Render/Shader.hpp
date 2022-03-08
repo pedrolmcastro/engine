@@ -52,8 +52,10 @@ namespace Feather::Render {
 
         static GLenum TypeOf(const std::string& type);
 
+
         std::string Read(const std::filesystem::path& path) const;
-        void Compile(const std::unordered_map<GLenum, std::string>& sources);
         std::unordered_map<GLenum, std::string> Split(const std::string& file) const;
+
+        void Compile(const std::unordered_map<GLenum, std::string>& sources);
     };
 }

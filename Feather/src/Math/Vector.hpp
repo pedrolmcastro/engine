@@ -43,12 +43,12 @@ namespace Feather::Math {
         __Vector2__ operator-() const { return *this * -1; }
 
 
-        Bool2 operator==(const __Vector2__& other) { return Bool2(x == other.x, y == other.y); }
-        Bool2 operator!=(const __Vector2__& other) { return Bool2(x != other.x, y != other.y); }
-        Bool2 operator<=(const __Vector2__& other) { return Bool2(x <= other.x, y <= other.y); }
-        Bool2 operator< (const __Vector2__& other) { return Bool2(x <  other.x, y <  other.y); }
-        Bool2 operator>=(const __Vector2__& other) { return Bool2(x >= other.x, y >= other.y); }
-        Bool2 operator> (const __Vector2__& other) { return Bool2(x >  other.x, y >  other.y); }
+        Bool2 operator==(const __Vector2__& other) const { return Bool2(x == other.x, y == other.y); }
+        Bool2 operator!=(const __Vector2__& other) const { return Bool2(x != other.x, y != other.y); }
+        Bool2 operator<=(const __Vector2__& other) const { return Bool2(x <= other.x, y <= other.y); }
+        Bool2 operator< (const __Vector2__& other) const { return Bool2(x <  other.x, y <  other.y); }
+        Bool2 operator>=(const __Vector2__& other) const { return Bool2(x >= other.x, y >= other.y); }
+        Bool2 operator> (const __Vector2__& other) const { return Bool2(x >  other.x, y >  other.y); }
 
 
         T& operator[](std::size_t index) {

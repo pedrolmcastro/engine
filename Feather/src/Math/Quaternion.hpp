@@ -48,12 +48,12 @@ namespace Feather::Math {
         Quaternion operator-() const { return *this * -1.0f; }
 
 
-        Bool4 operator==(const Quaternion& other) { return Bool4(x == other.x, y == other.y, z == other.z, w == other.w); }
-        Bool4 operator!=(const Quaternion& other) { return Bool4(x != other.x, y != other.y, z != other.z, w != other.w); }
-        Bool4 operator<=(const Quaternion& other) { return Bool4(x <= other.x, y <= other.y, z <= other.z, w <= other.w); }
-        Bool4 operator< (const Quaternion& other) { return Bool4(x <  other.x, y <  other.y, z <  other.z, w <  other.w); }
-        Bool4 operator>=(const Quaternion& other) { return Bool4(x >= other.x, y >= other.y, z >= other.z, w >= other.w); }
-        Bool4 operator> (const Quaternion& other) { return Bool4(x >  other.x, y >  other.y, z >  other.z, w >  other.w); }
+        Bool4 operator==(const Quaternion& other) const { return Bool4(x == other.x, y == other.y, z == other.z, w == other.w); }
+        Bool4 operator!=(const Quaternion& other) const { return Bool4(x != other.x, y != other.y, z != other.z, w != other.w); }
+        Bool4 operator<=(const Quaternion& other) const { return Bool4(x <= other.x, y <= other.y, z <= other.z, w <= other.w); }
+        Bool4 operator< (const Quaternion& other) const { return Bool4(x <  other.x, y <  other.y, z <  other.z, w <  other.w); }
+        Bool4 operator>=(const Quaternion& other) const { return Bool4(x >= other.x, y >= other.y, z >= other.z, w >= other.w); }
+        Bool4 operator> (const Quaternion& other) const { return Bool4(x >  other.x, y >  other.y, z >  other.z, w >  other.w); }
 
 
         float& operator[](std::size_t index) {

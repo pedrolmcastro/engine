@@ -125,6 +125,7 @@ Render::Shader::Shader(const filesystem::path& path) {
 }
 
 Render::Shader::~Shader() {
+    Unbind();
     glDeleteProgram(program);
 }
 

@@ -15,7 +15,8 @@ namespace Feather::Render {
         Window(const std::string& title, const Math::Unsigned2& size, std::function<void (Event&)> callback = {}, bool vsync = true);
         ~Window();
 
-        void OnUpdate();
+
+        void OnUpdate() const;
 
         bool IsVSync() const { return vsync; }
         void SetVSync(bool vsync);
@@ -24,6 +25,7 @@ namespace Feather::Render {
         bool IsHovered() const;
         bool IsMinimized() const;
         bool IsMaximized() const;
+
 
         unsigned GetWidth() const { return size.x; }
         unsigned GetHeight() const { return size.y; }
@@ -34,6 +36,7 @@ namespace Feather::Render {
         Math::Int2 GetPosition() const { return position; }
 
         std::string GetTitle() const { return title; }
+
 
         operator GLFWwindow*() const { return window; }
     private:
