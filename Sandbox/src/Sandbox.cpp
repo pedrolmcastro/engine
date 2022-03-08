@@ -7,6 +7,17 @@ using namespace Feather;
 class Runtime: public Layer {
 public:
     void OnAttach() override {
+        shared_ptr<Scene> scene = make_shared<Scene>();
+
+        Scene::Entity entity = scene->Add();
+        entity.Add<Scene::Component::Transform>();
+
+        for (Scene::Entity& entity : scene->View<Scene::Component::Transform>()) {
+            Scene::Component::Transform& component = entity.Get<Scene::Component::Transform>();
+            Trace("%s %s %s", string(component.translation).c_str(), string(component.rotation).c_str(), string(component.scale).c_str());
+        }
+
+
         Render::Vertex::Layout layout = {
             { Render::Shader::Data::FLOAT3 }, // a_Position
             { Render::Shader::Data::FLOAT2 }, // a_TextureCoordinate

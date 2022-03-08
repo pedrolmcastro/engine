@@ -29,4 +29,9 @@
 #include "Render/Command.hpp"
 #include "Render/Texture.hpp"
 
+#include "Scene/Scene.hpp"
+#include "Scene/Entity.hpp"
+#include "Scene/Viewer.hpp"
+#include "Scene/Component.hpp"
+
 #include "Core/Entry.hpp"

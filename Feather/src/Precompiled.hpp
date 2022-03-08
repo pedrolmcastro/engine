@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
+#include <cstring>
 #include <utility>
 #include <fstream>
 #include <sstream>
@@ -16,4 +17,5 @@
 #include <iostream>
 #include <filesystem>
 #include <functional>
+#include <unordered_set>
 #include <unordered_map>
