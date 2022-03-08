@@ -2,7 +2,6 @@
 
 
 #include "Precompiled.hpp"
-#include "Core/Memory.hpp"
 #include "Core/Event.hpp"
 #include "Core/Time.hpp"
 
@@ -24,16 +23,16 @@ namespace Feather {
     public:
         ~Stack();
 
-        void Push(Unique<Layer> layer, Type type = Type::LAYER);
-        Unique<Layer> Pop(Type type = Type::LAYER);
+        void Push(std::unique_ptr<Layer> layer, Type type = Type::LAYER);
+        std::unique_ptr<Layer> Pop(Type type = Type::LAYER);
 
-		std::vector<Unique<Layer>>::reverse_iterator rbegin() { return stack.rbegin(); }
-		std::vector<Unique<Layer>>::reverse_iterator rend() { return stack.rend(); }
-		std::vector<Unique<Layer>>::iterator begin() { return stack.begin(); }
-		std::vector<Unique<Layer>>::iterator end() { return stack.end(); }
+		std::vector<std::unique_ptr<Layer>>::reverse_iterator rbegin() { return stack.rbegin(); }
+		std::vector<std::unique_ptr<Layer>>::reverse_iterator rend() { return stack.rend(); }
+		std::vector<std::unique_ptr<Layer>>::iterator begin() { return stack.begin(); }
+		std::vector<std::unique_ptr<Layer>>::iterator end() { return stack.end(); }
     private:
 		std::size_t layers = 0;
 		std::size_t overlays = 0;
-        std::vector<Unique<Layer>> stack;
+        std::vector<std::unique_ptr<Layer>> stack;
     };
 }

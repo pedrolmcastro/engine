@@ -2,7 +2,7 @@
 
 
 int main() {
-    Feather::Unique<Feather::Application> application = Feather::Application::Create();
+    std::unique_ptr<Feather::Application> application = Feather::Application::Create();
     application->Run();
 
     return 0;

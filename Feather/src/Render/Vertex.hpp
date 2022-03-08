@@ -2,7 +2,6 @@
 
 
 #include "Precompiled.hpp"
-#include "Core/Memory.hpp"
 #include "Render/Index.hpp"
 #include "Render/Shader.hpp"
 
@@ -59,15 +58,15 @@ namespace Feather::Render::Vertex {
         void Bind() const;
         void Unbind() const;
 
-        void AddVertex(Unique<Vertex::Buffer> vertex);
-        const std::vector<Unique<Vertex::Buffer>>& GetVertex() const { return vertex; }
+        void AddVertex(std::unique_ptr<Vertex::Buffer> vertex);
+        const std::vector<std::unique_ptr<Vertex::Buffer>>& GetVertex() const { return vertex; }
 
-        void SetIndex(Unique<Index::Buffer> index);
+        void SetIndex(std::unique_ptr<Index::Buffer> index);
         const Index::Buffer& GetIndex() const { return *index; }
     private:
         unsigned array;
         std::size_t position = 0;
-        Unique<Index::Buffer> index = nullptr;
-        std::vector<Unique<Vertex::Buffer>> vertex;
+        std::unique_ptr<Index::Buffer> index;
+        std::vector<std::unique_ptr<Vertex::Buffer>> vertex;
     };
 }

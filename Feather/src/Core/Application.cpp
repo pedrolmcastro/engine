@@ -3,7 +3,6 @@
 #include "Core/Time.hpp"
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
-#include "Core/Memory.hpp"
 #include "Core/Application.hpp"
 
 #include "Input/Input.hpp"
@@ -29,7 +28,7 @@ void Application::Run() {
         last = now;
 
         if (!window.IsMinimized()) {
-            for (Unique<Layer>& layer : layers) {
+            for (unique_ptr<Layer>& layer : layers) {
                 layer->OnUpdate(delta);
             }
         }

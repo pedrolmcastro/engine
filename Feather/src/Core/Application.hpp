@@ -5,7 +5,6 @@
 
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
-#include "Core/Memory.hpp"
 #include "Render/Window.hpp"
 #include "Render/Context.hpp"
 
@@ -16,7 +15,7 @@ namespace Feather {
         virtual ~Application() = default;
 
         // Defined by the client
-        static Unique<Application> Create();
+        static std::unique_ptr<Application> Create();
 
         void Run();
         void Close() { running = false; }

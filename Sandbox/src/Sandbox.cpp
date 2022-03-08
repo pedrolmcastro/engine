@@ -46,8 +46,8 @@ public:
             1, 2, 3,
         };
 
-        vertexarray.AddVertex(Unique<Render::Vertex::Buffer>(layout, sizeof(vertices), vertices));
-        vertexarray.SetIndex(Unique<Render::Index::Buffer>(sizeof(indices), indices));
+        vertexarray.AddVertex(make_unique<Render::Vertex::Buffer>(layout, sizeof(vertices), vertices));
+        vertexarray.SetIndex(make_unique<Render::Index::Buffer>(sizeof(indices), indices));
 
         shader.Upload("u_Texture", 0);
     }
@@ -74,10 +74,10 @@ class Sandbox: public Application {
 public:
     Sandbox(): Application("Sandbox", { 800, 800 }) {
         Debug::Log::SetPriority(Debug::Log::Level::TRACE);
-        layers.Push(Unique<Runtime>());
+        layers.Push(make_unique<Runtime>());
     }
 };
 
-Unique<Application> Application::Create() {
-    return Unique<Sandbox>();
+unique_ptr<Application> Application::Create() {
+    return make_unique<Sandbox>();
 }

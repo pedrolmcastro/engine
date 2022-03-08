@@ -1,19 +1,16 @@
 #include "Precompiled.hpp"
 
 #include "Core/Layer.hpp"
-#include "Core/Memory.hpp"
 
 using namespace std;
 using namespace Feather;
 
 
 Layer::Stack::~Stack() {
-    for (Unique<Layer>& layer : stack) {
-        layer->OnDetach();
-    }
+    for (unique_ptr<Layer>& layer : stack) layer->OnDetach();
 }
 
-void Layer::Stack::Push(Unique<Layer> layer, Type type) {
+void Layer::Stack::Push(unique_ptr<Layer> layer, Type type) {
     layer->OnAttach();
 
     if (type == Type::LAYER) {
@@ -26,10 +23,9 @@ void Layer::Stack::Push(Unique<Layer> layer, Type type) {
     }
 }
 
-Unique<Layer> Layer::Stack::Pop(Type type) {
-    if (type == Type::LAYER && layers == 0 || type == Type::OVERLAY && overlays == 0) return nullptr;
-
-    Unique<Layer> layer = nullptr;
+unique_ptr<Layer> Layer::Stack::Pop(Type type) {
+    if (type == Type::LAYER && layers == 0 || type == Type::OVERLAY && overlays == 0) return unique_ptr<Layer>();
+    unique_ptr<Layer> layer;
 
     if (type == Type::LAYER) {
         layers--;

@@ -1,7 +1,5 @@
 #include "Precompiled.hpp"
 
-#include "Core/Memory.hpp"
-
 #include "Render/Index.hpp"
 #include "Render/Shader.hpp"
 #include "Render/Vertex.hpp"
@@ -69,7 +67,7 @@ void Render::Vertex::Array::Unbind() const {
     glBindVertexArray(0);
 }
 
-void Render::Vertex::Array::AddVertex(Unique<Vertex::Buffer> vertex) {
+void Render::Vertex::Array::AddVertex(unique_ptr<Vertex::Buffer> vertex) {
     Bind();
     vertex->Bind();
 
@@ -109,7 +107,7 @@ void Render::Vertex::Array::AddVertex(Unique<Vertex::Buffer> vertex) {
     this->vertex.push_back(move(vertex));
 }
 
-void Render::Vertex::Array::SetIndex(Unique<Index::Buffer> index) {
+void Render::Vertex::Array::SetIndex(unique_ptr<Index::Buffer> index) {
     Bind();
     index->Bind();
 
