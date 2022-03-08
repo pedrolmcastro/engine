@@ -7,15 +7,26 @@ using namespace Feather;
 class Runtime: public Layer {
 public:
     void OnAttach() override {
-        shared_ptr<Scene> scene = make_shared<Scene>();
+        Event::WindowFocus windowfocus;
+        Trace("Window: ", windowfocus.In(Event::Category::WINDOW));
+        Trace("Input:  ", windowfocus.In(Event::Category::INPUT));
+        Trace("Mouse:  ", windowfocus.In(Event::Category::MOUSE));
+        Trace("None:   ", windowfocus.In(Event::Category::NONE));
+        Trace("Key:    ", windowfocus.In(Event::Category::KEY));
 
-        Scene::Entity entity = scene->Add();
-        entity.Add<Scene::Component::Transform>();
+        Event::MousePress mousepress(Input::Mouse::B0);
+        Info("Window: ", mousepress.In(Event::Category::WINDOW));
+        Info("Input:  ", mousepress.In(Event::Category::INPUT));
+        Info("Mouse:  ", mousepress.In(Event::Category::MOUSE));
+        Info("None:   ", mousepress.In(Event::Category::NONE));
+        Info("Key:    ", mousepress.In(Event::Category::KEY));
 
-        for (Scene::Entity& entity : scene->View<Scene::Component::Transform>()) {
-            Scene::Component::Transform& component = entity.Get<Scene::Component::Transform>();
-            Trace(component.translation, ' ', component.rotation, ' ', component.scale);
-        }
+        Event::KeyPress keypress(Input::Key::A, false);
+        Warn("Window: ", keypress.In(Event::Category::WINDOW));
+        Warn("Input:  ", keypress.In(Event::Category::INPUT));
+        Warn("Mouse:  ", keypress.In(Event::Category::MOUSE));
+        Warn("None:   ", keypress.In(Event::Category::NONE));
+        Warn("Key:    ", keypress.In(Event::Category::KEY));
 
 
         Render::Vertex::Layout layout = {
