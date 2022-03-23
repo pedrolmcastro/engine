@@ -24,11 +24,19 @@ Render::Context::~Context() {
     glfwTerminate();
 }
 
+
+void Render::Context::Version() {
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
+
 void Render::Context::Load(GLFWwindow* window) {
     glfwMakeContextCurrent(window);
 
     int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	Assert(success, "Failed to initialize Glad!");
+
 
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

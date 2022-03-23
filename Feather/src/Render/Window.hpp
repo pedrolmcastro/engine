@@ -3,20 +3,22 @@
 
 #include "Precompiled.hpp"
 #include "Math/Vector.hpp"
-#include "Core/Event.hpp"
 
 class GLFWwindow;
 
 // TODO: Add Icon
+// TODO: Size Setter
+// TODO: Multiple Windows
 // TODO: Add Maximized Constructor
 namespace Feather::Render {
     class Window {
     public:
-        Window(const std::string& title, const Math::Unsigned2& size, std::function<void (Event&)> callback = {}, bool vsync = true);
+        Window(const std::string& title, const Math::Unsigned2& size, bool vsync = true);
         ~Window();
 
 
         void OnUpdate() const;
+
 
         bool IsVSync() const { return vsync; }
         void SetVSync(bool vsync);
@@ -45,6 +47,5 @@ namespace Feather::Render {
         GLFWwindow* window;
         Math::Int2 position;
         Math::Unsigned2 size;
-        std::function<void (Event&)> callback;
     };
 }

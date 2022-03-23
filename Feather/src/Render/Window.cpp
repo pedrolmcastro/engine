@@ -1,15 +1,18 @@
 #include "Precompiled.hpp"
 
 #include "Core/Event.hpp"
+#include "Core/Application.hpp"
 
 #include "Debug/Assert.hpp"
 
 #include "Input/Key.hpp"
+#include "Input/Input.hpp"
 #include "Input/Mouse.hpp"
 
 #include "Math/Vector.hpp"
 
 #include "Render/Window.hpp"
+#include "Render/Command.hpp"
 #include "Render/Context.hpp"
 
 #include <GLFW/glfw3.h>
@@ -18,11 +21,14 @@ using namespace std;
 using namespace Feather;
 
 
-Render::Window::Window(const string& title, const Math::Unsigned2& size, function<void (Event&)> callback, bool vsync): title(title), size(size), callback(callback), vsync(vsync) {
+Render::Window::Window(const string& title, const Math::Unsigned2& size, bool vsync): title(title), size(size), vsync(vsync) {
+    Render::Context::Version();
+
     window = glfwCreateWindow(size.x, size.y, title.c_str(), nullptr, nullptr);
     Assert(window, "Failed to create window!");
 
     glfwSetWindowUserPointer(window, this);
+    Input::SetWindow(window);
     Context::Load(window);
     SetVSync(vsync);
 
@@ -31,8 +37,9 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
 		Window& self = *(Window*)glfwGetWindowUserPointer(window);
 		self.size = Math::Unsigned2(width, height);
 
+        Render::Command::SetViewport(0, 0, width, height);
 		Event::WindowResize event(self.size);
-		if (self.callback) self.callback(event);
+		Application::Dispatch(event);
 	});
 
     glfwSetWindowIconifyCallback(window, [](GLFWwindow* window, int minimized) {
@@ -42,7 +49,7 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
             self.size = Math::Unsigned2();
 
             Event::WindowResize event(self.size);
-            if (self.callback) self.callback(event);
+            Application::Dispatch(event);
         }
         else {
             int width, height;
@@ -50,7 +57,7 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
             self.size = Math::Unsigned2(width, height);
 
             Event::WindowResize event(self.size);
-            if (self.callback) self.callback(event);
+            Application::Dispatch(event);
         }
     });
 
@@ -59,93 +66,79 @@ Render::Window::Window(const string& title, const Math::Unsigned2& size, functio
         self.position = Math::Int2(x, y);
 
         Event::WindowMove event(self.position);
-        if (self.callback) self.callback(event);
+        Application::Dispatch(event);
     });
 
     glfwSetWindowFocusCallback(window, [](GLFWwindow* window, int focused) {
-        Window& self = *(Window*)glfwGetWindowUserPointer(window);
-
         if (focused) {
             Event::WindowFocus event;
-            if (self.callback) self.callback(event);
+            Application::Dispatch(event);
         }
         else {
             Event::WindowUnfocus event;
-            if (self.callback) self.callback(event);
+            Application::Dispatch(event);
         }
     });
 
     glfwSetCursorEnterCallback(window, [](GLFWwindow* window, int hovered) {
-        Window& self = *(Window*)glfwGetWindowUserPointer(window);
-
         if (hovered) {
             Event::WindowHover event;
-            if (self.callback) self.callback(event);
+            Application::Dispatch(event);
         }
         else {
             Event::WindowUnhover event;
-            if (self.callback) self.callback(event);
+            Application::Dispatch(event);
         }
     });
 
 	glfwSetWindowCloseCallback(window, [](GLFWwindow* window) {
-		Window& self = *(Window*)glfwGetWindowUserPointer(window);
-
 		Event::WindowClose event;
-		if (self.callback) self.callback(event);
+		Application::Dispatch(event);
 	});
 
     glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int modifiers) {
-        Window& self = *(Window*)glfwGetWindowUserPointer(window);
-
         switch (action) {
             case GLFW_PRESS: {
                 Event::MousePress event(static_cast<Input::Mouse>(button));
-                if (self.callback) self.callback(event);
+                Application::Dispatch(event);
                 break;
             }
 
             case GLFW_RELEASE: {
                 Event::MouseRelease event(static_cast<Input::Mouse>(button));
-                if (self.callback) self.callback(event);
+                Application::Dispatch(event);
                 break;
             }
         }
     });
 
     glfwSetScrollCallback(window, [](GLFWwindow* window, double x, double y) {
-        Window& self = *(Window*)glfwGetWindowUserPointer(window);
-
         Event::MouseScroll event(Math::Double2(x, y));
-        if (self.callback) self.callback(event);
+        Application::Dispatch(event);
     });
 
     glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
-        Window& self = *(Window*)glfwGetWindowUserPointer(window);
-
         Event::MouseMove event(Math::Double2(x, y));
-        if (self.callback) self.callback(event);
+        Application::Dispatch(event);
     });
 
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int modifiers) {
-		Window& self = *(Window*)glfwGetWindowUserPointer(window);
-
         switch (action) {
             case GLFW_PRESS: {
                 Event::KeyPress event(static_cast<Input::Key>(key), false);
-                if (self.callback) self.callback(event);
+                Application::Dispatch(event);
                 break;
             }
 
             case GLFW_REPEAT: {
                 Event::KeyPress event(static_cast<Input::Key>(key), true);
-                if (self.callback) self.callback(event);
+                Application::Dispatch(event);
                 break;
 			}
 
             case GLFW_RELEASE: {
                 Event::KeyRelease event(static_cast<Input::Key>(key));
-                if (self.callback) self.callback(event);
+                Application::Dispatch(event);
                 break;
             }
 		}
@@ -156,10 +149,12 @@ Render::Window::~Window() {
     glfwDestroyWindow(window);
 }
 
+
 void Render::Window::OnUpdate() const {
     glfwPollEvents();
     glfwSwapBuffers(window);
 }
+
 
 void Render::Window::SetVSync(bool vsync) {
     glfwMakeContextCurrent(window);

@@ -6,29 +6,10 @@ using namespace Feather;
 
 class Runtime: public Layer {
 public:
+    Runtime(): window("Sandbox", { 800, 800 }) {}
+
+
     void OnAttach() override {
-        Event::WindowFocus windowfocus;
-        Trace("Window: ", windowfocus.In(Event::Category::WINDOW));
-        Trace("Input:  ", windowfocus.In(Event::Category::INPUT));
-        Trace("Mouse:  ", windowfocus.In(Event::Category::MOUSE));
-        Trace("None:   ", windowfocus.In(Event::Category::NONE));
-        Trace("Key:    ", windowfocus.In(Event::Category::KEY));
-
-        Event::MousePress mousepress(Input::Mouse::B0);
-        Info("Window: ", mousepress.In(Event::Category::WINDOW));
-        Info("Input:  ", mousepress.In(Event::Category::INPUT));
-        Info("Mouse:  ", mousepress.In(Event::Category::MOUSE));
-        Info("None:   ", mousepress.In(Event::Category::NONE));
-        Info("Key:    ", mousepress.In(Event::Category::KEY));
-
-        Event::KeyPress keypress(Input::Key::A, false);
-        Warn("Window: ", keypress.In(Event::Category::WINDOW));
-        Warn("Input:  ", keypress.In(Event::Category::INPUT));
-        Warn("Mouse:  ", keypress.In(Event::Category::MOUSE));
-        Warn("None:   ", keypress.In(Event::Category::NONE));
-        Warn("Key:    ", keypress.In(Event::Category::KEY));
-
-
         Render::Vertex::Layout layout = {
             { Render::Shader::Data::FLOAT3 }, // a_Position
             { Render::Shader::Data::FLOAT2 }, // a_TextureCoordinate
@@ -52,18 +33,39 @@ public:
         shader.Upload("u_Texture", 0);
     }
 
-    void OnUpdate(Time delta) override {
+    void OnUpdate(Time delta) override {        
         shader.Bind();
         texture.Bind();
         vertexarray.Bind();
 
+        Render::Command::Clear();
         Render::Command::Draw(vertexarray);
+
+        window.OnUpdate();
     }
+
 
     void OnEvent(Event& event) override {
         Event::Dispatcher dispatcher(event);
+        dispatcher.Dispatch<Event::KeyPress>(BindEvent(OnKeyPress));
+        dispatcher.Dispatch<Event::WindowClose>(BindEvent(OnWindowClose));
+    }
+
+    bool OnKeyPress(Event::KeyPress& event) {
+        if (event.GetKey() == Input::Key::ESCAPE) {
+            Application::Close();
+            return true;
+        }
+
+        return false;
+    }
+
+    bool OnWindowClose(Event::WindowClose& event) {
+        Application::Close();
+        return true;
     }
 private:
+    Render::Window window;
     Render::Vertex::Array vertexarray;
     Render::Shader shader = { "assets/shaders/Default.glsl" };
     Render::Texture::Surface texture = { "assets/textures/Checkerboard.png", Render::Texture::Filter::NEAREST };
@@ -72,7 +74,7 @@ private:
 
 class Sandbox: public Application {
 public:
-    Sandbox(): Application("Sandbox", { 800, 800 }) {
+    Sandbox() {
         Debug::Log::SetPriority(Debug::Log::Level::TRACE);
         layers.Push(make_unique<Runtime>());
     }

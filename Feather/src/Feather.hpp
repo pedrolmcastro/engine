@@ -12,8 +12,8 @@
 #include "Debug/Assert.hpp"
 
 #include "Input/Key.hpp"
-#include "Input/Mouse.hpp"
 #include "Input/Input.hpp"
+#include "Input/Mouse.hpp"
 
 #include "Math/Bool.hpp"
 #include "Math/Matrix.hpp"

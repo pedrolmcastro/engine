@@ -9,6 +9,7 @@ namespace Feather::Render {
         Context();
         ~Context();
 
+        static void Version();
         static void Load(GLFWwindow* window);
     };
 }

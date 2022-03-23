@@ -9,11 +9,9 @@
 #include <cstring>
 #include <utility>
 #include <fstream>
-#include <sstream>
 #include <iomanip>
 #include <iostream>
 #include <filesystem>
-#include <functional>
 #include <type_traits>
 #include <unordered_set>
 #include <unordered_map>

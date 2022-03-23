@@ -5,31 +5,30 @@
 
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
-#include "Render/Window.hpp"
 #include "Render/Context.hpp"
+
+
+int main();
 
 namespace Feather {
     class Application {
     public:
-        Application(const std::string& title, Math::Unsigned2 size, bool vsync = true);
+        friend int ::main();
         virtual ~Application() = default;
 
         // Defined by the client
         static std::unique_ptr<Application> Create();
 
-        void Run();
-        void Close() { running = false; }
+        static void Dispatch(Event& event);
+        static void Close() { running = false; }
     protected:
-        Render::Context context; // Constructed before window
-        Render::Window window;
-        Layer::Stack layers;
+        inline static Render::Context context; // Destroyed after layers windows
+        inline static Layer::Stack layers;
     private:
-        bool running = true;
-        std::chrono::high_resolution_clock clock;
-        std::chrono::high_resolution_clock::time_point last = clock.now();
+        inline static bool running = true;
+        inline static std::chrono::high_resolution_clock clock;
+        inline static std::chrono::high_resolution_clock::time_point last = clock.now();
 
-        void OnEvent(Event& event);
-        bool OnWindowClose(Event::WindowClose& event);
-        bool OnWindowResize(Event::WindowResize& event);
+        static void Run();
     };
 }
