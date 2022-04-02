@@ -25,6 +25,6 @@ namespace Feather {
     private:
         std::size_t next = 0;
         std::unordered_set<std::size_t> removed;
-        std::vector<std::unique_ptr<Pool>> pools;
+        std::unordered_map<std::size_t, std::unique_ptr<Pool>> pools;
     };
 }

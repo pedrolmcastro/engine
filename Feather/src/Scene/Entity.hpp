@@ -23,7 +23,7 @@ namespace Feather {
 
             std::size_t types[] = { 0, Component::TypeOf<Args>()... };
 
-            for (std::size_t i = 1; i <= sizeof...(Args); i++) if (types[i] >= scene->pools.size() || !scene->pools[types[i]] || !scene->pools[types[i]]->Has(entity)) return false;
+            for (std::size_t i = 1; i <= sizeof...(Args); i++) if (!scene->pools.contains(types[i]) || !scene->pools[types[i]]->Has(entity)) return false;
             return true;
         }
 
@@ -41,9 +41,7 @@ namespace Feather {
             Assert(!Has<T>(), "Entity ", entity, " already has component: ", Component::TypeOf<T>());
 
             std::size_t type = Component::TypeOf<T>();
-
-            if (type >= scene->pools.size()) scene->pools.resize(type + 1);
-            if (!scene->pools[type]) scene->pools[type] = std::make_unique<Pool>(sizeof(T));
+            if (!scene->pools.contains(type)) scene->pools[type] = std::make_unique<Pool>(sizeof(T));
 
             return scene->pools[type]->Add<T>(entity, std::forward<Args>(args)...);
         }

@@ -26,6 +26,6 @@ Scene::Entity Scene::Add() {
 void Scene::Remove(size_t entity) {
     Assert(Has(entity), "Scene does not have entity: ", entity);
 
-    for (unique_ptr<Pool>& pool : pools) if (pool->Has(entity)) pool->Remove(entity);
+    for (auto&[index, pool] : pools) if (pool->Has(entity)) pool->Remove(entity);
     removed.insert(entity);
 }
