@@ -15,6 +15,13 @@ Math::Matrix2::Matrix2(float diagonal) {
     (*this)(1, 1) = diagonal;
 }
 
+Math::Matrix2 Math::Matrix2::Fill(float scalar) {
+    Matrix2 matrix;
+    matrix.elements.fill(scalar);
+
+    return matrix;
+}
+
 Math::Matrix2 Math::Matrix2::operator*(const Matrix2& other) const {
     Matrix2 product;
 
@@ -65,6 +72,13 @@ Math::Matrix3::Matrix3(float diagonal) {
     (*this)(0, 0) = diagonal;
     (*this)(1, 1) = diagonal;
     (*this)(2, 2) = diagonal;
+}
+
+Math::Matrix3 Math::Matrix3::Fill(float scalar) {
+    Matrix3 matrix;
+    matrix.elements.fill(scalar);
+
+    return matrix;
 }
 
 Math::Matrix3 Math::Matrix3::operator*(const Matrix3& other) const {
@@ -126,6 +140,7 @@ float Math::Matrix3::Determinant() const {
     );
 }
 
+
 Math::Matrix4::Matrix4(float diagonal) {
     elements.fill(0.0f);
 
@@ -133,6 +148,13 @@ Math::Matrix4::Matrix4(float diagonal) {
     (*this)(1, 1) = diagonal;
     (*this)(2, 2) = diagonal;
     (*this)(3, 3) = diagonal;
+}
+
+Math::Matrix4 Math::Matrix4::Fill(float scalar) {
+    Matrix4 matrix;
+    matrix.elements.fill(scalar);
+
+    return matrix;
 }
 
 Math::Matrix4 Math::Matrix4::Scale(const Float3& scale) {

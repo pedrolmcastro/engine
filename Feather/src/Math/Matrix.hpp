@@ -11,6 +11,7 @@ namespace Feather::Math {
         Matrix2(float diagonal = 0.0f);
         Matrix2(std::array<float, 2 * 2> elements): elements(elements) {}
 
+        static Matrix2 Fill(float scalar);
         static Matrix2 Identity() { return Matrix2(1.0f); }
 
 
@@ -69,6 +70,7 @@ namespace Feather::Math {
         Matrix3(float diagonal = 0.0f);
         Matrix3(std::array<float, 3 * 3> elements): elements(elements) {}
 
+        static Matrix3 Fill(float scalar);
         static Matrix3 Identity() { return Matrix3(1.0f); }
 
 
@@ -127,6 +129,7 @@ namespace Feather::Math {
         Matrix4(float diagonal = 0.0f);
         Matrix4(std::array<float, 4 * 4> elements): elements(elements) {}
 
+        static Matrix4 Fill(float scalar);
         static Matrix4 Identity() { return Matrix4(1.0f); }
 
 
