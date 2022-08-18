@@ -11,13 +11,13 @@ namespace Feather::Debug {
 
 
         Color(Foreground fore, Background back = Background::NONE) {
-            std::cout << "\e[0;" << static_cast<std::underlying_type<Foreground>::type>(fore);
+            std::cout << "\033[0;" << static_cast<std::underlying_type<Foreground>::type>(fore);
             if (back != Background::NONE) std::cout << ';' << static_cast<std::underlying_type<Background>::type>(back);
             std::cout << 'm';
         }
 
         ~Color() {
-            std::cout << "\e[K\e[0m";
+            std::cout << "\033[K\033[0m";
         }
     };
 }

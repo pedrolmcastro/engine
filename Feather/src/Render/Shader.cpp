@@ -87,12 +87,34 @@ size_t Render::Shader::SizeOf(Data data) {
 
 GLenum Render::Shader::TypeOf(Data data) {
     switch (data) {
-        case Data::BOOL     ... Data::BOOL4:     return GL_UNSIGNED_BYTE;
-        case Data::INT      ... Data::INT4:      return GL_INT;
-        case Data::UNSIGNED ... Data::UNSIGNED4: return GL_UNSIGNED_INT;
-        case Data::FLOAT    ... Data::FLOAT4:    return GL_FLOAT;
-        case Data::DOUBLE   ... Data::DOUBLE4:   return GL_DOUBLE;
-        case Data::MATRIX2  ... Data::MATRIX4:   return GL_FLOAT;
+        case Data::BOOL:  return GL_UNSIGNED_BYTE;
+        case Data::BOOL2: return GL_UNSIGNED_BYTE;
+        case Data::BOOL3: return GL_UNSIGNED_BYTE;
+        case Data::BOOL4: return GL_UNSIGNED_BYTE;
+
+        case Data::INT:  return GL_INT;
+        case Data::INT2: return GL_INT;
+        case Data::INT3: return GL_INT;
+        case Data::INT4: return GL_INT;
+
+        case Data::UNSIGNED:  return GL_UNSIGNED_INT;
+        case Data::UNSIGNED2: return GL_UNSIGNED_INT;
+        case Data::UNSIGNED3: return GL_UNSIGNED_INT;
+        case Data::UNSIGNED4: return GL_UNSIGNED_INT;
+
+        case Data::FLOAT:  return GL_FLOAT;
+        case Data::FLOAT2: return GL_FLOAT;
+        case Data::FLOAT3: return GL_FLOAT;
+        case Data::FLOAT4: return GL_FLOAT;
+
+        case Data::DOUBLE:  return GL_DOUBLE;
+        case Data::DOUBLE2: return GL_DOUBLE;
+        case Data::DOUBLE3: return GL_DOUBLE;
+        case Data::DOUBLE4: return GL_DOUBLE;
+
+        case Data::MATRIX2: return GL_FLOAT;
+        case Data::MATRIX3: return GL_FLOAT;
+        case Data::MATRIX4: return GL_FLOAT;
     }
 
     Assert(false, "Unknown shader data type: ", static_cast<std::underlying_type<Data>::type>(data));

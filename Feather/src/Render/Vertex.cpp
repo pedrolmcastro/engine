@@ -76,21 +76,27 @@ void Render::Vertex::Array::AddVertex(unique_ptr<Vertex::Buffer> vertex) {
 
     for (const Element& element : layout) {
         switch(element.type) {
-            case Shader::Data::BOOL ... Shader::Data::UNSIGNED4: {
+            case Shader::Data::BOOL:     case Shader::Data::BOOL2:     case Shader::Data::BOOL3:     case Shader::Data::BOOL4:
+            case Shader::Data::INT:      case Shader::Data::INT2:      case Shader::Data::INT3:      case Shader::Data::INT4:
+            case Shader::Data::UNSIGNED: case Shader::Data::UNSIGNED2: case Shader::Data::UNSIGNED3: case Shader::Data::UNSIGNED4:
+            {
                 glEnableVertexAttribArray(position);
                 glVertexAttribIPointer(position, Shader::CountOf(element), Shader::TypeOf(element), stride, (const void*)element.offset);
                 position++;
                 break;
             }
             
-            case Shader::Data::FLOAT ... Shader::Data::DOUBLE4: {
+            case Shader::Data::FLOAT:  case Shader::Data::FLOAT2:  case Shader::Data::FLOAT3:  case Shader::Data::FLOAT4:
+            case Shader::Data::DOUBLE: case Shader::Data::DOUBLE2: case Shader::Data::DOUBLE3: case Shader::Data::DOUBLE4:
+            {
                 glEnableVertexAttribArray(position);
 			    glVertexAttribPointer(position, Shader::CountOf(element), Shader::TypeOf(element), element.normalized, stride, (const void*)element.offset);
 			    position++;
 			    break;
             }
 
-            case Shader::Data::MATRIX2 ... Shader::Data::MATRIX4: {
+            case Shader::Data::MATRIX2: case Shader::Data::MATRIX3: case Shader::Data::MATRIX4:
+            {
                 size_t count = Shader::CountOf(element);
 
                 for (size_t i = 0; i < count; i++) {
