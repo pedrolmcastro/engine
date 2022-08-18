@@ -14,6 +14,7 @@ using namespace Feather;
 Render::Context::Context() {
     int success = glfwInit();
     Assert(success, "Failed to initialize GLFW!");
+    Unused(success);
 
     glfwSetErrorCallback([](int error, const char* message) {
         Assert(false, "GLFW Error ", error, ": ", message);
@@ -36,6 +37,7 @@ void Render::Context::Load(GLFWwindow* window) {
 
     int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	Assert(success, "Failed to initialize Glad!");
+    Unused(success);
 
 
     glEnable(GL_DEBUG_OUTPUT);

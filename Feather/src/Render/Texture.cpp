@@ -34,7 +34,7 @@ Render::Texture::Surface::Surface(const filesystem::path& path, Filter filter) {
     Assert(data, "Failed to load texture image: ", path);
 
     size = { unsigned(width), unsigned(height) };
-    GLenum internal;
+    GLenum internal = GL_RGB8;
 
     // TODO: Review Image Formats
     switch (channels) {

@@ -4,6 +4,8 @@
 #include "Precompiled.hpp"
 #include "Debug/Log.hpp"
 
+#define Unused(variable) ((void)(variable))
+
 #ifdef ASSERTING
     #define Assert(expression, ...) {                                                           \
         if (!(expression)) {                                                                    \

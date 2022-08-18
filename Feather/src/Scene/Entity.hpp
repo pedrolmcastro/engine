@@ -64,6 +64,6 @@ namespace Feather {
         std::shared_ptr<Scene> scene;
 
 
-        Entity(std::shared_ptr<Scene> scene, std::size_t entity): scene(scene), entity(entity) {}
+        Entity(std::shared_ptr<Scene> scene, std::size_t entity): entity(entity), scene(scene) {}
     };
 }

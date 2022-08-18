@@ -33,7 +33,7 @@ namespace Feather {
         Math::Quaternion rotation;
 
         Transform(const Math::Float3& translation = Math::Float3(), const Math::Quaternion& rotation = Math::Quaternion::Identity(), const Math::Float3& scale = Math::Float3(1.0f))
-        : translation(translation), rotation(rotation), scale(scale) {}
+        : translation(translation), scale(scale), rotation(rotation) {}
 
         operator Math::Matrix4() const { return Math::Matrix4::Translate(translation) * Math::Matrix4::Rotate(rotation) * Math::Matrix4::Scale(scale); }
     };

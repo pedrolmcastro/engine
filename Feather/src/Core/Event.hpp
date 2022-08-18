@@ -213,7 +213,7 @@ namespace Feather {
 
     class Event::KeyPress: public Event {
     public:
-        KeyPress(Input::Key key, bool repeat): Event(TypeOf<KeyPress>()), key(key), repeat(repeat) {}
+        KeyPress(Input::Key key, bool repeat): Event(TypeOf<KeyPress>()), repeat(repeat), key(key) {}
 
         Input::Key GetKey() const { return key; }
         bool GetRepeat() const { return repeat; }

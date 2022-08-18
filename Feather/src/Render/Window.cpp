@@ -21,7 +21,7 @@ using namespace std;
 using namespace Feather;
 
 
-Render::Window::Window(const string& title, const Math::Unsigned2& size, bool vsync): title(title), size(size), vsync(vsync) {
+Render::Window::Window(const string& title, const Math::Unsigned2& size, bool vsync): vsync(vsync), title(title), size(size) {
     Render::Context::Version();
 
     window = glfwCreateWindow(size.x, size.y, title.c_str(), nullptr, nullptr);
