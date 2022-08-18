@@ -2,12 +2,13 @@ TGT := libFeather.a
 
 SRCDIR := src
 OBJDIR := obj
+INCDIR := include
 
-PCHIN  := $(SRCDIR)/Precompiled.hpp
+PCHIN  := $(INCDIR)/Precompiled.hpp
 PCHOUT := $(PCHIN).gch
 
 CXXFLAGS += -std=c++2a
-CPPFLAGS += -Wall -Werror -I ../Vendor/stb/include -I ../Vendor/Glad/include -I ../Vendor/GLFW/src/include
+CPPFLAGS += -Wall -Werror -I $(INCDIR) -I ../Vendor/stb/include -I ../Vendor/Glad/include -I ../Vendor/GLFW/src/include
 
 
 ifeq ($(RELEASE), 1)
@@ -20,9 +21,6 @@ endif
 SRCS := $(shell find $(SRCDIR) -name *.cpp)
 OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
-
-INCDIR   := $(shell find $(SRCDIR) -type d)
-CPPFLAGS += $(addprefix -I, $(INCDIR))
 
 
 $(TGT): $(OBJS)

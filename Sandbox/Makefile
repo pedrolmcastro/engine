@@ -8,7 +8,7 @@ LDFLAGS = -L$(LIBDIR)
 LDLIBS  = -lFeather -lstb -lglad $(shell pkg-config --static --libs glfw3)
 
 CXXFLAGS += -std=c++2a
-CPPFLAGS += -I ../Feather/src -Wall -Werror
+CPPFLAGS += -Wall -Werror -I ../Feather/include
 
 
 ifeq ($(RELEASE), 1)
