@@ -35,5 +35,8 @@
 # CMake Files
 build
 
+# Log Files
+logs
+
 # Local Configuration
 .vscode

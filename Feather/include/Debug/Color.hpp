@@ -1,23 +1,23 @@
 #pragma once
 
 
-#include "Precompiled.hpp"
+#include <ostream>
 
 namespace Feather::Debug {
+    // RAII to apply ANSI colors to an ostream
     class Color {
     public:
-        enum class Foreground { RED = 91, GREEN = 92, YELLOW = 93, WHITE = 97};
-        enum class Background { NONE = 0, RED = 41 };
+        enum class Code { RED = 9, GREEN = 10, YELLOW = 11, BLUE = 12, MAGENTA = 13, CYAN = 14, WHITE = 15};
 
-
-        Color(Foreground fore, Background back = Background::NONE) {
-            std::cout << "\033[0;" << static_cast<std::underlying_type<Foreground>::type>(fore);
-            if (back != Background::NONE) std::cout << ';' << static_cast<std::underlying_type<Background>::type>(back);
-            std::cout << 'm';
+        Color(std::ostream& output, Code code = Code::WHITE): output(output) {
+            output << "\033[38;5;" << static_cast<std::underlying_type<Code>::type>(code) << 'm';
         }
 
         ~Color() {
-            std::cout << "\033[K\033[0m";
+            output << "\033[0m";
         }
+
+    private:
+        std::ostream& output;
     };
 }

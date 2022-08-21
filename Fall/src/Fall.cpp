@@ -33,7 +33,7 @@ public:
         shader.Upload("u_Texture", 0);
     }
 
-    void OnUpdate(Time delta) override {        
+    void OnUpdate(Time delta) override {
         shader.Bind();
         texture.Bind();
         vertexarray.Bind();
@@ -64,6 +64,7 @@ public:
         Application::Close();
         return true;
     }
+
 private:
     Render::Window window;
     Render::Vertex::Array vertexarray;
@@ -75,7 +76,14 @@ private:
 class Fall: public Application {
 public:
     Fall() {
-        Debug::Log::SetPriority(Debug::Log::Level::TRACE);
+        Debug::Logger::Client().priority = Debug::Logger::Level::TRACE;
+
+        Trace("Trace");
+        Info("Info");
+        Warn("Warn");
+        Error("Error");
+        Fatal("Fatal");
+
         layers.Push(make_unique<Runtime>());
     }
 };

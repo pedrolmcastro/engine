@@ -2,6 +2,7 @@
 #include <ctime>
 #include <array>
 #include <mutex>
+#include <atomic>
 #include <memory>
 #include <chrono>
 #include <vector>
@@ -9,6 +10,7 @@
 #include <cstring>
 #include <utility>
 #include <fstream>
+#include <ostream>
 #include <iomanip>
 #include <iostream>
 #include <filesystem>

@@ -1,58 +1,81 @@
 #pragma once
 
 
-#include "Precompiled.hpp"
+#include <mutex>
+#include <atomic>
+#include <ostream>
+#include <fstream>
+#include <filesystem>
+
 #include "Debug/Color.hpp"
 
+
 namespace Feather::Debug {
-    class Log {
+    // From: https://youtu.be/-qAXShy1xiE
+    template<class T> concept Printable = requires(std::ostream& output, T argument) { { output << argument } -> std::same_as<std::ostream&>; };
+
+    class Logger {
     public:
-        enum class Level { TRACE, INFO, WARN, ERROR, FATAL, };
-        static void SetPriority(Level level) { priority = level; }
+        enum class Level { TRACE, INFO, WARN, ERROR, FATAL, NONE, };
+        std::atomic<Level> priority;
 
 
-        template<typename... Args> static void Print(Level level, Args&&... args) {
-            if (priority > level) return;
-            std::scoped_lock lock(mutex);
+        Logger(Level priority = Level::INFO, bool usecolor = true): priority(priority), usecolor(usecolor), output(std::clog) {}
 
-            std::underlying_type<Level>::type index = static_cast<std::underlying_type<Level>::type>(level);
-            std::time_t timer = std::time(nullptr);
-            std::tm* now = std::localtime(&timer);
-
-            {
-                Color color(colors[index].first, colors[index].second);
-                std::cout << '[' << std::put_time(now, "%T") << "] " << bagdes[index] << ' ';
-                (std::cout << ... << std::forward<Args>(args));
-            }
-
-            std::cout << std::endl;
+        Logger(const std::filesystem::path& filepath, Level priority = Level::INFO, bool usecolor = false): priority(priority), usecolor(usecolor), output(file) {
+            // TODO: Assets System
+            std::filesystem::create_directories(filepath.parent_path());
+            file.open(filepath);
         }
-    private:
-        inline static std::mutex mutex;
-        inline static Level priority = Level::INFO;
 
-        inline static const char* bagdes[] = { "TRACE:", "INFO: ", "WARN: ", "ERROR:", "FATAL:", };
-        inline static const std::pair<Color::Foreground, Color::Background> colors[] {
-            { Color::Foreground::WHITE,  Color::Background::NONE },
-            { Color::Foreground::GREEN,  Color::Background::NONE },
-            { Color::Foreground::YELLOW, Color::Background::NONE },
-            { Color::Foreground::RED,    Color::Background::NONE },
-            { Color::Foreground::WHITE,  Color::Background::RED  },
-        };
+
+        void operator()(Level level, Printable auto ... arguments) const {
+            #ifdef LOGGING
+                if (priority > level) return;
+                std::scoped_lock lock(mutex); // TODO: Use std::osyncstream
+
+                if (usecolor) {
+                    auto color = Color(output, colors[static_cast<std::underlying_type<Level>::type>(level)]);
+                    Write(level, std::forward<decltype(arguments)>(arguments)...);
+                }
+                else {
+                    Write(level, std::forward<decltype(arguments)>(arguments)...);
+                }
+            #endif
+        }
+
+        static Logger& Client() {
+            static Logger client;
+            return client;
+        }
+
+    private:
+        std::ofstream file;
+        const bool usecolor;
+        std::ostream& output;
+        mutable std::mutex mutex;
+
+        static constexpr const char* tags[] = { "Trace:", "Info: ", "Warn: ", "Error:", "Fatal:", };
+        static constexpr Color::Code colors[] = { Color::Code::WHITE, Color::Code::GREEN, Color::Code::YELLOW, Color::Code::RED, Color::Code::RED, };
+
+
+        void Write(Level level, Printable auto ... arguments) const {
+            auto timer = std::time(nullptr);
+
+            output << std::put_time(std::localtime(&timer), "%T") << ' ' << tags[static_cast<std::underlying_type<Level>::type>(level)] << ' ';
+            (output << ... << std::forward<decltype(arguments)>(arguments)) << '\n';
+        }
+
+        static Logger& Core() {
+            static Logger core("assets/logs/core.log", Level::TRACE);
+            return core;
+        }
     };
 }
 
 
-#ifdef LOGGING
-    #define Trace(...) ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::TRACE __VA_OPT__(,) __VA_ARGS__)
-    #define Info(...)  ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::INFO  __VA_OPT__(,) __VA_ARGS__)
-    #define Warn(...)  ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::WARN  __VA_OPT__(,) __VA_ARGS__)
-    #define Error(...) ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::ERROR __VA_OPT__(,) __VA_ARGS__)
-    #define Fatal(...) ::Feather::Debug::Log::Print(::Feather::Debug::Log::Level::FATAL __VA_OPT__(,) __VA_ARGS__)
-#else
-    #define Trace(...)
-    #define Info(...)
-    #define Warn(...)
-    #define Error(...)
-    #define Fatal(...)
-#endif
+#define Trace(...) ::Feather::Debug::Logger::Client()(::Feather::Debug::Logger::Level::TRACE __VA_OPT__(,) __VA_ARGS__)
+#define Info(...)  ::Feather::Debug::Logger::Client()(::Feather::Debug::Logger::Level::INFO  __VA_OPT__(,) __VA_ARGS__)
+#define Warn(...)  ::Feather::Debug::Logger::Client()(::Feather::Debug::Logger::Level::WARN  __VA_OPT__(,) __VA_ARGS__)
+#define Error(...) ::Feather::Debug::Logger::Client()(::Feather::Debug::Logger::Level::ERROR __VA_OPT__(,) __VA_ARGS__)
+#define Fatal(...) ::Feather::Debug::Logger::Client()(::Feather::Debug::Logger::Level::FATAL __VA_OPT__(,) __VA_ARGS__)
