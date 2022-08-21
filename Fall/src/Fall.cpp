@@ -6,7 +6,7 @@ using namespace Feather;
 
 class Runtime: public Layer {
 public:
-    Runtime(): window("Sandbox", { 800, 800 }) {}
+    Runtime(): window("Feather Fall", { 800, 800 }) {}
 
 
     void OnAttach() override {
@@ -72,14 +72,14 @@ private:
 };
 
 
-class Sandbox: public Application {
+class Fall: public Application {
 public:
-    Sandbox() {
+    Fall() {
         Debug::Log::SetPriority(Debug::Log::Level::TRACE);
         layers.Push(make_unique<Runtime>());
     }
 };
 
 unique_ptr<Application> Application::Create() {
-    return make_unique<Sandbox>();
+    return make_unique<Fall>();
 }
