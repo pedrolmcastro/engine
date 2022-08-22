@@ -8,7 +8,7 @@
 #include "Core/Layer.hpp"
 #include "Core/Application.hpp"
 
-#include "Debug/Log.hpp"
+#include "Debug/Logger.hpp"
 #include "Debug/Assert.hpp"
 
 #include "Input/Key.hpp"

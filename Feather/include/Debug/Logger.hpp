@@ -50,7 +50,7 @@ namespace Feather::Debug {
         }
 
     private:
-        std::ofstream file;
+        std::ofstream file; // Own the ofstream if needed
         const bool usecolor;
         std::ostream& output;
         mutable std::mutex mutex;

@@ -2,7 +2,7 @@
 
 
 #include "Precompiled.hpp"
-#include "Debug/Log.hpp"
+#include "Debug/Logger.hpp"
 
 #define Unused(variable) ((void)(variable))
 
