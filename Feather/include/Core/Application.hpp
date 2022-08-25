@@ -1,7 +1,8 @@
 #pragma once
 
 
-#include "Precompiled.hpp"
+#include <chrono>
+#include <memory>
 
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
@@ -13,21 +14,27 @@ int main();
 namespace Feather {
     class Application {
     public:
-        friend int ::main();
+        friend int ::main(); // Allow call to .Run()
+
+        Application(const Application& other) = delete;
+        Application(Application&& other) = delete;
         virtual ~Application() = default;
 
-        // Defined by the client
-        static std::unique_ptr<Application> Create();
+        static std::unique_ptr<Application> Create(); // Defined by the client
 
         static void Dispatch(Event& event);
         static void Close() { running = false; }
-    protected:
-        inline static Render::Context context; // Destroyed after layers windows
-        inline static Layer::Stack layers;
+
     private:
-        inline static bool running = true;
-        inline static std::chrono::high_resolution_clock clock;
-        inline static std::chrono::high_resolution_clock::time_point last = clock.now();
+        inline static Render::Context context; // Destroyed after layers windows
+
+    protected:
+        Application() = default;
+        inline static Layer::Stack layers;
+
+    private:
+        inline static auto lastframe = std::chrono::steady_clock::now();
+        inline static auto running = true;
 
         static void Run();
     };

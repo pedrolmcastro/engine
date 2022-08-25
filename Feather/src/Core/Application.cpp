@@ -1,30 +1,22 @@
 #include "Precompiled.hpp"
 
-#include "Core/Time.hpp"
 #include "Core/Event.hpp"
 #include "Core/Layer.hpp"
 #include "Core/Application.hpp"
 
-#include "Render/Command.hpp"
 
-using namespace std;
-using namespace Feather;
-
-
-void Application::Run() {
+void Feather::Application::Run() {
     while (running) {
-        chrono::high_resolution_clock::time_point now = clock.now();
-        Time delta(chrono::duration<float>(now - last).count());
-        last = now;
+        const auto now = std::chrono::steady_clock::now();
+        const std::chrono::duration<float> deltatime = now - lastframe;
+        lastframe = now;
 
-        for (unique_ptr<Layer>& layer : layers) {
-            layer->OnUpdate(delta);
-        }
+        std::ranges::for_each(layers, [=](auto& layer){ layer->OnUpdate(deltatime); });
     }
 }
 
-void Application::Dispatch(Event& event) {
-    for (auto it = layers.rbegin(); it != layers.rend() && !event.handled; it++) {
+void Feather::Application::Dispatch(Event& event) {
+    for (auto it = layers.rbegin(); it != layers.rend() && !event.handled; ++it) {
         (*it)->OnEvent(event);
     }
 }
