@@ -4,9 +4,8 @@ project(stb "CXX")
 
 add_library(${PROJECT_NAME} STATIC "src/stb_image.cpp")
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-    PRIVATE "src"
-    PUBLIC  "include"
+target_include_directories(${PROJECT_NAME}
+    PRIVATE "include"
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
