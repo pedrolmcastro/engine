@@ -1,3 +1,0 @@
-[submodule "Feather/vendor/GLFW"]
-	path = Feather/vendor/GLFW
-	url = https://github.com/glfw/glfw.git
